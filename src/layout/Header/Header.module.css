@@ -83,6 +83,9 @@
 }
 
 .nav a {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 15px 0 13px;
   border-radius: 999px;
   color: inherit;
   font-family: Inter, sans-serif;
@@ -90,11 +93,6 @@
   font-weight: 700;
   line-height: 1.5;
   text-decoration: none;
-}
-
-.nav a {
-  position: relative;
-  padding: 15px 0 13px;
   opacity: 0.82;
 }
 
@@ -118,10 +116,108 @@
   min-width: 150px;
 }
 
-@media (max-width: 1080px) {
+/* Celulares (Mobile) */
+@media (max-width: 480px) {
   .header {
-    padding: 0 28px;
-    gap: 18px;
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    padding: 10px 16px;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    gap: 6px;
+    min-width: 0;
+    font-size: 20px;
+  }
+
+  .brand span span {
+    font-size: 13px;
+  }
+
+  .brandMark {
+    width: 28px;
+    height: 21px;
+  }
+
+  .brandMark::before {
+    width: 10px;
+    height: 24px;
+  }
+
+  .brandMark::after {
+    left: 9px;
+    width: 14px;
+    height: 27px;
+  }
+
+  .nav {
+    order: 4;
+    flex: 1 0 100%;
+    justify-content: flex-start;
+    gap: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav a {
+    padding: 8px 0 9px;
+  }
+
+  .cta {
+    order: 3;
+    flex: 1 0 100%;
+    min-width: 0;
+  }
+}
+
+/* Tablets e Celulares deitados */
+@media (min-width: 481px) and (max-width: 768px) {
+  .header {
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    padding: 12px 24px;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+  }
+
+  .nav {
+    order: 4;
+    flex: 1 0 100%;
+    justify-content: flex-start;
+    gap: 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav a {
+    padding: 8px 0 9px;
+  }
+
+  .cta {
+    min-width: auto;
+  }
+}
+
+/* Tablets Grandes / iPads */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header {
+    gap: 20px;
+    padding: 0 36px;
   }
 
   .brand {
@@ -129,26 +225,40 @@
   }
 
   .nav {
-    gap: 24px;
-  }
-}
-
-@media (max-width: 760px) {
-  .header {
-    height: auto;
-    min-height: 64px;
-    flex-wrap: wrap;
-    padding: 12px 20px;
-  }
-
-  .nav {
-    order: 3;
-    flex-basis: 100%;
-    justify-content: flex-start;
-    overflow-x: auto;
+    gap: 28px;
   }
 
   .cta {
     min-width: auto;
+  }
+}
+
+/* Notebooks (Laptops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .header {
+    gap: 24px;
+    padding: 0 68px;
+  }
+
+  .brand {
+    flex-basis: auto;
+  }
+
+  .nav {
+    gap: 34px;
+  }
+}
+
+/* Monitores Desktop Comuns (16:9) */
+@media (min-width: 1201px) and (max-width: 1600px) {
+  .header {
+    padding: 0 108px;
+  }
+}
+
+/* Monitores Grandes / UltraWide */
+@media (min-width: 1601px) {
+  .header {
+    padding: 0 max(108px, calc((100vw - 1440px) / 2 + 108px));
   }
 }

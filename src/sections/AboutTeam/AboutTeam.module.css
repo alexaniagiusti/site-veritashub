@@ -69,15 +69,86 @@
   filter: saturate(0.9) brightness(0.88);
 }
 
-@media (max-width: 940px) {
+/* Celulares (Mobile) */
+@media (max-width: 480px) {
+  .section {
+    padding-bottom: 76px;
+  }
+
+  .bar {
+    width: 78vw;
+    height: 18px;
+    margin-bottom: 56px;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    width: calc(100% - 40px);
+  }
+
+  .copy {
+    padding-top: 0;
+  }
+
+  .copy span {
+    margin-bottom: 28px;
+    font-size: 15px;
+  }
+
+  .copy h2 {
+    margin-bottom: 32px;
+    font-size: 25px;
+  }
+
+  .copy p {
+    font-size: 15px;
+  }
+
+  .gallery {
+    gap: 14px;
+  }
+}
+
+/* Tablets e Celulares deitados */
+@media (min-width: 481px) and (max-width: 768px) {
+  .section {
+    padding-bottom: 92px;
+  }
+
   .bar {
     width: 72vw;
-    margin-bottom: 72px;
+    height: 22px;
+    margin-bottom: 64px;
+  }
+
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    width: calc(100% - 56px);
+  }
+
+  .copy {
+    padding-top: 0;
+  }
+
+  .copy h2 {
+    margin-bottom: 38px;
+    font-size: 28px;
+  }
+}
+
+/* Tablets Grandes / iPads */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bar {
+    width: 66vw;
+    margin-bottom: 80px;
   }
 
   .inner {
     grid-template-columns: 1fr;
     gap: 48px;
+    width: calc(100% - 72px);
   }
 
   .copy {
@@ -85,12 +156,16 @@
   }
 }
 
-@media (max-width: 560px) {
-  .section {
-    padding-bottom: 84px;
+/* Notebooks (Laptops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .bar {
+    width: min(620px, 52vw);
+    margin-bottom: 112px;
   }
 
-  .gallery {
-    gap: 14px;
+  .inner {
+    grid-template-columns: minmax(320px, 1fr) minmax(320px, 430px);
+    gap: 64px;
+    width: min(1064px, calc(100% - 112px));
   }
 }

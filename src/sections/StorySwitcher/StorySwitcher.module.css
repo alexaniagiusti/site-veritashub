@@ -76,9 +76,88 @@
   justify-self: start;
 }
 
-@media (max-width: 1100px) {
+/* Celulares (Mobile) */
+@media (max-width: 480px) {
   .section {
-    padding: 56px 28px 120px;
+    padding: 48px 20px 84px;
+  }
+
+  .switcher {
+    width: 100%;
+    margin-bottom: 44px;
+    padding: 6px;
+  }
+
+  .switcherButton {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 10px;
+    white-space: normal;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 28px;
+    text-align: center;
+  }
+
+  .layout h2 {
+    font-size: clamp(34px, 10vw, 42px);
+  }
+
+  .imageFrame {
+    width: min(100%, 320px);
+    border-radius: 22px;
+  }
+
+  .copy {
+    justify-items: center;
+  }
+
+  .copy p {
+    max-width: 320px;
+    font-size: 15px;
+  }
+}
+
+/* Tablets e Celulares deitados */
+@media (min-width: 481px) and (max-width: 768px) {
+  .section {
+    padding: 52px 28px 100px;
+  }
+
+  .switcher {
+    width: 100%;
+    max-width: 520px;
+    margin-bottom: 52px;
+  }
+
+  .switcherButton {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .layout h2 {
+    font-size: 44px;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .copy {
+    justify-items: center;
+  }
+}
+
+/* Tablets Grandes / iPads */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .section {
+    padding: 56px 36px 120px;
   }
 
   .layout {
@@ -93,17 +172,18 @@
   }
 }
 
-@media (max-width: 620px) {
-  .switcher {
-    width: 100%;
+/* Notebooks (Laptops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .section {
+    padding: 58px 68px 150px;
   }
 
-  .switcherButton {
-    min-width: 0;
-    flex: 1;
+  .layout {
+    grid-template-columns: minmax(190px, 0.86fr) minmax(300px, 360px) minmax(230px, 0.86fr);
+    gap: 42px;
   }
 
   .layout h2 {
-    font-size: 40px;
+    font-size: 48px;
   }
 }

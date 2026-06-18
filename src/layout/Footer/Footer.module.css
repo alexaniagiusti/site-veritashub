@@ -148,9 +148,96 @@
   white-space: nowrap;
 }
 
-@media (max-width: 1180px) {
+/* Celulares (Mobile) */
+@media (max-width: 480px) {
+  .footer {
+    padding: 56px 20px 32px;
+  }
+
+  .top,
+  .bottom {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 30px;
+  }
+
+  .brand {
+    font-size: 32px;
+  }
+
+  .brand span span {
+    font-size: 18px;
+  }
+
+  .brandMark {
+    width: 42px;
+    height: 31px;
+  }
+
+  .brandMark::before {
+    width: 15px;
+    height: 36px;
+  }
+
+  .brandMark::after {
+    left: 14px;
+    width: 21px;
+    height: 41px;
+  }
+
+  .links,
+  .legal,
+  .socialBlock {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px 18px;
+  }
+
+  .socialBlock {
+    flex-direction: column;
+  }
+
+  .bottom {
+    margin-top: 58px;
+  }
+
+  .legal a::before {
+    margin-right: 8px;
+  }
+}
+
+/* Tablets e Celulares deitados */
+@media (min-width: 481px) and (max-width: 768px) {
   .footer {
     padding: 64px 28px 36px;
+  }
+
+  .top,
+  .bottom {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 34px;
+  }
+
+  .bottom {
+    margin-top: 72px;
+  }
+
+  .links,
+  .legal,
+  .socialBlock {
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    font-size: 34px;
+  }
+}
+
+/* Tablets Grandes / iPads */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .footer {
+    padding: 70px 36px 38px;
   }
 
   .top,
@@ -160,18 +247,43 @@
   }
 
   .bottom {
-    margin-top: 72px;
+    margin-top: 82px;
   }
-}
 
-@media (max-width: 640px) {
   .links,
   .legal,
   .socialBlock {
     flex-wrap: wrap;
   }
+}
 
-  .brand {
-    font-size: 34px;
+/* Notebooks (Laptops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .footer {
+    padding: 76px 68px 40px;
+  }
+
+  .top {
+    grid-template-columns: 220px 1fr auto 48px;
+    gap: 32px;
+  }
+
+  .links {
+    flex-wrap: wrap;
+  }
+}
+
+/* Monitores Desktop Comuns (16:9) */
+@media (min-width: 1201px) and (max-width: 1600px) {
+  .footer {
+    padding: 86px 108px 40px;
+  }
+}
+
+/* Monitores Grandes / UltraWide */
+@media (min-width: 1601px) {
+  .footer {
+    padding-right: max(108px, calc((100vw - 1440px) / 2 + 108px));
+    padding-left: max(108px, calc((100vw - 1440px) / 2 + 108px));
   }
 }

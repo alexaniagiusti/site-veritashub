@@ -45,30 +45,30 @@ export function Hero() {
         {/* <img className={styles.poster} src={heroImage} alt="" /> */}
       </div>
 
-      <button
-        id="botao-player"
-        aria-label={isPlaying ? "Pausar vídeo" : "Reproduzir vídeo"}
-        className={styles.playerButton}
-        onClick={toggleVideoPlayback}
-        type="button"
-      >
-        <span className={styles.playerInner}>
-          <Icon name={isPlaying ? "pause" : "play"} size={22} />
-        </span>
-      </button>
-
       <div className={styles.content}>
+        <button
+          id="botao-player"
+          aria-label={isPlaying ? "Pausar video" : "Reproduzir video"}
+          className={styles.playerButton}
+          onClick={toggleVideoPlayback}
+          type="button"
+        >
+          <span className={styles.playerInner}>
+            <Icon name={isPlaying ? "pause" : "play"} size={22} />
+          </span>
+        </button>
+
         <h1 id="hero-title">Te ajudamos a entender e acessar seus direitos de forma simples</h1>
         <p>
           A Veritas Hub nasceu para transformar burocracia em clareza. Descubra seus direitos
-          com uma experiência simples, rápida e acessível.
+          com uma experiencia simples, rapida e acessivel.
         </p>
 
-        <div className={styles.actions} aria-label="Ações principais">
-          <span>Tem dúvidas sobre seus direitos?</span>
+        <div className={styles.actions} aria-label="Acoes principais">
+          <span>Tem duvidas sobre seus direitos?</span>
           <Button
             className={styles.primaryAction}
-            iconLeft={<Icon name="whatsapp" size={16} />}
+            iconLeft={<Icon name="whatsapp" size={24} />}
             onClick={() => {
               window.location.hash = "rodape";
             }}

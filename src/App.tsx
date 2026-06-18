@@ -8,7 +8,7 @@ import "./styles/variables.css";
 
 function App() {
   return (
-    <div style={{ width: "100vw", marginLeft: "calc(50% - 50vw)" }}>
+    <div>
       <Header variant="dark" />
       <main>
         <Hero />

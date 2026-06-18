@@ -55,20 +55,52 @@
 .socialBlock {
   display: inline-flex;
   align-items: center;
-  gap: 28px;
+  gap: 16.8px;
+}
+
+.socialBlock span {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
 .socialLinks {
   display: inline-flex;
-  gap: 14px;
+  align-items: flex-start;
+  gap: 12.6px;
 }
 
 .socialButton {
-  width: 44px;
-  min-width: 44px;
-  height: 44px;
-  min-height: 44px;
+  display: inline-grid;
+  place-items: center;
+  width: 50.4px;
+  min-width: 50.4px;
+  height: 50.4px;
+  min-height: 50.4px;
   padding: 0;
+  border: 1.575px solid #23e600;
+  border-radius: 33.6px;
+  color: #ffffff;
+  line-height: 0;
+  cursor: pointer;
+  background: #19191c;
+  box-shadow: none;
+}
+
+.socialButton:hover:not(:disabled),
+.socialButton:active:not(:disabled),
+.socialButton:focus-visible {
+  border-color: #23e600;
+  color: #ffffff;
+  background: #19191c;
+  box-shadow: 0 0 0 3px rgba(35, 230, 0, 0.18);
+}
+
+.socialButton svg {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .backTop {

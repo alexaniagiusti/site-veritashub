@@ -25,42 +25,39 @@ export function Footer() {
         <div className={styles.socialBlock}>
           <span>Acompanhe nas redes</span>
           <div className={styles.socialLinks} aria-label="Redes sociais">
-            <Button
+            <button
               aria-label="Instagram"
               className={styles.socialButton}
-              iconLeft={<Icon name="instagram" size={20} />}
               onClick={() => {
                 window.location.hash = "instagram";
               }}
-              size="sm"
-              variant="tertiary"
+              type="button"
             >
+              <Icon name="instagram" size={24} />
               <span className={styles.srOnly}>Instagram</span>
-            </Button>
-            <Button
+            </button>
+            <button
               aria-label="YouTube"
               className={styles.socialButton}
-              iconLeft={<Icon name="youtube" size={20} />}
               onClick={() => {
                 window.location.hash = "youtube";
               }}
-              size="sm"
-              variant="tertiary"
+              type="button"
             >
+              <Icon name="youtube" size={24} />
               <span className={styles.srOnly}>YouTube</span>
-            </Button>
-            <Button
+            </button>
+            <button
               aria-label="Facebook"
               className={styles.socialButton}
-              iconLeft={<Icon name="facebook" size={20} />}
               onClick={() => {
                 window.location.hash = "facebook";
               }}
-              size="sm"
-              variant="tertiary"
+              type="button"
             >
+              <Icon name="facebook" size={24} />
               <span className={styles.srOnly}>Facebook</span>
-            </Button>
+            </button>
           </div>
         </div>
 

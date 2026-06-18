@@ -29,49 +29,14 @@
   display: inline-flex;
   align-items: center;
   flex: 0 0 220px;
-  gap: 7px;
   color: inherit;
-  font-family: Poppins, sans-serif;
-  font-size: 25px;
-  font-weight: 700;
-  line-height: 1.2;
   text-decoration: none;
 }
 
-.brand span span {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.brandMark {
-  position: relative;
-  width: 34px;
-  height: 25px;
-}
-
-.brandMark::before,
-.brandMark::after {
-  position: absolute;
-  content: "";
-  border-radius: 999px;
-  background: currentColor;
-  transform-origin: center;
-}
-
-.brandMark::before {
-  left: 0;
-  top: 1px;
-  width: 12px;
-  height: 29px;
-  transform: rotate(-32deg);
-}
-
-.brandMark::after {
-  left: 11px;
-  top: 0;
-  width: 17px;
-  height: 32px;
-  transform: rotate(38deg);
+.brandLogo {
+  display: block;
+  width: 170px;
+  height: auto;
 }
 
 .nav {
@@ -128,29 +93,11 @@
 
   .brand {
     flex: 1 1 auto;
-    gap: 6px;
     min-width: 0;
-    font-size: 20px;
   }
 
-  .brand span span {
-    font-size: 13px;
-  }
-
-  .brandMark {
-    width: 28px;
-    height: 21px;
-  }
-
-  .brandMark::before {
-    width: 10px;
-    height: 24px;
-  }
-
-  .brandMark::after {
-    left: 9px;
-    width: 14px;
-    height: 27px;
+  .brandLogo {
+    width: 150px;
   }
 
   .nav {

@@ -1,5 +1,6 @@
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
+import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import styles from "./Footer.module.css";
 
 const footerLinks = ["Home", "Quem Somos", "Time", "FAQ", "Blog"];
@@ -10,10 +11,7 @@ export function Footer() {
     <footer id="rodape" className={styles.footer}>
       <div className={styles.top}>
         <a className={styles.brand} href="#home" aria-label="VeritasHub Home">
-          <span className={styles.brandMark} aria-hidden="true" />
-          <span>
-            Veritas<span>Hub</span>
-          </span>
+          <img className={styles.brandLogo} src={logoVeritas} alt="" aria-hidden="true" />
         </a>
 
         <nav className={styles.links} aria-label="Links do rodapé">

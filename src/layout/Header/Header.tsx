@@ -1,5 +1,6 @@
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
+import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import styles from "./Header.module.css";
 
 type HeaderVariant = "light" | "dark";
@@ -20,10 +21,7 @@ export function Header({ variant = "light" }: HeaderProps) {
   return (
     <header className={`${styles.header} ${styles[variant]}`}>
       <a className={styles.brand} href="#home" aria-label="VeritasHub Home">
-        <span className={styles.brandMark} aria-hidden="true" />
-        <span>
-          Veritas<span>Hub</span>
-        </span>
+        <img className={styles.brandLogo} src={logoVeritas} alt="" aria-hidden="true" />
       </a>
 
       <nav className={styles.nav} aria-label="Navegação principal">

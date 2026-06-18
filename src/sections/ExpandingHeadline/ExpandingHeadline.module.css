@@ -1,0 +1,24 @@
+.section {
+  display: grid;
+  place-items: center;
+  min-height: 286px;
+  padding: 64px 40px 72px;
+  text-align: center;
+  background: var(--white);
+}
+
+.section h2 {
+  margin: 0;
+  color: var(--green-800);
+  font-family: Poppins, sans-serif;
+  font-size: clamp(48px, 7vw, 72px);
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+@media (max-width: 760px) {
+  .section {
+    min-height: 220px;
+    padding: 56px 20px;
+  }
+}

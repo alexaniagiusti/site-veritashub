@@ -1,0 +1,95 @@
+import { Icon } from "../../design-system/components/Icon/Icon";
+import { Button } from "../../design-system/components/button";
+import styles from "./Footer.module.css";
+
+const footerLinks = ["Home", "Quem Somos", "Time", "FAQ", "Blog"];
+const legalLinks = ["Termos de Uso", "Política de privacidade"];
+
+export function Footer() {
+  return (
+    <footer id="rodape" className={styles.footer}>
+      <div className={styles.top}>
+        <a className={styles.brand} href="#home" aria-label="VeritasHub Home">
+          <span className={styles.brandMark} aria-hidden="true" />
+          <span>
+            Veritas<span>Hub</span>
+          </span>
+        </a>
+
+        <nav className={styles.links} aria-label="Links do rodapé">
+          {footerLinks.map((link) => (
+            <a key={link} href={`#${link.toLowerCase().replace(" ", "-")}`}>
+              {link}
+            </a>
+          ))}
+        </nav>
+
+        <div className={styles.socialBlock}>
+          <span>Acompanhe nas redes</span>
+          <div className={styles.socialLinks} aria-label="Redes sociais">
+            <Button
+              aria-label="Instagram"
+              className={styles.socialButton}
+              iconLeft={<Icon name="instagram" size={20} />}
+              onClick={() => {
+                window.location.hash = "instagram";
+              }}
+              size="sm"
+              variant="tertiary"
+            >
+              <span className={styles.srOnly}>Instagram</span>
+            </Button>
+            <Button
+              aria-label="YouTube"
+              className={styles.socialButton}
+              iconLeft={<Icon name="youtube" size={20} />}
+              onClick={() => {
+                window.location.hash = "youtube";
+              }}
+              size="sm"
+              variant="tertiary"
+            >
+              <span className={styles.srOnly}>YouTube</span>
+            </Button>
+            <Button
+              aria-label="Facebook"
+              className={styles.socialButton}
+              iconLeft={<Icon name="facebook" size={20} />}
+              onClick={() => {
+                window.location.hash = "facebook";
+              }}
+              size="sm"
+              variant="tertiary"
+            >
+              <span className={styles.srOnly}>Facebook</span>
+            </Button>
+          </div>
+        </div>
+
+        <Button
+          aria-label="Voltar ao topo"
+          className={styles.backTop}
+          iconLeft={<Icon className={styles.backTopIcon} name="arrow-right" size={24} />}
+          onClick={() => {
+            window.location.hash = "home";
+          }}
+          size="lg"
+          variant="tertiary"
+        >
+          <span className={styles.srOnly}>Voltar ao topo</span>
+        </Button>
+      </div>
+
+      <div className={styles.bottom}>
+        <p>© 2026 VeritasHub - Todos os direitos reservados. CNPJ: 27.307.965/0001-88</p>
+        <nav className={styles.legal} aria-label="Links legais">
+          {legalLinks.map((link) => (
+            <a key={link} href="#rodape">
+              {link}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </footer>
+  );
+}

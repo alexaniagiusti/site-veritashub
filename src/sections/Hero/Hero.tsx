@@ -53,7 +53,7 @@ export function Hero() {
         type="button"
       >
         <span className={styles.playerInner}>
-          <Icon name={isPlaying ? "pause" : "play"} size={34} />
+          <Icon name={isPlaying ? "pause" : "play"} size={22} />
         </span>
       </button>
 

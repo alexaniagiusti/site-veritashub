@@ -1,7 +1,13 @@
-import heroImage from "../../assets/hero.png";
 import styles from "./AboutTeam.module.css";
 
-const photos = Array.from({ length: 8 }, (_, index) => index + 1);
+const photos = [
+  new URL("../../assets/img-1.JPG", import.meta.url).href,
+  new URL("../../assets/img-2.JPG", import.meta.url).href,
+  new URL("../../assets/img-3.JPG", import.meta.url).href,
+  new URL("../../assets/img-4.JPG", import.meta.url).href,
+  new URL("../../assets/img-5.JPG", import.meta.url).href,
+];
+const carouselPhotos = [...photos, ...photos];
 
 export function AboutTeam() {
   return (
@@ -26,9 +32,17 @@ export function AboutTeam() {
         </div>
 
         <div className={styles.gallery} aria-label="Equipe Veritas Hub">
-          {photos.map((photo) => (
-            <img key={photo} src={heroImage} alt="" />
-          ))}
+          <div className={`${styles.carouselColumn} ${styles.carouselUp}`}>
+            {carouselPhotos.map((photo, index) => (
+              <img key={`up-${photo}-${index}`} src={photo} alt="" />
+            ))}
+          </div>
+
+          <div className={`${styles.carouselColumn} ${styles.carouselDown}`}>
+            {carouselPhotos.map((photo, index) => (
+              <img key={`down-${photo}-${index}`} src={photo} alt="" />
+            ))}
+          </div>
         </div>
       </div>
     </section>

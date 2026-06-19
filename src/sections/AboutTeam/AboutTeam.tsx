@@ -6,8 +6,6 @@ const photos = Array.from({ length: 8 }, (_, index) => index + 1);
 export function AboutTeam() {
   return (
     <section id="quem-somos" className={styles.section} aria-labelledby="about-team-title">
-      <div className={styles.bar} aria-hidden="true" />
-
       <div className={styles.inner}>
         <div className={styles.copy}>
           <span>Movidos pelo propósito de transformar vidas</span>

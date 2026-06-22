@@ -59,6 +59,7 @@
   line-height: 1.5;
   text-decoration: none;
   opacity: 0.82;
+  transition: opacity 180ms ease;
 }
 
 .nav a:hover,
@@ -74,6 +75,19 @@
   height: 2px;
   content: "";
   background: var(--green-500);
+  animation: activeIndicatorIn 180ms ease-out both;
+}
+
+@keyframes activeIndicatorIn {
+  from {
+    opacity: 0;
+    transform: scaleX(0.35);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 .cta {

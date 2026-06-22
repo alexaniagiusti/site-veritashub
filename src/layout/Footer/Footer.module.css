@@ -106,12 +106,33 @@
 .backTop {
   width: 48px;
   min-width: 48px;
-  height: 64px;
-  min-height: 64px;
+  height: 66px;
+  min-height: 66px;
   padding: 0;
+  border: 2px solid #23e600;
+  border-radius: 999px;
+  color: #f6f6f9;
+  background: transparent;
+  box-shadow: none;
+}
+
+.backTop:hover:not(:disabled),
+.backTop:active:not(:disabled),
+.backTop:focus-visible {
+  border-color: #23e600;
+  color: #f6f6f9;
+  background: rgba(35, 230, 0, 0.08);
+  box-shadow: 0 0 0 3px rgba(35, 230, 0, 0.14);
+}
+
+.backTop > span:last-child {
+  display: none;
 }
 
 .backTopIcon {
+  display: block;
+  width: 24px;
+  height: 24px;
   transform: rotate(-90deg);
 }
 

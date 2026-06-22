@@ -178,12 +178,17 @@ export function StorySwitcher() {
         </div>
 
         {openLetter && (
-          <div className={styles.letterOverlay} role="presentation">
+          <div
+            className={styles.letterOverlay}
+            role="presentation"
+            onClick={() => setOpenLetterIndex(null)}
+          >
             <div
               className={styles.letterDialog}
               aria-labelledby="story-letter-title"
               aria-modal="true"
               role="dialog"
+              onClick={(event) => event.stopPropagation()}
             >
               <button
                 className={styles.letterClose}

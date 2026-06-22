@@ -66,7 +66,7 @@ export function Footer() {
           className={styles.backTop}
           iconLeft={<Icon className={styles.backTopIcon} name="arrow-right" size={24} />}
           onClick={() => {
-            window.location.hash = "home";
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           size="lg"
           variant="tertiary"

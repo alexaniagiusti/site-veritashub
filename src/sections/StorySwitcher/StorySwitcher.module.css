@@ -250,6 +250,7 @@
   border-radius: 18px;
   color: #202224;
   font-family: Inter, sans-serif;
+  font-weight: 400;
   background:
     linear-gradient(90deg, rgba(43, 255, 0, 0.16), transparent 22%) top left / 100% 4px no-repeat,
     #fcfcfc;
@@ -272,6 +273,7 @@
   color: #161e12;
   font-family: Poppins, sans-serif;
   font-size: clamp(24px, 4vw, 34px);
+  font-weight: 700;
   line-height: 1.1;
 }
 
@@ -280,6 +282,7 @@
   margin-bottom: 22px;
   color: #202224;
   font-size: clamp(17px, 2vw, 20px);
+  font-weight: 600;
   line-height: 1.45;
 }
 
@@ -287,7 +290,7 @@
   margin: 0 0 16px;
   color: #202224;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.58;
 }
 
@@ -295,7 +298,7 @@
   margin-top: 22px;
   margin-bottom: 0;
   color: #161e12;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 @keyframes letterOverlayIn {

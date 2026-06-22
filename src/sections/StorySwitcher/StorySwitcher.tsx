@@ -1,4 +1,5 @@
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+﻿import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import imgAcidente from "../../assets/img-acidente.png";
 import imgHackeados from "../../assets/img-hackeados.png";
 import logoVeritas from "../../assets/logo-verde-veritas.svg";
@@ -118,8 +119,52 @@ export function StorySwitcher() {
     });
   };
 
+  const letterModal = openLetter ? (
+    <div
+      className={styles.letterOverlay}
+      role="presentation"
+      onClick={() => setOpenLetterIndex(null)}
+    >
+      <div
+        className={styles.letterDialog}
+        aria-labelledby="story-letter-title"
+        aria-modal="true"
+        role="dialog"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          className={styles.letterClose}
+          onClick={() => setOpenLetterIndex(null)}
+          type="button"
+          aria-label="Fechar carta"
+        >
+          &times;
+        </button>
+
+        <div className={styles.envelope} aria-hidden="true">
+          <span className={styles.envelopeBack} />
+          <span className={styles.envelopeFlap} />
+          <span className={styles.envelopeFront} />
+        </div>
+
+        <article className={styles.letterPaper}>
+          <p className={styles.letterEyebrow}>Hist&oacute;ria Veritas Hub</p>
+          <h3 id="story-letter-title">{openLetter.letterTitle}</h3>
+          <strong>"{openLetter.letterQuote}"</strong>
+          {openLetter.letterParagraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+          {openLetter.letterSignature && (
+            <p className={styles.letterSignature}>{openLetter.letterSignature}</p>
+          )}
+        </article>
+      </div>
+    </div>
+  ) : null;
+
   return (
-    <section ref={sectionRef} id="servicos" className={styles.section} aria-labelledby="story-title">
+    <>
+      <section ref={sectionRef} id="servicos" className={styles.section} aria-labelledby="story-title">
       <div className={styles.stickyPanel}>
         <div className={styles.switcher} aria-label="Histórias disponíveis">
           {stories.map((switcherStory, index) => (
@@ -177,49 +222,9 @@ export function StorySwitcher() {
         >
         </div>
 
-        {openLetter && (
-          <div
-            className={styles.letterOverlay}
-            role="presentation"
-            onClick={() => setOpenLetterIndex(null)}
-          >
-            <div
-              className={styles.letterDialog}
-              aria-labelledby="story-letter-title"
-              aria-modal="true"
-              role="dialog"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                className={styles.letterClose}
-                onClick={() => setOpenLetterIndex(null)}
-                type="button"
-                aria-label="Fechar carta"
-              >
-                ×
-              </button>
-
-              <div className={styles.envelope} aria-hidden="true">
-                <span className={styles.envelopeBack} />
-                <span className={styles.envelopeFlap} />
-                <span className={styles.envelopeFront} />
-              </div>
-
-              <article className={styles.letterPaper}>
-                <p className={styles.letterEyebrow}>História Veritas Hub</p>
-                <h3 id="story-letter-title">{openLetter.letterTitle}</h3>
-                <strong>"{openLetter.letterQuote}"</strong>
-                {openLetter.letterParagraphs.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-                {openLetter.letterSignature && (
-                  <p className={styles.letterSignature}>{openLetter.letterSignature}</p>
-                )}
-              </article>
-            </div>
-          </div>
-        )}
       </div>
-    </section>
+      </section>
+      {letterModal ? createPortal(letterModal, document.body) : null}
+    </>
   );
 }

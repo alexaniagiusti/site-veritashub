@@ -153,9 +153,9 @@
 }
 
 .letterOverlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 1000;
   display: grid;
   place-items: center;
   padding: 28px;

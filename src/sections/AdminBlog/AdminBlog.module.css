@@ -73,11 +73,12 @@
   text-decoration: none;
 }
 
-.navItems a:hover {
+.navItems a:not(.activeNavItem):hover {
   background: var(--gray-50);
 }
 
-.navItems .activeNavItem {
+.navItems .activeNavItem,
+.navItems .activeNavItem:hover {
   color: var(--gray-50);
   background: var(--green-900);
 }

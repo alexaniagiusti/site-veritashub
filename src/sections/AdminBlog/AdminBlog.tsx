@@ -80,7 +80,6 @@ const sidebarGroups = [
   {
     title: "CONTEÚDO",
     items: [
-      { label: "Dashboard", icon: "dashboard", active: false, href: "#admin-blog" },
       { label: "Artigos", icon: "file-list", active: true, href: "#admin-blog" },
       { label: "Categorias", icon: "price-tag", active: false, href: "#admin-blog" },
     ],
@@ -103,7 +102,14 @@ export function AdminBlog() {
       <div className={styles.workspace}>
         <header className={styles.topbar}>
           <h1 id="admin-title">Artigos</h1>
-          <Button className={styles.newArticleButton} iconLeft={<Icon name="add" size={24} />} size="sm">
+          <Button
+            className={styles.newArticleButton}
+            iconLeft={<Icon name="add" size={24} />}
+            onClick={() => {
+              window.location.hash = "#admin-new-article";
+            }}
+            size="sm"
+          >
             Novo Artigo
           </Button>
         </header>
@@ -124,16 +130,13 @@ export function AdminBlog() {
           </section>
         </main>
 
-        <footer className={styles.adminFooter}>
-          <Icon name="copyright" size={24} />
-          <span>Todos os direitos reservados - Veritas HUB 2026</span>
-        </footer>
+        <AdminFooter />
       </div>
     </section>
   );
 }
 
-function AdminSidebar() {
+export function AdminSidebar() {
   return (
     <aside className={styles.sidebar} aria-label="Menu administrativo">
       <div className={styles.sidebarLogo}>
@@ -166,6 +169,15 @@ function AdminSidebar() {
         </span>
       </div>
     </aside>
+  );
+}
+
+export function AdminFooter() {
+  return (
+    <footer className={styles.adminFooter}>
+      <Icon name="copyright" size={24} />
+      <span>Todos os direitos reservados - Veritas HUB 2026</span>
+    </footer>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Footer } from "./layout/Footer";
 import { Header } from "./layout/Header";
 import { AboutTeam } from "./sections/AboutTeam";
@@ -10,6 +10,10 @@ import { Login } from "./sections/Login";
 import { StorySwitcher } from "./sections/StorySwitcher";
 import "./styles/variables.css";
 
+const AdminNewArticle = lazy(() =>
+  import("./sections/AdminNewArticle").then((module) => ({ default: module.AdminNewArticle })),
+);
+
 const getCurrentHash = () => window.location.hash || "#home";
 
 function App() {
@@ -17,7 +21,8 @@ function App() {
   const isBlogPage = activeHash === "#blog";
   const isLoginPage = activeHash === "#login";
   const isAdminBlogPage = activeHash === "#admin-blog";
-  const isStandalonePage = isLoginPage || isAdminBlogPage;
+  const isAdminNewArticlePage = activeHash === "#admin-new-article";
+  const isStandalonePage = isLoginPage || isAdminBlogPage || isAdminNewArticlePage;
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -37,7 +42,11 @@ function App() {
         <Header activeHref={isBlogPage ? "#blog" : activeHash} variant={isBlogPage ? "light" : "dark"} />
       ) : null}
       <main>
-        {isAdminBlogPage ? (
+        {isAdminNewArticlePage ? (
+          <Suspense fallback={null}>
+            <AdminNewArticle />
+          </Suspense>
+        ) : isAdminBlogPage ? (
           <AdminBlog />
         ) : isLoginPage ? (
           <Login />

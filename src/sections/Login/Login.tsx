@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import logoVeritas from "../../assets/logo-verde-veritas.svg";
+import loginVideo from "../../assets/video-logo-v-atualizada.webm";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import styles from "./Login.module.css";
@@ -79,7 +80,18 @@ export function Login() {
         </form>
       </div>
 
-      <div className={styles.visualPanel} aria-hidden="true" />
+      <div className={styles.visualPanel} aria-hidden="true">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={styles.loginVideo}
+          preload="auto"
+        >
+          <source src={loginVideo} type="video/webm" />
+        </video>
+      </div>
     </section>
   );
 }

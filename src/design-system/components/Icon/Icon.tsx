@@ -3,14 +3,25 @@ import {
   RiArrowLeftLine,
   RiArrowRightLine,
   RiCloseLine,
+  RiCopyrightLine,
+  RiDashboardLine,
+  RiDeleteBin2Line,
+  RiEditLine,
   RiEyeLine,
+  RiFileList2Line,
   RiFacebookFill,
   RiInstagramLine,
   RiLockLine,
+  RiLogoutBoxLine,
   RiMailOpenLine,
   RiMenuLine,
+  RiMore2Fill,
   RiPauseFill,
+  RiPriceTag3Line,
   RiPlayFill,
+  RiSearchLine,
+  RiSettings3Line,
+  RiAddFill,
   RiUserLine,
   RiWhatsappLine,
   RiYoutubeFill,
@@ -26,6 +37,17 @@ type IconName =
   | "mail-open"
   | "lock"
   | "eye"
+  | "dashboard"
+  | "file-list"
+  | "price-tag"
+  | "settings"
+  | "logout"
+  | "add"
+  | "search"
+  | "edit"
+  | "delete-bin"
+  | "more"
+  | "copyright"
   | "close"
   | "arrow-right"
   | "arrow-left"
@@ -57,6 +79,17 @@ const icons: Record<IconName, ComponentType<RemixIconProps>> = {
   "mail-open": RiMailOpenLine,
   lock: RiLockLine,
   eye: RiEyeLine,
+  dashboard: RiDashboardLine,
+  "file-list": RiFileList2Line,
+  "price-tag": RiPriceTag3Line,
+  settings: RiSettings3Line,
+  logout: RiLogoutBoxLine,
+  add: RiAddFill,
+  search: RiSearchLine,
+  edit: RiEditLine,
+  "delete-bin": RiDeleteBin2Line,
+  more: RiMore2Fill,
+  copyright: RiCopyrightLine,
   close: RiCloseLine,
   "arrow-right": RiArrowRightLine,
   "arrow-left": RiArrowLeftLine,

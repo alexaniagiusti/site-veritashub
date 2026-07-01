@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Footer } from "./layout/Footer";
 import { Header } from "./layout/Header";
 import { AboutTeam } from "./sections/AboutTeam";
+import { AdminBlog } from "./sections/AdminBlog";
 import { Blog } from "./sections/Blog";
 import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
@@ -15,6 +16,8 @@ function App() {
   const [activeHash, setActiveHash] = useState(getCurrentHash);
   const isBlogPage = activeHash === "#blog";
   const isLoginPage = activeHash === "#login";
+  const isAdminBlogPage = activeHash === "#admin-blog";
+  const isStandalonePage = isLoginPage || isAdminBlogPage;
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -30,11 +33,13 @@ function App() {
 
   return (
     <div>
-      {!isLoginPage ? (
+      {!isStandalonePage ? (
         <Header activeHref={isBlogPage ? "#blog" : activeHash} variant={isBlogPage ? "light" : "dark"} />
       ) : null}
       <main>
-        {isLoginPage ? (
+        {isAdminBlogPage ? (
+          <AdminBlog />
+        ) : isLoginPage ? (
           <Login />
         ) : isBlogPage ? (
           <Blog />
@@ -47,7 +52,7 @@ function App() {
           </>
         )}
       </main>
-      {!isLoginPage ? <Footer /> : null}
+      {!isStandalonePage ? <Footer /> : null}
     </div>
   );
 }

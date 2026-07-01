@@ -10,6 +10,7 @@ export function Login() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    window.location.hash = "#admin-blog";
   };
 
   const handleBack = () => {

@@ -3,11 +3,15 @@ import {
   RiArrowLeftLine,
   RiArrowRightLine,
   RiCloseLine,
+  RiEyeLine,
   RiFacebookFill,
   RiInstagramLine,
+  RiLockLine,
+  RiMailOpenLine,
   RiMenuLine,
   RiPauseFill,
   RiPlayFill,
+  RiUserLine,
   RiWhatsappLine,
   RiYoutubeFill,
 } from "react-icons/ri";
@@ -18,6 +22,10 @@ type IconName =
   | "whatsapp"
   | "youtube"
   | "menu"
+  | "user"
+  | "mail-open"
+  | "lock"
+  | "eye"
   | "close"
   | "arrow-right"
   | "arrow-left"
@@ -45,6 +53,10 @@ const icons: Record<IconName, ComponentType<RemixIconProps>> = {
   whatsapp: RiWhatsappLine,
   youtube: RiYoutubeFill,
   menu: RiMenuLine,
+  user: RiUserLine,
+  "mail-open": RiMailOpenLine,
+  lock: RiLockLine,
+  eye: RiEyeLine,
   close: RiCloseLine,
   "arrow-right": RiArrowRightLine,
   "arrow-left": RiArrowLeftLine,

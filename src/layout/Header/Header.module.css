@@ -95,6 +95,23 @@
   min-width: 150px;
 }
 
+.loginLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  color: inherit;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.loginLink svg {
+  color: var(--green-800);
+}
+
 /* Celulares (Mobile) */
 @media (max-width: 480px) {
   .header {
@@ -135,6 +152,10 @@
     order: 3;
     flex: 1 0 100%;
     min-width: 0;
+  }
+
+  .loginLink {
+    order: 2;
   }
 }
 

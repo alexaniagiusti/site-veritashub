@@ -105,22 +105,6 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        <div className={styles.photoSection}>
-          <div className={styles.previewAvatar} aria-hidden="true">
-            AB
-          </div>
-          <div className={styles.photoActions}>
-            <button className={styles.uploadButton} type="button">
-              <Icon name="upload" size={24} />
-              Enviar foto
-            </button>
-            <button className={styles.removePhotoButton} type="button">
-              Remover
-            </button>
-            <span>JPG, PNG até 2MB</span>
-          </div>
-        </div>
-
         <form className={styles.modalForm}>
           <TextField label="Nome" placeholder="Nome do Autor" />
           <TextField helper="Exibido nos artigos" label="Cargo" placeholder="Nome do Autor" />

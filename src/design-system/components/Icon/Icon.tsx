@@ -41,6 +41,7 @@ import {
   RiParagraph,
   RiStrikethrough,
   RiUnderline,
+  RiUpload2Line,
   RiWhatsappLine,
   RiYoutubeFill,
 } from "react-icons/ri";
@@ -81,6 +82,7 @@ type IconName =
   | "align-justify"
   | "link"
   | "image-add"
+  | "upload"
   | "paragraph"
   | "heading-one"
   | "heading-two"
@@ -141,6 +143,7 @@ const icons: Record<IconName, ComponentType<RemixIconProps>> = {
   "align-justify": RiAlignJustify,
   link: RiLink,
   "image-add": RiImageAddLine,
+  upload: RiUpload2Line,
   paragraph: RiParagraph,
   "heading-one": RiH1,
   "heading-two": RiH2,

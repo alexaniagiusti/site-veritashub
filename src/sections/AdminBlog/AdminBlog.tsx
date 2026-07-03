@@ -80,16 +80,16 @@ const sidebarGroups = [
   {
     title: "CONTEÚDO",
     items: [
-      { label: "Artigos", icon: "file-list", active: true, href: "#admin-blog" },
-      { label: "Categorias", icon: "price-tag", active: false, href: "#admin-blog" },
+      { label: "Artigos", icon: "file-list", href: "#admin-blog" },
+      { label: "Categorias", icon: "price-tag", href: "#admin-blog" },
     ],
   },
   {
     title: "CONFIGURAÇÕES",
     items: [
-      { label: "Autores", icon: "file-list", active: false, href: "#admin-blog" },
-      { label: "Configurações", icon: "settings", active: false, href: "#admin-blog" },
-      { label: "Logout", icon: "logout", active: false, href: "#login" },
+      { label: "Autores", icon: "file-list", href: "#admin-authors" },
+      { label: "Configurações", icon: "settings", href: "#admin-blog" },
+      { label: "Logout", icon: "logout", href: "#login" },
     ],
   },
 ] as const;
@@ -136,7 +136,11 @@ export function AdminBlog() {
   );
 }
 
-export function AdminSidebar() {
+type AdminSidebarProps = {
+  activeItems?: readonly string[];
+};
+
+export function AdminSidebar({ activeItems = ["Artigos"] }: AdminSidebarProps) {
   return (
     <aside className={styles.sidebar} aria-label="Menu administrativo">
       <div className={styles.sidebarLogo}>
@@ -148,12 +152,16 @@ export function AdminSidebar() {
           <div className={styles.navGroup} key={group.title}>
             <p>{group.title}</p>
             <div className={styles.navItems}>
-              {group.items.map((item) => (
-                <a className={item.active ? styles.activeNavItem : undefined} href={item.href} key={item.label}>
-                  <Icon name={item.icon} size={24} />
-                  <span>{item.label}</span>
-                </a>
-              ))}
+              {group.items.map((item) => {
+                const isActive = activeItems.includes(item.label);
+
+                return (
+                  <a className={isActive ? styles.activeNavItem : undefined} href={item.href} key={item.label}>
+                    <Icon name={item.icon} size={24} />
+                    <span>{item.label}</span>
+                  </a>
+                );
+              })}
             </div>
           </div>
         ))}

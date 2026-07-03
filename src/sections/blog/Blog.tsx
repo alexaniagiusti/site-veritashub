@@ -1,5 +1,6 @@
 import { Icon } from "../../design-system/components/Icon/Icon";
 import imgAcidente from "../../assets/img-acidente.png";
+import imgDestaqueBlog from "../../assets/img-destaque-blog.png";
 import imgHackeados from "../../assets/img-hackeados.png";
 import styles from "./Blog.module.css";
 
@@ -56,7 +57,7 @@ export function Blog() {
         <h1 id="blog-title">BLOG VERITAS HUB</h1>
 
         <article className={styles.featuredCard}>
-          <img src={imgAcidente} alt="Homem em atendimento médico recebendo orientação" />
+          <img src={imgDestaqueBlog} alt="Homem em atendimento médico recebendo orientação" />
           <div className={styles.featuredOverlay} />
 
           <div className={styles.featuredContent}>

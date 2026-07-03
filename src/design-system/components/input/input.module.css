@@ -1,0 +1,68 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--input-label);
+  font-family: var(--input-font-family), sans-serif;
+}
+
+.label {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--input-label);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.label small {
+  color: var(--input-helper);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1.5px solid var(--input-border);
+  border-radius: var(--input-radius);
+  color: var(--input-text);
+  font-family: var(--input-font-family), sans-serif;
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  line-height: var(--input-line-height);
+  background: var(--input-bg);
+  box-shadow: var(--input-shadow);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.input::placeholder {
+  color: var(--input-disabled-text);
+  opacity: 1;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: var(--input-focus);
+}
+
+.input:disabled {
+  color: var(--input-disabled-text);
+  cursor: not-allowed;
+  background: var(--input-disabled-bg);
+  box-shadow: none;
+}
+
+.disabled .label,
+.disabled .label small {
+  color: var(--input-disabled-text);
+}

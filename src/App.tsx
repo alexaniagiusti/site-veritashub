@@ -4,6 +4,7 @@ import { Header } from "./layout/Header";
 import { AboutTeam } from "./sections/AboutTeam";
 import { AdminBlog } from "./sections/AdminBlog";
 import { AdminAuthors } from "./sections/AdminAuthors";
+import { AdminSettings } from "./sections/AdminSettings";
 import { Blog } from "./sections/Blog";
 import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
@@ -23,8 +24,9 @@ function App() {
   const isLoginPage = activeHash === "#login";
   const isAdminBlogPage = activeHash === "#admin-blog";
   const isAdminAuthorsPage = activeHash === "#admin-authors";
+  const isAdminSettingsPage = activeHash === "#admin-settings";
   const isAdminNewArticlePage = activeHash === "#admin-new-article";
-  const isStandalonePage = isLoginPage || isAdminBlogPage || isAdminAuthorsPage || isAdminNewArticlePage;
+  const isStandalonePage = isLoginPage || isAdminBlogPage || isAdminAuthorsPage || isAdminSettingsPage || isAdminNewArticlePage;
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -52,6 +54,8 @@ function App() {
           <AdminBlog />
         ) : isAdminAuthorsPage ? (
           <AdminAuthors />
+        ) : isAdminSettingsPage ? (
+          <AdminSettings />
         ) : isLoginPage ? (
           <Login />
         ) : isBlogPage ? (

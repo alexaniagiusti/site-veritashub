@@ -88,7 +88,7 @@ const sidebarGroups = [
     title: "CONFIGURAÇÕES",
     items: [
       { label: "Autores", icon: "file-list", href: "#admin-authors" },
-      { label: "Configurações", icon: "settings", href: "#admin-blog" },
+      { label: "Configurações", icon: "settings", href: "#admin-settings" },
       { label: "Logout", icon: "logout", href: "#login" },
     ],
   },

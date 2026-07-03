@@ -227,12 +227,11 @@
 }
 
 .tableWrap {
-  overflow-x: auto;
+  overflow-x: clip;
 }
 
 .articlesTable {
   width: 100%;
-  min-width: 1180px;
   border-collapse: collapse;
   table-layout: fixed;
   font-family: Inter, sans-serif;

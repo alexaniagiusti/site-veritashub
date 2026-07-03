@@ -81,7 +81,7 @@ const sidebarGroups = [
     title: "CONTEÚDO",
     items: [
       { label: "Artigos", icon: "file-list", href: "#admin-blog" },
-      { label: "Categorias", icon: "price-tag", href: "#admin-blog" },
+      { label: "Categorias", icon: "price-tag", href: "#admin-categories" },
     ],
   },
   {

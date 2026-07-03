@@ -1,0 +1,208 @@
+.addCategoryButton {
+  min-width: 174px;
+  min-height: 40px;
+}
+
+.categoriesCard {
+  min-height: 872px;
+  background: var(--white);
+}
+
+.tableWrap {
+  overflow-x: clip;
+}
+
+.categoriesTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: Inter, sans-serif;
+}
+
+.categoriesTable th,
+.categoriesTable td {
+  box-sizing: border-box;
+  height: 64px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--gray-400);
+  color: var(--gray-950);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+  vertical-align: middle;
+  background: var(--white);
+}
+
+.categoriesTable th {
+  height: 40px;
+  font-weight: 500;
+  background: var(--gray-50);
+}
+
+.categoriesTable th:first-child,
+.categoriesTable td:first-child {
+  width: 62%;
+}
+
+.categoriesTable td:first-child {
+  font-weight: 700;
+}
+
+.colorPreview {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gray-900);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.colorPreview span {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gray-400);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(13, 13, 13, 0.04);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(9, 18, 31, 0.22);
+}
+
+.categoryModal {
+  box-sizing: border-box;
+  width: min(480px, 100%);
+  padding: 28px;
+  border-radius: 8px;
+  color: var(--gray-950);
+  font-family: Inter, sans-serif;
+  background: var(--white);
+  box-shadow: 0 24px 64px rgba(9, 18, 31, 0.16);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: var(--gray-950);
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.closeButton {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  color: #09121f;
+  cursor: pointer;
+  background: transparent;
+}
+
+.categoryForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.colorField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--gray-950);
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.colorPicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--gray-400);
+  border-radius: 6px;
+  background: var(--white);
+  box-shadow: 0 1px 2px rgba(13, 13, 13, 0.04);
+}
+
+.colorPicker > span {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--gray-400);
+  border-radius: 6px;
+}
+
+.colorPicker input {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+.colorPicker strong {
+  color: var(--gray-900);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.cancelButton {
+  min-width: 109px;
+}
+
+.saveButton {
+  min-width: 144px;
+}
+
+@media (max-width: 860px) {
+  .addCategoryButton,
+  .cancelButton,
+  .saveButton {
+    width: 100%;
+  }
+
+  .categoriesCard {
+    min-height: 640px;
+  }
+
+  .categoriesTable {
+    min-width: 520px;
+  }
+
+  .tableWrap {
+    overflow-x: auto;
+  }
+
+  .modalActions {
+    flex-direction: column-reverse;
+  }
+}

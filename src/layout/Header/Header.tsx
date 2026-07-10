@@ -1,5 +1,4 @@
-import { Icon } from "../../design-system/components/Icon/Icon";
-import { Button } from "../../design-system/components/button";
+import { Button, Icon, Menu } from "../../design-system";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import styles from "./Header.module.css";
 
@@ -24,13 +23,13 @@ export function Header({ variant = "light" }: HeaderProps) {
         <img className={styles.brandLogo} src={logoVeritas} alt="" aria-hidden="true" />
       </a>
 
-      <nav className={styles.nav} aria-label="Navegação principal">
-        {navItems.map((item) => (
-          <a key={item.label} href={item.href} data-active={item.label === "Home"}>
-            {item.label}
-          </a>
-        ))}
-      </nav>
+      <Menu
+        activeHref="#home"
+        ariaLabel="Navegação principal"
+        className={styles.nav}
+        items={navItems}
+        tone={variant}
+      />
 
       <Button
         className={styles.cta}

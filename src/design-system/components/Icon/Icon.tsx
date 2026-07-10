@@ -12,7 +12,7 @@ import {
   RiYoutubeFill,
 } from "react-icons/ri";
 
-type IconName =
+export type IconName =
   | "instagram"
   | "facebook"
   | "whatsapp"
@@ -24,7 +24,7 @@ type IconName =
   | "play"
   | "pause";
 
-type IconProps = {
+export type IconProps = {
   name: IconName;
   size?: number | string;
   color?: string;

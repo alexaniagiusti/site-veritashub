@@ -5,8 +5,13 @@ import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
 import { StorySwitcher } from "./sections/StorySwitcher";
 import "./styles/variables.css";
+import { Sandbox } from "./sections/Sandbox";
 
 function App() {
+  if (window.location.pathname.replace(/\/$/, "") === "/sandbox") {
+    return <Sandbox />;
+  }
+
   return (
     <div>
       <Header variant="dark" />

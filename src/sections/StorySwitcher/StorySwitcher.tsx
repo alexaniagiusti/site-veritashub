@@ -164,7 +164,7 @@ export function StorySwitcher() {
 
   return (
     <>
-      <section ref={sectionRef} id="servicos" className={styles.section} aria-labelledby="story-title">
+      <section ref={sectionRef} id="produtos" className={styles.section} aria-labelledby="story-title">
       <div className={styles.stickyPanel}>
         <div className={styles.switcher} aria-label="Histórias disponíveis">
           {stories.map((switcherStory, index) => (

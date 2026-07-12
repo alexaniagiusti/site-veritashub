@@ -1,4 +1,5 @@
 import { Icon } from "../../design-system/components/Icon/Icon";
+import { ArticleCard } from "../../design-system/components/article-card";
 import imgAcidente from "../../assets/img-acidente.png";
 import imgDestaqueBlog from "../../assets/img-destaque-blog.png";
 import imgHackeados from "../../assets/img-hackeados.png";
@@ -56,23 +57,18 @@ export function Blog() {
       <div className={styles.container}>
         <h1 id="blog-title">BLOG VERITAS HUB</h1>
 
-        <article className={styles.featuredCard}>
-          <img src={imgDestaqueBlog} alt="Homem em atendimento médico recebendo orientação" />
-          <div className={styles.featuredOverlay} />
-
-          <div className={styles.featuredContent}>
-            <span className={styles.featuredCategory}>AUXÍLIO ACIDENTE</span>
-            <p className={styles.featuredMeta}>27 de junho de 2026 - 5min de Leitura</p>
-            <h2>Sofreu um acidente de trabalho? Saiba o que fazer nas primeiras 24 horas</h2>
-            <p className={styles.featuredDescription}>
-              Um acidente pode deixar qualquer pessoa desorientada. Mas conhecer seus direitos e agir rápido faz toda a
-              diferença na hora de garantir o que é seu - da perícia ao seguro obrigatório.
-            </p>
-            <Author author={authors.ana} variant="light" />
-          </div>
-
-          <span className={styles.highlightBadge}>EM DESTAQUE</span>
-        </article>
+        <ArticleCard
+          author={authors.ana}
+          category="AUXÍLIO ACIDENTE"
+          date="27 de junho de 2026"
+          excerpt="Um acidente pode deixar qualquer pessoa desorientada. Mas conhecer seus direitos e agir rápido faz toda a diferença na hora de garantir o que é seu - da perícia ao seguro obrigatório."
+          href="#artigo-destaque"
+          imageAlt="Homem em atendimento médico recebendo orientação"
+          imageSrc={imgDestaqueBlog}
+          readingTime="5min de Leitura"
+          title="Sofreu um acidente de trabalho? Saiba o que fazer nas primeiras 24 horas"
+          variant="featured"
+        />
 
         <nav className={styles.categoryNav} aria-label="Categorias do blog">
           {categories.map((category, index) => (

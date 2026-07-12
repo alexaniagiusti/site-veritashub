@@ -6,12 +6,13 @@ import { AdminBlog } from "./sections/AdminBlog";
 import { AdminAuthors } from "./sections/AdminAuthors";
 import { AdminSettings } from "./sections/AdminSettings";
 import { AdminCategories } from "./sections/AdminCategories";
-import { Blog } from "./sections/Blog";
+import { Blog } from "./sections/blog";
 import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
 import { Login } from "./sections/Login";
 import { StorySwitcher } from "./sections/StorySwitcher";
 import "./styles/variables.css";
+import { Sandbox } from "./sections/Sandbox";
 
 const AdminNewArticle = lazy(() =>
   import("./sections/AdminNewArticle").then((module) => ({ default: module.AdminNewArticle })),
@@ -43,6 +44,9 @@ function App() {
     };
   }, []);
 
+  if (window.location.pathname.replace(/\/$/, "") === "/sandbox") {
+    return <Sandbox />;
+  }
   return (
     <div>
       {!isStandalonePage ? (

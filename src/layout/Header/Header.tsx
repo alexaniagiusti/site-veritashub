@@ -1,6 +1,5 @@
-import { type MouseEvent, useEffect, useState } from "react";
-import { Icon } from "../../design-system/components/Icon/Icon";
-import { Button } from "../../design-system/components/button";
+import { type MouseEvent, useState } from "react";
+import { Button, Icon, Menu } from "../../design-system";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import logoVeritasGreen from "../../assets/logo-verde-veritas.svg";
 import styles from "./Header.module.css";
@@ -14,21 +13,16 @@ type HeaderProps = {
 
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Serviços", href: "#servicos" },
+  { label: "Produtos", href: "#produtos" },
   { label: "Quem Somos", href: "#quem-somos" },
   { label: "Blog", href: "#blog" },
   { label: "Rodapé", href: "#rodape" },
 ];
 
 export function Header({ activeHref: controlledActiveHref, variant = "light" }: HeaderProps) {
-  const [activeHref, setActiveHref] = useState(controlledActiveHref ?? "#home");
+  const [localActiveHref, setLocalActiveHref] = useState("#home");
+  const activeHref = controlledActiveHref ?? localActiveHref;
   const brandLogo = variant === "light" ? logoVeritasGreen : logoVeritas;
-
-  useEffect(() => {
-    if (controlledActiveHref) {
-      setActiveHref(controlledActiveHref);
-    }
-  }, [controlledActiveHref]);
 
   const scrollToSection = (href: string) => {
     const target = document.querySelector<HTMLElement>(href);
@@ -50,7 +44,7 @@ export function Header({ activeHref: controlledActiveHref, variant = "light" }: 
 
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
-    setActiveHref(href);
+    setLocalActiveHref(href);
     scrollToSection(href);
   };
 
@@ -65,18 +59,14 @@ export function Header({ activeHref: controlledActiveHref, variant = "light" }: 
         <img className={styles.brandLogo} src={brandLogo} alt="" aria-hidden="true" />
       </a>
 
-      <nav className={styles.nav} aria-label="Navegação principal">
-        {navItems.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            data-active={activeHref === item.href}
-            onClick={(event) => handleNavClick(event, item.href)}
-          >
-            {item.label}
-          </a>
-        ))}
-      </nav>
+      <Menu
+        activeHref={activeHref}
+        ariaLabel="Navegação principal"
+        className={styles.nav}
+        items={navItems}
+        onItemClick={(event, item) => handleNavClick(event, item.href)}
+        tone={variant}
+      />
 
       <a className={styles.loginLink} href="#login" onClick={(event) => handleNavClick(event, "#login")}>
         <Icon name="user" size={20} />
@@ -87,7 +77,7 @@ export function Header({ activeHref: controlledActiveHref, variant = "light" }: 
         className={styles.cta}
         iconLeft={<Icon name="whatsapp" size={16} />}
         onClick={() => {
-          setActiveHref("#rodape");
+          setLocalActiveHref("#rodape");
           scrollToSection("#rodape");
         }}
         size="xs"

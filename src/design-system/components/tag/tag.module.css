@@ -1,0 +1,5 @@
+.tag { display: inline-flex; align-items: center; width: fit-content; padding: 5px var(--tag-padding-x); border-radius: var(--tag-radius); font-family: var(--tag-font), sans-serif; font-size: 10px; font-weight: var(--tag-weight); line-height: 1.4; letter-spacing: .06em; text-transform: uppercase; }
+.green { color: var(--tag-green-text); background: var(--tag-green-bg); }
+.yellow { color: var(--tag-yellow-text); background: var(--tag-yellow-bg); }
+.blue { color: var(--tag-blue-text); background: var(--tag-blue-bg); }
+.neutral { color: var(--tag-neutral-text); background: var(--tag-neutral-bg); }

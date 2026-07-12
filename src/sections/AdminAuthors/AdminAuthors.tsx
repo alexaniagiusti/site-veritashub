@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
-import { AdminFooter, AdminSidebar } from "../AdminBlog/AdminBlog";
+import { AdminSidebar } from "../../design-system";
+import { AdminFooter } from "../AdminBlog/AdminBlog";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminAuthors.module.css";
 

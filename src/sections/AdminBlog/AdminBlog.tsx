@@ -1,6 +1,6 @@
-import logoVeritas from "../../assets/logo-verde-veritas.svg";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
+import { AdminSidebar } from "../../design-system/components/admin-sidebar";
 import styles from "./AdminBlog.module.css";
 
 type ArticleStatus = "Publicado" | "Rascunho";
@@ -76,24 +76,6 @@ const articles: Article[] = [
   },
 ];
 
-const sidebarGroups = [
-  {
-    title: "CONTEÚDO",
-    items: [
-      { label: "Artigos", icon: "file-list", href: "#admin-blog" },
-      { label: "Categorias", icon: "price-tag", href: "#admin-categories" },
-    ],
-  },
-  {
-    title: "CONFIGURAÇÕES",
-    items: [
-      { label: "Autores", icon: "file-list", href: "#admin-authors" },
-      { label: "Configurações", icon: "settings", href: "#admin-settings" },
-      { label: "Logout", icon: "logout", href: "#login" },
-    ],
-  },
-] as const;
-
 export function AdminBlog() {
   return (
     <section className={styles.adminPage} aria-labelledby="admin-title">
@@ -133,50 +115,6 @@ export function AdminBlog() {
         <AdminFooter />
       </div>
     </section>
-  );
-}
-
-type AdminSidebarProps = {
-  activeItems?: readonly string[];
-};
-
-export function AdminSidebar({ activeItems = ["Artigos"] }: AdminSidebarProps) {
-  return (
-    <aside className={styles.sidebar} aria-label="Menu administrativo">
-      <div className={styles.sidebarLogo}>
-        <img src={logoVeritas} alt="VeritasHub" />
-      </div>
-
-      <nav className={styles.sidebarNav}>
-        {sidebarGroups.map((group) => (
-          <div className={styles.navGroup} key={group.title}>
-            <p>{group.title}</p>
-            <div className={styles.navItems}>
-              {group.items.map((item) => {
-                const isActive = activeItems.includes(item.label);
-
-                return (
-                  <a className={isActive ? styles.activeNavItem : undefined} href={item.href} key={item.label}>
-                    <Icon name={item.icon} size={24} />
-                    <span>{item.label}</span>
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </nav>
-
-      <div className={styles.userCard}>
-        <span aria-hidden="true" className={styles.userAvatar}>
-          AB
-        </span>
-        <span>
-          <strong>Ana Beatriz Santos</strong>
-          <small>Advogada - Direito Trabalhista</small>
-        </span>
-      </div>
-    </aside>
   );
 }
 

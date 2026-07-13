@@ -35,13 +35,13 @@ const stories = [
     letterTitle: "Conta hackeada",
     letterQuote: "Achei que tinha perdido anos de trabalho",
     letterParagraphs: [
-      "Meu nome é Amanda e uso o Instagram para divulgar meu trabalho.",
+      "Meu nome é Letícia e uso o Instagram para divulgar meu trabalho.",
       "Em uma manhã, tentei acessar minha conta e descobri que ela tinha sido hackeada. Mudaram meu e-mail, minha senha e perdi totalmente o acesso ao perfil.",
       "O desespero veio na hora. Não era apenas uma rede social, eram anos de conteúdo, clientes e oportunidades.",
       "Depois de várias tentativas sem sucesso, conheci a Veritas Hub. A equipe me orientou durante todo o processo e me ajudou a buscar a recuperação da conta.",
       "Hoje estou novamente com meu perfil e aprendi que, quando isso acontece, procurar ajuda especializada faz toda a diferença.",
     ],
-    letterSignature: "Amanda, cliente Veritas Hub.",
+    letterSignature: "Letícia, cliente Veritas Hub.",
   },
 ];
 

@@ -8,6 +8,7 @@ type HeaderVariant = "light" | "dark";
 
 type HeaderProps = {
   activeHref?: string;
+  onActiveHrefChange?: (href: string) => void;
   variant?: HeaderVariant;
 };
 
@@ -15,11 +16,15 @@ const navItems = [
   { label: "Home", href: "#home" },
   { label: "Produtos", href: "#produtos" },
   { label: "Quem Somos", href: "#quem-somos" },
-  { label: "Blog", href: "#blog" },
   { label: "Rodapé", href: "#rodape" },
+  { label: "Blog", href: "#blog" },
 ];
 
-export function Header({ activeHref: controlledActiveHref, variant = "light" }: HeaderProps) {
+export function Header({
+  activeHref: controlledActiveHref,
+  onActiveHrefChange,
+  variant = "light",
+}: HeaderProps) {
   const [localActiveHref, setLocalActiveHref] = useState("#home");
   const activeHref = controlledActiveHref ?? localActiveHref;
   const brandLogo = variant === "light" ? logoVeritasGreen : logoVeritas;
@@ -45,6 +50,7 @@ export function Header({ activeHref: controlledActiveHref, variant = "light" }: 
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
     setLocalActiveHref(href);
+    onActiveHrefChange?.(href);
     scrollToSection(href);
   };
 
@@ -78,6 +84,7 @@ export function Header({ activeHref: controlledActiveHref, variant = "light" }: 
         iconLeft={<Icon name="whatsapp" size={16} />}
         onClick={() => {
           setLocalActiveHref("#rodape");
+          onActiveHrefChange?.("#rodape");
           scrollToSection("#rodape");
         }}
         size="xs"

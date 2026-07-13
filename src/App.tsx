@@ -50,7 +50,11 @@ function App() {
   return (
     <div>
       {!isStandalonePage ? (
-        <Header activeHref={isBlogPage ? "#blog" : activeHash} variant={isBlogPage ? "light" : "dark"} />
+        <Header
+          activeHref={isBlogPage ? "#blog" : activeHash}
+          onActiveHrefChange={setActiveHash}
+          variant={isBlogPage ? "light" : "dark"}
+        />
       ) : null}
       <main>
         {isAdminNewArticlePage ? (

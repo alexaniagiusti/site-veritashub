@@ -58,14 +58,19 @@ export function Hero() {
           </span>
         </button>
 
-        <h1 id="hero-title">Te ajudamos a entender e acessar seus direitos de forma simples</h1>
+        <h1 id="hero-title">
+          Seus direitos com
+          <br />
+          clareza e simplicidade.
+        </h1>
         <p>
-          A Veritas Hub nasceu para transformar burocracia em clareza. Descubra seus direitos
-          com uma experiencia simples, rapida e acessivel.
+          Na Veritas Hub, o que parece difícil se torna mais fácil
+          <br />
+          de entender, com uma experiência clara e acolhedora para você.
         </p>
 
         <div className={styles.actions} aria-label="Acoes principais">
-          <span>Tem duvidas sobre seus direitos?</span>
+          <span>Tem dúvidas sobre seus direitos?</span>
           <Button
             className={styles.primaryAction}
             iconLeft={<Icon name="whatsapp" size={24} />}

@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  padding: 0 0 132px;
+  padding: 88px 0 132px;
   text-align: left;
   background: var(--white);
 }
@@ -154,7 +154,7 @@
 /* Celulares (Mobile) */
 @media (max-width: 480px) {
   .section {
-    padding-bottom: 76px;
+    padding: 56px 0 76px;
   }
 
   .inner {
@@ -210,7 +210,7 @@
 /* Tablets e Celulares deitados */
 @media (min-width: 481px) and (max-width: 768px) {
   .section {
-    padding-bottom: 92px;
+    padding: 64px 0 92px;
   }
 
   .inner {

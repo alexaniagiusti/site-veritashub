@@ -1,16 +1,20 @@
 ﻿import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import imgAcidente from "../../assets/img-acidente.png";
-import imgHackeados from "../../assets/img-hackeados.png";
-import logoVeritas from "../../assets/logo-verde-veritas.svg";
+import imgAuxilioAcidente from "../../assets/img-auxilioacidente.jpeg";
+import imgHackeados from "../../assets/img-hackeados.jpeg";
+import videoAuxilioAcidente from "../../assets/video-auxilioacidente.webm";
+import videoHackeados from "../../assets/videohackeados.webm";
+import { Icon } from "../../design-system";
 import styles from "./StorySwitcher.module.css";
 
 const stories = [
   {
     label: "Auxílio Acidente",
-    image: imgAcidente,
+    image: imgAuxilioAcidente,
+    video: videoAuxilioAcidente,
     imageAlt: "Homem com o braço imobilizado representando auxílio acidente",
-    description: "Leia essa história sobre o auxílio acidente",
+    quote: '"Eu não sabia que tinha direito ao auxílio acidente. A Veritas Hub analisou meu caso, explicou o processo e cuidou de tudo. Hoje recebo um benefício que fez muita diferença para minha família."',
+    description: "João Ferreira, beneficiário do Auxílio Acidente, conta como a Veritas Hub ajudou a garantir seu direito.",
     letterTitle: "Auxílio-Acidente",
     letterQuote: "Eu achava que voltar a trabalhar significava que eu não tinha mais nenhum direito.",
     letterParagraphs: [
@@ -24,8 +28,10 @@ const stories = [
   {
     label: "Hackeados",
     image: imgHackeados,
+    video: videoHackeados,
     imageAlt: "Pessoa utilizando computador representando caso de conta hackeada",
-    description: "Leia essa história sobre clientes hackeados",
+    quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos. Hoje me sinto muito mais seguro."',
+    description: "Letícia Souza, cliente da Veritas Hub, compartilha como recuperou o controle de suas contas após um ataque hacker.",
     letterTitle: "Conta hackeada",
     letterQuote: "Achei que tinha perdido anos de trabalho",
     letterParagraphs: [
@@ -39,13 +45,22 @@ const stories = [
   },
 ];
 
+const transitionStart = 0.2;
+const transitionEnd = 0.7;
+
 export function StorySwitcher() {
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
   const [openLetterIndex, setOpenLetterIndex] = useState<number | null>(null);
-  const activeIndex = progress >= 0.5 ? 1 : 0;
-  const slideProgress = Math.min(progress * 2, 1);
-  const secondStoryProgress = Math.min(Math.max((progress - 0.5) * 2, 0), 1);
+  const slideProgress = Math.min(
+    Math.max((progress - transitionStart) / (transitionEnd - transitionStart), 0),
+    1,
+  );
+  const activeIndex = slideProgress >= 0.5 ? 1 : 0;
+  const secondStoryProgress = Math.min(
+    Math.max((progress - transitionEnd) / (1 - transitionEnd), 0),
+    1,
+  );
   const openLetter = openLetterIndex === null ? null : stories[openLetterIndex];
 
   useEffect(() => {
@@ -111,7 +126,7 @@ export function StorySwitcher() {
     const sectionTop = window.scrollY + section.getBoundingClientRect().top;
     const scrollableDistance = section.offsetHeight - window.innerHeight;
 
-    const targetProgress = index === 0 ? 0 : 0.5;
+    const targetProgress = index === 0 ? 0 : transitionEnd;
 
     window.scrollTo({
       top: sectionTop + scrollableDistance * targetProgress,
@@ -119,15 +134,18 @@ export function StorySwitcher() {
     });
   };
 
-  const letterModal = openLetter ? (
+  const isVideoModal = openLetterIndex === 0;
+  const modalTitleId = isVideoModal ? "story-video-title" : "story-letter-title";
+
+  const storyModal = openLetter ? (
     <div
       className={styles.letterOverlay}
       role="presentation"
       onClick={() => setOpenLetterIndex(null)}
     >
       <div
-        className={styles.letterDialog}
-        aria-labelledby="story-letter-title"
+        className={`${styles.letterDialog} ${isVideoModal ? styles.videoDialog : ""}`}
+        aria-labelledby={modalTitleId}
         aria-modal="true"
         role="dialog"
         onClick={(event) => event.stopPropagation()}
@@ -136,11 +154,35 @@ export function StorySwitcher() {
           className={styles.letterClose}
           onClick={() => setOpenLetterIndex(null)}
           type="button"
-          aria-label="Fechar carta"
+          aria-label={isVideoModal ? "Fechar vídeo" : "Fechar depoimento"}
         >
           &times;
         </button>
 
+        {isVideoModal ? (
+          <article className={styles.videoModalContent}>
+            <div className={styles.videoModalCopy}>
+              <p className={styles.videoEyebrow}>História Veritas Hub</p>
+              <h3 id="story-video-title">Auxílio Acidente: uma história de direito e recomeço</h3>
+              <p>
+                Conheça a história de quem encontrou orientação para entender seus direitos e
+                buscar o benefício que fez diferença em sua rotina e na de sua família.
+              </p>
+            </div>
+
+            <div
+              className={styles.videoPlaceholder}
+              aria-label="Espaço reservado para o vídeo sobre Auxílio Acidente"
+              role="img"
+            >
+              <span className={styles.placeholderPlay} aria-hidden="true">
+                <Icon name="play" size={34} />
+              </span>
+              <span>Vídeo em breve</span>
+            </div>
+          </article>
+        ) : (
+          <>
         <div className={styles.envelope} aria-hidden="true">
           <span className={styles.envelopeBack} />
           <span className={styles.envelopeFlap} />
@@ -158,6 +200,8 @@ export function StorySwitcher() {
             <p className={styles.letterSignature}>{openLetter.letterSignature}</p>
           )}
         </article>
+          </>
+        )}
       </div>
     </div>
   ) : null;
@@ -179,37 +223,35 @@ export function StorySwitcher() {
           ))}
         </div>
 
-        {stories.map((story, storyIndex) => {
-          const isCoverSlide = storyIndex === 1;
-          const translateY = isCoverSlide ? `${(1 - slideProgress) * 100}%` : "0%";
-
-          return (
+        <div
+          className={styles.slidesTrack}
+          style={{ "--track-offset": `${slideProgress * -50}%` } as CSSProperties}
+        >
+          {stories.map((story, storyIndex) => (
             <article
               key={story.label}
-              className={`${styles.slide} ${isCoverSlide ? styles.coverSlide : ""}`}
-              style={{ transform: `translateY(${translateY})` }}
+              className={styles.slide}
               aria-hidden={activeIndex !== storyIndex}
             >
               <div className={styles.layout}>
-                <figure className={styles.imageFrame}>
-                  <img src={story.image} alt={story.imageAlt} />
-                </figure>
-
                 <div className={styles.copy}>
-                  <img className={styles.storyLogo} src={logoVeritas} alt="Veritas Hub" />
-                  <h2 id={storyIndex === 0 ? "story-title" : undefined}>{story.description}</h2>
+                  <h2 id={storyIndex === 0 ? "story-title" : undefined}>{story.quote}</h2>
+                  <p>{story.description}</p>
                   <button
                     className={styles.storyCta}
                     onClick={() => setOpenLetterIndex(storyIndex)}
                     type="button"
                   >
-                    Conheça a Veritas Hub
+                    {storyIndex === 0 ? "Assista ao vídeo" : "Leia o depoimento"}
+                    <Icon name="arrow-right" size={20} />
                   </button>
                 </div>
+
+                <StoryMedia story={story} />
               </div>
             </article>
-          );
-        })}
+          ))}
+        </div>
 
         <div
           className={styles.progressTrack}
@@ -224,7 +266,63 @@ export function StorySwitcher() {
 
       </div>
       </section>
-      {letterModal ? createPortal(letterModal, document.body) : null}
+      <section className={styles.greenClosing} aria-labelledby="green-closing-title">
+        <h2 id="green-closing-title">
+          A vida continua.
+          <br />
+          Só que melhor!
+        </h2>
+      </section>
+      {storyModal ? createPortal(storyModal, document.body) : null}
     </>
+  );
+}
+
+function StoryMedia({ story }: { story: (typeof stories)[number] }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const playVideo = () => {
+    void videoRef.current?.play();
+  };
+
+  const resetVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (document.fullscreenElement === video) return;
+    video.pause();
+    video.currentTime = 0;
+    video.muted = true;
+  };
+
+  const watchFullVideo = async () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    await video.play();
+    await video.requestFullscreen?.();
+  };
+
+  return (
+    <div className={styles.mediaGroup}>
+      <figure className={styles.imageFrame}>
+        <img src={story.image} alt={story.imageAlt} />
+      </figure>
+      <button
+        type="button"
+        className={styles.videoFrame}
+        onMouseEnter={playVideo}
+        onMouseLeave={resetVideo}
+        onFocus={playVideo}
+        onBlur={resetVideo}
+        onClick={() => void watchFullVideo()}
+        aria-label={`Assistir ao vídeo completo: ${story.label}`}
+      >
+        <video ref={videoRef} src={story.video} muted loop playsInline preload="metadata" poster={story.image} />
+        <span className={`${styles.videoHint} ${styles.compactHint}`}>
+          <Icon name="play" size={24} />
+          <span>Passe o mouse</span>
+        </span>
+      </button>
+    </div>
   );
 }

@@ -247,7 +247,10 @@ export function StorySwitcher() {
                   </button>
                 </div>
 
-                <StoryMedia story={story} />
+                <StoryMedia
+                  story={story}
+                  onOpenModal={() => setOpenLetterIndex(storyIndex)}
+                />
               </div>
             </article>
           ))}
@@ -278,7 +281,13 @@ export function StorySwitcher() {
   );
 }
 
-function StoryMedia({ story }: { story: (typeof stories)[number] }) {
+function StoryMedia({
+  story,
+  onOpenModal,
+}: {
+  story: (typeof stories)[number];
+  onOpenModal: () => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const playVideo = () => {
@@ -288,18 +297,14 @@ function StoryMedia({ story }: { story: (typeof stories)[number] }) {
   const resetVideo = () => {
     const video = videoRef.current;
     if (!video) return;
-    if (document.fullscreenElement === video) return;
     video.pause();
     video.currentTime = 0;
     video.muted = true;
   };
 
-  const watchFullVideo = async () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = false;
-    await video.play();
-    await video.requestFullscreen?.();
+  const openStoryModal = () => {
+    resetVideo();
+    onOpenModal();
   };
 
   return (
@@ -314,8 +319,8 @@ function StoryMedia({ story }: { story: (typeof stories)[number] }) {
         onMouseLeave={resetVideo}
         onFocus={playVideo}
         onBlur={resetVideo}
-        onClick={() => void watchFullVideo()}
-        aria-label={`Assistir ao vídeo completo: ${story.label}`}
+        onClick={openStoryModal}
+        aria-label={`Abrir história: ${story.label}`}
       >
         <video ref={videoRef} src={story.video} muted loop playsInline preload="metadata" poster={story.image} />
         <span className={`${styles.videoHint} ${styles.compactHint}`}>

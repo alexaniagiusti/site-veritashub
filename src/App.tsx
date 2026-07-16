@@ -7,6 +7,7 @@ import { AdminAuthors } from "./sections/AdminAuthors";
 import { AdminSettings } from "./sections/AdminSettings";
 import { AdminCategories } from "./sections/AdminCategories";
 import { Blog } from "./sections/blog";
+import { BlogHighlights } from "./sections/BlogHighlights";
 import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
 import { Login } from "./sections/Login";
@@ -79,6 +80,7 @@ function App() {
             <ExpandingHeadline />
             <StorySwitcher />
             <AboutTeam />
+            <BlogHighlights />
           </>
         )}
       </main>

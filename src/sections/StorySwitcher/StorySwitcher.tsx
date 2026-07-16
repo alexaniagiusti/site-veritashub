@@ -4,7 +4,7 @@ import imgAuxilioAcidente from "../../assets/img-auxilioacidente.jpeg";
 import imgHackeados from "../../assets/img-hackeados.jpeg";
 import videoAuxilioAcidente from "../../assets/video-auxilioacidente.webm";
 import videoHackeados from "../../assets/videohackeados.webm";
-import { Icon } from "../../design-system";
+import { Button, Icon } from "../../design-system";
 import styles from "./StorySwitcher.module.css";
 
 const stories = [
@@ -237,14 +237,15 @@ export function StorySwitcher() {
                 <div className={styles.copy}>
                   <h2 id={storyIndex === 0 ? "story-title" : undefined}>{story.quote}</h2>
                   <p>{story.description}</p>
-                  <button
+                  <Button
                     className={styles.storyCta}
+                    iconRight={<Icon name="arrow-right" size={20} />}
                     onClick={() => setOpenLetterIndex(storyIndex)}
-                    type="button"
+                    size="md"
+                    variant="tertiary"
                   >
                     {storyIndex === 0 ? "Assista ao vídeo" : "Leia o depoimento"}
-                    <Icon name="arrow-right" size={20} />
-                  </button>
+                  </Button>
                 </div>
 
                 <StoryMedia

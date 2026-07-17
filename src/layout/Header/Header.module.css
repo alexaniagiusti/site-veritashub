@@ -114,7 +114,7 @@
     display: flex;
     box-sizing: border-box;
     width: min(340px, calc(100% - 40px));
-    height: 100svh;
+    height: 100dvh;
     padding: 72px 28px 32px;
     visibility: hidden;
     background: rgba(13, 13, 13, 0.96);

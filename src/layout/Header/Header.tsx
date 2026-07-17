@@ -1,4 +1,4 @@
-import { type MouseEvent, useState } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 import { Button, Icon, Menu } from "../../design-system";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import logoVeritasGreen from "../../assets/logo-verde-veritas.svg";
@@ -30,6 +30,36 @@ export function Header({
   const activeHref = controlledActiveHref ?? localActiveHref;
   const brandLogo = variant === "light" ? logoVeritasGreen : logoVeritas;
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const scrollPosition = window.scrollY;
+    const originalBodyStyles = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      top: document.body.style.top,
+      width: document.body.style.width,
+    };
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = "100%";
+
+    return () => {
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.overflow = originalBodyStyles.overflow;
+      document.body.style.position = originalBodyStyles.position;
+      document.body.style.top = originalBodyStyles.top;
+      document.body.style.width = originalBodyStyles.width;
+      window.scrollTo(0, scrollPosition);
+    };
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (href: string) => {
     const target = document.querySelector<HTMLElement>(href);
 
@@ -52,7 +82,15 @@ export function Header({
     event.preventDefault();
     setLocalActiveHref(href);
     onActiveHrefChange?.(href);
-    setIsMobileMenuOpen(false);
+
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => scrollToSection(href));
+      });
+      return;
+    }
+
     scrollToSection(href);
   };
 
@@ -98,12 +136,20 @@ export function Header({
       <Button
         className={styles.cta}
         iconLeft={<Icon name="whatsapp" size={16} />}
-        onClick={() => {
-          setLocalActiveHref("#rodape");
-          onActiveHrefChange?.("#rodape");
-          setIsMobileMenuOpen(false);
-          scrollToSection("#rodape");
-        }}
+            onClick={() => {
+              setLocalActiveHref("#rodape");
+              onActiveHrefChange?.("#rodape");
+
+              if (isMobileMenuOpen) {
+                setIsMobileMenuOpen(false);
+                window.requestAnimationFrame(() => {
+                  window.requestAnimationFrame(() => scrollToSection("#rodape"));
+                });
+                return;
+              }
+
+              scrollToSection("#rodape");
+            }}
         size="xs"
         variant="primary"
       >

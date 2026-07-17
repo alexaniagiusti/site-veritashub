@@ -10,6 +10,7 @@ import { Blog } from "./sections/blog";
 import { BlogHighlights } from "./sections/BlogHighlights";
 import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
+import { GreenClosing } from "./sections/GreenClosing";
 import { Login } from "./sections/Login";
 import { StorySwitcher } from "./sections/StorySwitcher";
 import "./styles/variables.css";
@@ -79,7 +80,9 @@ function App() {
             <Hero />
             <ExpandingHeadline />
             <StorySwitcher />
-            <AboutTeam />
+            <GreenClosing>
+              <AboutTeam />
+            </GreenClosing>
             <BlogHighlights />
           </>
         )}

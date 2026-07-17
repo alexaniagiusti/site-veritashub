@@ -1,8 +1,9 @@
 .section {
   position: relative;
+  z-index: 2;
   min-height: 300svh;
   color: #000000;
-  background: #1f1f1f;
+  background: transparent;
 }
 
 .stickyPanel {
@@ -215,25 +216,6 @@
   display: none;
 }
 
-.greenClosing {
-  display: grid;
-  place-items: center;
-  min-height: 82svh;
-  padding: 48px 24px;
-  color: #f6f6f9;
-  background: #108b00;
-}
-
-.greenClosing h2 {
-  width: min(1240px, 100%);
-  margin: 0;
-  color: inherit;
-  font-family: Poppins, sans-serif;
-  font-size: clamp(56px, 8vw, 132px);
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
-}
 
 .letterOverlay {
   position: fixed;
@@ -526,10 +508,6 @@
     height: auto;
     overflow: hidden;
     padding: 36px 0 28px;
-  }
-
-  .greenClosing h2 {
-    font-size: clamp(46px, 14vw, 72px);
   }
 
   .slide {

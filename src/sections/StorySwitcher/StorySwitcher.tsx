@@ -301,13 +301,6 @@ export function StorySwitcher() {
 
       </div>
       </section>
-      <section className={styles.greenClosing} aria-labelledby="green-closing-title">
-        <h2 id="green-closing-title">
-          A vida continua.
-          <br />
-          Só que melhor!
-        </h2>
-      </section>
       {storyModal ? createPortal(storyModal, document.body) : null}
     </>
   );

@@ -10,4 +10,11 @@ export type ArticleCardProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "ch
   imageSrc?: string;
   imageAlt?: string;
   variant?: "default" | "featured";
+  readingTime?: string;
+  highlightLabel?: string;
+  author?: {
+    initials: string;
+    name: string;
+    role: string;
+  };
 };

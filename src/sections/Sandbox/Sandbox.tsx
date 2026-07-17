@@ -1,12 +1,11 @@
-import { ArticleCard, BlogSidebar, Button, Icon, Input, Menu, Tag, colors, radius, shadows, spacing, typography, type IconName } from "../../design-system";
+import { AdminSidebar, ArticleCard, Button, Icon, Input, Menu, Tag, colors, radius, shadows, spacing, typography, type IconName } from "../../design-system";
 import { Footer } from "../../layout/Footer";
 import styles from "./Sandbox.module.css";
 
 const colorGroups = Object.entries(colors);
 const iconNames: IconName[] = ["instagram", "facebook", "whatsapp", "youtube", "menu", "close", "arrow-right", "arrow-left", "play", "pause"];
 const typeSamples = [typography.display.d1, typography.heading.h1, typography.heading.h3, typography.heading.h5, typography.body18.regular, typography.body16.regular, typography.body14.regular, typography.body12.regular];
-const menuItems = [{ label: "Home", href: "#menu-home" }, { label: "Serviços", href: "#menu-services" }, { label: "Quem somos", href: "#menu-about" }, { label: "Blog", href: "#menu-blog" }, { label: "Em breve", href: "#menu-disabled", disabled: true }];
-const blogCategories = [{ label: "Todos os artigos", href: "#blog-all", count: 24, active: true }, { label: "Notícias", href: "#blog-news", count: 8 }, { label: "Segurança", href: "#blog-security", count: 6 }, { label: "Tecnologia", href: "#blog-tech", count: 7 }, { label: "Institucional", href: "#blog-company", count: 3 }];
+const menuItems = [{ label: "Home", href: "#menu-home" }, { label: "Produtos", href: "#menu-products" }, { label: "Quem somos", href: "#menu-about" }, { label: "Blog", href: "#menu-blog" }, { label: "Em breve", href: "#menu-disabled", disabled: true }];
 
 export function Sandbox() {
   return (
@@ -48,7 +47,7 @@ export function Sandbox() {
 
       <section className={styles.section} id="menu"><SectionTitle index="06" title="Menu" description="Navegação horizontal reutilizável com contraste, item ativo e estado desabilitado." />
         <div className={styles.menuShowcase}><span>Horizontal · light</span><Menu activeHref="#menu-home" items={menuItems} ariaLabel="Exemplo de menu claro" /></div>
-        <div className={`${styles.menuShowcase} ${styles.menuDark}`}><span>Horizontal · dark</span><Menu activeHref="#menu-services" items={menuItems} tone="dark" ariaLabel="Exemplo de menu escuro" /></div>
+        <div className={`${styles.menuShowcase} ${styles.menuDark}`}><span>Horizontal · dark</span><Menu activeHref="#menu-products" items={menuItems} tone="dark" ariaLabel="Exemplo de menu escuro" /></div>
       </section>
 
       <section className={`${styles.section} ${styles.footerSection}`} id="rodape"><SectionTitle index="07" title="Footer" description="Rodapé institucional utilizado nas páginas do site." />
@@ -64,13 +63,13 @@ export function Sandbox() {
         <Showcase><Tag>Notícias</Tag><Tag tone="yellow">Segurança</Tag><Tag tone="blue">Tecnologia</Tag><Tag tone="neutral">Institucional</Tag></Showcase>
       </section>
       <section className={styles.section}><SectionTitle index="B02" title="Article card" description="Cartão de matéria alimentado por propriedades, disponível nos formatos padrão e destaque." />
-        <div className={styles.featuredArticle}><ArticleCard href="#article-featured" variant="featured" category="Segurança" categoryTone="yellow" date="10 jul 2026" title="Como proteger seus dados em um mundo cada vez mais conectado" excerpt="Entenda os riscos mais comuns e as boas práticas que ajudam a manter suas informações seguras." /></div>
+        <div className={styles.featuredArticle}><ArticleCard href="#article-featured" variant="featured" category="AUXÍLIO ACIDENTE" date="27 de junho de 2026" readingTime="5min de Leitura" title="Sofreu um acidente de trabalho? Saiba o que fazer nas primeiras 24 horas" excerpt="Um acidente pode deixar qualquer pessoa desorientada. Mas conhecer seus direitos e agir rápido faz toda a diferença na hora de garantir o que é seu - da perícia ao seguro obrigatório." author={{ initials: "AB", name: "Ana Beatriz Santos", role: "Advogada - Direito Trabalhista" }} /></div>
         <div className={styles.articleGrid}><ArticleCard href="#article-one" category="Notícias" date="08 jul 2026" title="Informação confiável quando ela mais importa" excerpt="A verificação dos fatos ajuda a tomar decisões melhores em momentos críticos." /><ArticleCard href="#article-two" category="Institucional" categoryTone="neutral" date="02 jul 2026" title="Conheça quem trabalha pela verdade todos os dias" excerpt="Pessoas, processos e tecnologia unidos para tornar a informação mais transparente." /></div>
       </section>
-      <section className={styles.section}><SectionTitle index="B03" title="Blog sidebar" description="Navegação por categorias posicionada à esquerda da área de conteúdo." />
-        <div className={styles.sidebarLayout}>
-          <BlogSidebar categories={blogCategories} />
-          <div className={styles.contentMockup} aria-hidden="true"><span>Área de conteúdo</span><i /><i /><i /></div>
+      <section className={styles.section}><SectionTitle index="B03" title="Admin sidebar" description="Navegação lateral utilizada na área administrativa do blog, com grupos, item ativo e identificação do usuário." />
+        <div className={styles.adminSidebarShowcase}>
+          <AdminSidebar embedded />
+          <div className={styles.contentMockup} aria-hidden="true"><span>Área administrativa</span><i /><i /><i /></div>
         </div>
       </section>
     </main>

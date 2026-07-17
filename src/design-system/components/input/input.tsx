@@ -23,44 +23,22 @@ const tokenStyle: InputStyle = {
   "--input-shadow": shadows.xs,
 };
 
-export function Input({
-  id,
-  label,
-  hint,
-  error,
-  size = "md",
-  status = "default",
-  iconLeft,
-  iconRight,
-  fullWidth = false,
-  className,
-  disabled,
-  style,
-  ...props
-}: InputProps) {
+export function Input({ id, label, helper, hint, error, size = "md", status = "default", iconLeft, iconRight, fullWidth = true, className, inputClassName, labelClassName, disabled, style, ...props }: InputProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const resolvedStatus = error ? "error" : status;
-  const supportingText = error ?? hint;
+  const supportingText = error ?? hint ?? helper;
   const supportingId = supportingText ? `${inputId}-supporting` : undefined;
 
   return (
-    <div className={`${styles.field} ${fullWidth ? styles.fullWidth : ""}`} style={tokenStyle}>
-      {label ? <label className={styles.label} htmlFor={inputId}>{label}</label> : null}
+    <div className={`${styles.field} ${fullWidth ? styles.fullWidth : ""} ${className ?? ""}`} style={{ ...tokenStyle, ...style }}>
+      {label ? <label className={`${styles.label} ${labelClassName ?? ""}`} htmlFor={inputId}>{label}{helper && !hint && !error ? <small>{helper}</small> : null}</label> : null}
       <div className={`${styles.control} ${styles[size]} ${styles[resolvedStatus]} ${disabled ? styles.disabled : ""}`}>
         {iconLeft ? <span className={styles.icon}>{iconLeft}</span> : null}
-        <input
-          {...props}
-          aria-describedby={supportingId}
-          aria-invalid={resolvedStatus === "error" || undefined}
-          className={`${styles.input} ${className ?? ""}`}
-          disabled={disabled}
-          id={inputId}
-          style={style}
-        />
+        <input {...props} aria-describedby={supportingId} aria-invalid={resolvedStatus === "error" || undefined} className={`${styles.input} ${inputClassName ?? ""}`} disabled={disabled} id={inputId} />
         {iconRight ? <span className={styles.icon}>{iconRight}</span> : null}
       </div>
-      {supportingText ? <span className={`${styles.supporting} ${styles[resolvedStatus]}`} id={supportingId}>{supportingText}</span> : null}
+      {supportingText && (hint || error) ? <span className={`${styles.supporting} ${styles[resolvedStatus]}`} id={supportingId}>{supportingText}</span> : null}
     </div>
   );
 }

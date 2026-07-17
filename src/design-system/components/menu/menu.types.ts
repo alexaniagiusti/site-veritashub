@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, MouseEvent } from "react";
 
 export type MenuItem = {
   label: string;
@@ -11,4 +11,5 @@ export type MenuProps = Omit<HTMLAttributes<HTMLElement>, "children"> & {
   activeHref?: string;
   tone?: "light" | "dark";
   ariaLabel?: string;
+  onItemClick?: (event: MouseEvent<HTMLAnchorElement>, item: MenuItem) => void;
 };

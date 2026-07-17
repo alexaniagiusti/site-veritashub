@@ -11,3 +11,4 @@ export * from "./components/menu";
 export * from "./components/tag";
 export * from "./components/article-card";
 export * from "./components/blog-sidebar";
+export * from "./components/admin-sidebar";

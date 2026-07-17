@@ -18,9 +18,28 @@ const tokenStyle: CardStyle = {
   "--card-shadow": shadows.md,
 };
 
-export function ArticleCard({ title, excerpt, category, categoryTone = "green", date, imageSrc, imageAlt, variant = "default", className, style, ...props }: ArticleCardProps) {
+export function ArticleCard({ title, excerpt, category, categoryTone = "green", date, imageSrc, imageAlt, variant = "default", readingTime, highlightLabel = "EM DESTAQUE", author, className, style, ...props }: ArticleCardProps) {
+  if (variant === "featured") {
+    return (
+      <a {...props} className={`${styles.card} ${styles.featured} ${className ?? ""}`} style={{ ...tokenStyle, ...style }}>
+        <div className={`${styles.featuredMedia} ${imageSrc ? "" : styles.placeholder}`}>
+          {imageSrc ? <img alt={imageAlt ?? ""} src={imageSrc} /> : <span aria-hidden="true"><span className={styles.placeholderIcon}>▧</span>Imagem da matéria</span>}
+        </div>
+        <span className={styles.featuredOverlay} aria-hidden="true" />
+        <div className={styles.featuredContent}>
+          <span className={styles.featuredCategory}>{category}</span>
+          <p className={styles.featuredMeta}>{date}{readingTime ? ` - ${readingTime}` : ""}</p>
+          <h3>{title}</h3>
+          {excerpt ? <p className={styles.featuredDescription}>{excerpt}</p> : null}
+          {author ? <div className={styles.author}><span aria-hidden="true" className={styles.avatar}>{author.initials}</span><span><strong>{author.name}</strong><small>{author.role}</small></span></div> : null}
+        </div>
+        <span className={styles.highlightBadge}>{highlightLabel}</span>
+      </a>
+    );
+  }
+
   return (
-    <a {...props} className={`${styles.card} ${styles[variant]} ${className ?? ""}`} style={{ ...tokenStyle, ...style }}>
+    <a {...props} className={`${styles.card} ${styles.default} ${className ?? ""}`} style={{ ...tokenStyle, ...style }}>
       <div className={`${styles.media} ${imageSrc ? "" : styles.placeholder}`}>
         {imageSrc ? <img alt={imageAlt ?? ""} src={imageSrc} /> : <span aria-hidden="true"><span className={styles.placeholderIcon}>▧</span>Imagem da matéria</span>}
       </div>

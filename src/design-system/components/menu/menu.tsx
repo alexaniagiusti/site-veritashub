@@ -22,6 +22,7 @@ export function Menu({
   activeHref,
   tone = "light",
   ariaLabel = "Navegação",
+  onItemClick,
   className,
   style,
   ...props
@@ -42,7 +43,13 @@ export function Menu({
             className={`${styles.item} ${isActive ? styles.active : ""} ${item.disabled ? styles.disabled : ""}`}
             href={item.disabled ? undefined : item.href}
             key={`${item.href}-${item.label}`}
-            onClick={item.disabled ? (event) => event.preventDefault() : undefined}
+            onClick={(event) => {
+              if (item.disabled) {
+                event.preventDefault();
+                return;
+              }
+              onItemClick?.(event, item);
+            }}
           >
             {item.label}
           </a>

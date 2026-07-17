@@ -26,6 +26,7 @@ export function Header({
   variant = "light",
 }: HeaderProps) {
   const [localActiveHref, setLocalActiveHref] = useState("#home");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const activeHref = controlledActiveHref ?? localActiveHref;
   const brandLogo = variant === "light" ? logoVeritasGreen : logoVeritas;
 
@@ -51,6 +52,7 @@ export function Header({
     event.preventDefault();
     setLocalActiveHref(href);
     onActiveHrefChange?.(href);
+    setIsMobileMenuOpen(false);
     scrollToSection(href);
   };
 
@@ -65,6 +67,7 @@ export function Header({
         <img className={styles.brandLogo} src={brandLogo} alt="" aria-hidden="true" />
       </a>
 
+      <div className={`${styles.controls} ${isMobileMenuOpen ? styles.mobileMenuOpen : ""}`}>
       <Menu
         activeHref={activeHref}
         ariaLabel="Navegação principal"
@@ -74,6 +77,19 @@ export function Header({
         tone={variant}
       />
 
+      </div>
+
+      <button
+        aria-expanded={isMobileMenuOpen}
+        aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+        className={styles.mobileMenuButton}
+        onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+        type="button"
+      >
+        <Icon name={isMobileMenuOpen ? "close" : "menu"} size={24} />
+      </button>
+
+      <div className={`${styles.mobileActions} ${isMobileMenuOpen ? styles.mobileMenuOpen : ""}`}>
       <a className={styles.loginLink} href="#login" onClick={(event) => handleNavClick(event, "#login")}>
         <Icon name="user" size={20} />
         <span>Login</span>
@@ -85,6 +101,7 @@ export function Header({
         onClick={() => {
           setLocalActiveHref("#rodape");
           onActiveHrefChange?.("#rodape");
+          setIsMobileMenuOpen(false);
           scrollToSection("#rodape");
         }}
         size="xs"
@@ -92,6 +109,7 @@ export function Header({
       >
         Fale conosco
       </Button>
+      </div>
     </header>
   );
 }

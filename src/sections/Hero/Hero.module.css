@@ -178,70 +178,64 @@
 /* Mobile */
 @media (max-width: 767px) {
   .hero {
-    --hero-content-bottom: 32px;
-    --hero-player-size: 64px;
-
-    display: flex;
-    align-items: flex-end;
-    min-height: max(720px, 100svh);
+    min-height: 982px;
+    height: max(982px, 100svh);
   }
 
   .media::after {
     background:
-      linear-gradient(90deg, rgba(13, 13, 13, 0.8) 0%, rgba(13, 13, 13, 0.5) 100%),
-      linear-gradient(180deg, rgba(13, 13, 13, 0.26) 0%, rgba(13, 13, 13, 0.78) 100%);
+      linear-gradient(180deg, rgba(13, 13, 13, 0.18) 0%, rgba(13, 13, 13, 0.08) 38%, rgba(13, 13, 13, 0.72) 100%);
   }
 
   .playerButton {
-    margin-bottom: 32px;
-  }
-
-  .playerInner {
-    width: 46px;
-    height: 46px;
+    display: none;
   }
 
   .content {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    bottom: auto;
-    width: 100%;
+    position: absolute;
+    left: 20px;
+    bottom: 67px;
+    width: calc(100% - 40px);
     max-width: none;
-    padding: 220px 24px 32px;
+    padding: 0;
   }
 
   .content h1 {
-    max-width: 13ch;
-    font-size: clamp(32px, 8.4vw, 44px);
-    line-height: 1.12;
+    max-width: 404px;
+    font-size: 32px;
+    line-height: 1.2;
   }
 
   .content p {
-    max-width: 42ch;
-    margin-top: 20px;
-    font-size: 15px;
+    max-width: 399px;
+    margin-top: 24px;
+    font-size: 16px;
     line-height: 1.5;
   }
 
   .actions {
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
-    min-height: 0;
+    height: 120px;
     margin-top: 24px;
-    padding: 14px;
-    border-radius: 26px;
-    font-size: 15px;
+    padding: 18px 10px 10px;
+    border-radius: 24px;
+    font-size: 18px;
     text-align: center;
   }
 
   .primaryAction {
-    width: 100%;
+    width: auto;
     min-width: 0;
     min-height: 44px;
+  }
+
+  .video,
+  .poster {
+    object-position: 58% center;
   }
 }
 

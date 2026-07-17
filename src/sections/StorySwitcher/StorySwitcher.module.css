@@ -116,6 +116,10 @@
   transition: opacity 180ms ease;
 }
 
+.mobileVideoHint {
+  display: none;
+}
+
 .videoFrame:hover .compactHint,
 .videoFrame:focus-visible .compactHint {
   opacity: 0;
@@ -125,6 +129,10 @@
   display: grid;
   justify-items: start;
   align-content: center;
+}
+
+.mobileProductTitle {
+  display: none;
 }
 
 .switcher {
@@ -201,6 +209,10 @@
     linear-gradient(90deg, #23e600, #108b00) left / var(--story-progress, 0%) 100% no-repeat,
     rgba(18, 109, 7, 0.08);
   pointer-events: none;
+}
+
+.mobileCarouselControls {
+  display: none;
 }
 
 .greenClosing {
@@ -503,14 +515,37 @@
 }
 
 @media (max-width: 767px) {
+  .section {
+    min-height: 0;
+    background: #fcfcfc;
+  }
+
+  .stickyPanel {
+    position: relative;
+    top: auto;
+    height: auto;
+    overflow: hidden;
+    padding: 36px 0 28px;
+  }
+
   .greenClosing h2 {
     font-size: clamp(46px, 14vw, 72px);
   }
 
   .slide {
     align-items: start;
-    padding: 112px 20px 56px;
-    overflow-y: auto;
+    height: auto;
+    padding: 0 16px;
+    overflow: visible;
+  }
+
+  .slidesTrack {
+    position: relative;
+    inset: auto;
+    align-items: flex-start;
+    transform: translateX(var(--mobile-track-offset, 0%));
+    transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
   }
 
   .layout {
@@ -519,30 +554,47 @@
     justify-items: center;
     height: auto;
     min-height: 0;
-    padding: 28px 20px;
+    width: 100%;
+    padding: 20px 16px;
     text-align: center;
     transform: translateY(0);
   }
 
   .mediaGroup {
+    flex-direction: column;
+    gap: 12px;
     width: 100%;
+    overflow: visible;
+  }
+
+  .mobileProductTitle {
+    order: -2;
+    display: block;
+    width: 100%;
+    margin: 0;
+    color: #126d07;
+    font-family: Poppins, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
   }
 
   .imageFrame {
-    flex-basis: 62%;
-    width: auto;
-    max-height: 38svh;
-    border-radius: 26px;
+    display: none;
   }
 
   .videoFrame {
-    flex-basis: calc(38% - 12px);
-    height: 38svh;
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
   }
 
   .videoFrame:hover,
   .videoFrame:focus-visible {
-    flex-basis: 62%;
+    flex-basis: auto;
   }
 
   .copy {
@@ -552,10 +604,15 @@
   }
 
   .switcher {
-    top: 24px;
-    width: min(100% - 32px, 360px);
-    min-height: 52px;
-    padding: 5px;
+    display: none;
+  }
+
+  .desktopVideoHint {
+    display: none;
+  }
+
+  .mobileVideoHint {
+    display: inline;
   }
 
   .switcherButton {
@@ -572,8 +629,53 @@
   }
 
   .progressTrack {
-    bottom: 0;
-    height: 6px;
+    display: none;
+  }
+
+  .mobileCarouselControls {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    gap: 20px;
+    align-items: center;
+    width: min(100% - 40px, 360px);
+    margin: 16px auto 0;
+  }
+
+  .mobileCarouselControls button {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    color: #f6f6f9;
+    cursor: pointer;
+    background: #161e12;
+  }
+
+  .mobileCarouselControls button:disabled {
+    color: #9e9fa9;
+    cursor: not-allowed;
+    background: #ededf3;
+  }
+
+  .mobileDots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .mobileDots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #dddde3;
+  }
+
+  .mobileDots .activeDot {
+    background: #126d07;
   }
 
   .letterOverlay {
@@ -581,7 +683,9 @@
   }
 
   .letterDialog {
-    min-height: calc(100svh - 36px);
+    width: 100%;
+    min-height: 0;
+    max-height: calc(100svh - 36px);
   }
 
   .videoDialog {
@@ -629,8 +733,10 @@
   }
 
   .letterPaper {
-    width: min(92vw, 520px);
-    max-height: 74svh;
+    box-sizing: border-box;
+    width: min(100%, 520px);
+    max-height: calc(100svh - 36px);
+    margin-top: 0;
     padding: 24px 22px;
     border-radius: 16px;
   }

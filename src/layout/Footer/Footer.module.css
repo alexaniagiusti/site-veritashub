@@ -232,6 +232,30 @@
   }
 }
 
+@media (max-width: 768px) {
+  .top {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .brand,
+  .links {
+    grid-column: 1 / -1;
+  }
+
+  .socialBlock {
+    grid-column: 1;
+    grid-row: 3;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .backTop {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+  }
+}
+
 /* Tablets Grandes / iPads */
 @media (min-width: 769px) and (max-width: 1024px) {
   .footer {

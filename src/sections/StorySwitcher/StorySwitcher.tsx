@@ -51,6 +51,7 @@ const transitionEnd = 0.7;
 export function StorySwitcher() {
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
+  const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
   const [openLetterIndex, setOpenLetterIndex] = useState<number | null>(null);
   const slideProgress = Math.min(
     Math.max((progress - transitionStart) / (transitionEnd - transitionStart), 0),
@@ -225,7 +226,10 @@ export function StorySwitcher() {
 
         <div
           className={styles.slidesTrack}
-          style={{ "--track-offset": `${slideProgress * -50}%` } as CSSProperties}
+          style={{
+            "--track-offset": `${slideProgress * -50}%`,
+            "--mobile-track-offset": `${mobileActiveIndex * -50}%`,
+          } as CSSProperties}
         >
           {stories.map((story, storyIndex) => (
             <article
@@ -234,6 +238,7 @@ export function StorySwitcher() {
               aria-hidden={activeIndex !== storyIndex}
             >
               <div className={styles.layout}>
+                <h3 className={styles.mobileProductTitle}>{story.label}</h3>
                 <div className={styles.copy}>
                   <h2 id={storyIndex === 0 ? "story-title" : undefined}>{story.quote}</h2>
                   <p>{story.description}</p>
@@ -255,6 +260,32 @@ export function StorySwitcher() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className={styles.mobileCarouselControls} aria-label="Navegação das histórias">
+          <button
+            aria-label="História anterior"
+            disabled={mobileActiveIndex === 0}
+            onClick={() => setMobileActiveIndex((index) => Math.max(index - 1, 0))}
+            type="button"
+          >
+            <Icon name="arrow-left" size={24} />
+          </button>
+
+          <div className={styles.mobileDots} aria-hidden="true">
+            {stories.map((story, index) => (
+              <span className={mobileActiveIndex === index ? styles.activeDot : ""} key={story.label} />
+            ))}
+          </div>
+
+          <button
+            aria-label="Próxima história"
+            disabled={mobileActiveIndex === stories.length - 1}
+            onClick={() => setMobileActiveIndex((index) => Math.min(index + 1, stories.length - 1))}
+            type="button"
+          >
+            <Icon name="arrow-right" size={24} />
+          </button>
         </div>
 
         <div
@@ -291,6 +322,22 @@ function StoryMedia({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    if (!video || !mobileQuery.matches) {
+      return;
+    }
+
+    video.muted = true;
+    void video.play();
+
+    return () => {
+      video.pause();
+    };
+  }, []);
+
   const playVideo = () => {
     void videoRef.current?.play();
   };
@@ -326,7 +373,8 @@ function StoryMedia({
         <video ref={videoRef} src={story.video} muted loop playsInline preload="metadata" poster={story.image} />
         <span className={`${styles.videoHint} ${styles.compactHint}`}>
           <Icon name="play" size={24} />
-          <span>Passe o mouse</span>
+          <span className={styles.desktopVideoHint}>Passe o mouse</span>
+          <span className={styles.mobileVideoHint}>Clique para assistir o vídeo</span>
         </span>
       </button>
     </div>

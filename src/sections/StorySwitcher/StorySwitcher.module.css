@@ -55,32 +55,15 @@
   transform: translateY(58px);
 }
 
-.imageFrame {
-  flex: 1 1 408px;
-  min-width: 0;
-  height: min(410px, 52svh);
-  margin: 0;
-  overflow: hidden;
-  border-radius: 32px;
-  background: #dddde3;
-}
-
-.imageFrame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .mediaGroup {
-  display: flex;
-  gap: 25px;
   min-width: 0;
   overflow: hidden;
 }
 
 .videoFrame {
   position: relative;
-  flex: 0 0 169px;
+  display: block;
+  width: 100%;
   height: min(410px, 52svh);
   overflow: hidden;
   padding: 0;
@@ -88,12 +71,9 @@
   border-radius: 32px;
   cursor: pointer;
   background: #202224;
-  transition: flex-basis 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.videoFrame:hover,
 .videoFrame:focus-visible {
-  flex-basis: min(408px, 62%);
   outline: 2px solid #2bff00;
   outline-offset: -2px;
 }
@@ -102,28 +82,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.videoHint {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #fcfcfc;
-  font: 600 14px/1.5 Inter, sans-serif;
-  background: rgba(13, 13, 13, 0.28);
-  transition: opacity 180ms ease;
-}
-
-.mobileVideoHint {
-  display: none;
-}
-
-.videoFrame:hover .compactHint,
-.videoFrame:focus-visible .compactHint {
-  opacity: 0;
 }
 
 .copy {
@@ -545,21 +503,11 @@
     text-align: center;
   }
 
-  .imageFrame {
-    display: none;
-  }
-
   .videoFrame {
-    flex: 0 0 auto;
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
     border-radius: 18px;
-  }
-
-  .videoFrame:hover,
-  .videoFrame:focus-visible {
-    flex-basis: auto;
   }
 
   .copy {
@@ -570,14 +518,6 @@
 
   .switcher {
     display: none;
-  }
-
-  .desktopVideoHint {
-    display: none;
-  }
-
-  .mobileVideoHint {
-    display: inline;
   }
 
   .switcherButton {
@@ -721,10 +661,6 @@
     transform: translateY(42px);
   }
 
-  .imageFrame {
-    max-height: 64svh;
-  }
-
   .switcher {
     min-height: 58px;
   }
@@ -760,11 +696,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .slidesTrack {
-    transition: none;
-  }
-
-  .videoFrame,
-  .videoHint {
     transition: none;
   }
 

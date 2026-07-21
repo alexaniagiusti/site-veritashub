@@ -13,24 +13,22 @@ const stories = [
     image: imgAuxilioAcidente,
     video: videoAuxilioAcidente,
     imageAlt: "Homem com o braço imobilizado representando auxílio acidente",
-    quote: '"Eu não sabia que tinha direito ao auxílio acidente. A Veritas Hub analisou meu caso, explicou o processo e cuidou de tudo. Hoje recebo um benefício que fez muita diferença para minha família."',
+    quote: '"Eu não sabia que tinha direito ao auxílio acidente. A Veritas Hub analisou meu caso, explicou o processo e cuidou de tudo."',
     description: "Fábio D'Angelo, beneficiário do auxílio acidente, conta como a Veritas Hub ajudou a garantir seu direito.",
     letterTitle: "Auxílio-Acidente",
     letterQuote: "Eu achava que voltar a trabalhar significava que eu não tinha mais nenhum direito.",
     letterParagraphs: [
-      "Meu nome é Marcos, tenho 46 anos e trabalho na área industrial há mais de 20 anos.",
-      "Depois de um acidente no trabalho, fiquei afastado pelo INSS e, quando voltei, já não tinha a mesma força na mão direita. Passei a sentir dores e dificuldade para fazer tarefas que antes eram simples.",
+      "Meu nome é Fábio D'Angelo, depois de um acidente no trabalho, fiquei afastado pelo INSS e, quando voltei, já não tinha a mesma força na mão direita. Passei a sentir dores e dificuldade para fazer tarefas que antes eram simples.",
       "Como eu tinha voltado a trabalhar, achei que o assunto estava encerrado.",
       "Foi através da Veritas Hub que descobri que poderia ter direito ao Auxílio-Acidente. Eu nem sabia que esse benefício existia.",
-      "Hoje recebo um valor que ajuda nas despesas da minha família e tenho a sensação de que meus direitos foram respeitados.",
     ],
   },
   {
-    label: "Hackeados",
+    label: "Direito Digital",
     image: imgHackeados,
     video: videoHackeados,
     imageAlt: "Pessoa utilizando computador representando caso de conta hackeada",
-    quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos. Hoje me sinto muito mais segura."',
+    quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos."',
     description: "Letícia Souza, cliente da Veritas Hub, compartilha como recuperou o controle de suas contas após um ataque hacker.",
     letterTitle: "Conta hackeada",
     letterQuote: "Achei que tinha perdido anos de trabalho",
@@ -312,62 +310,23 @@ function StoryMedia({
   story: (typeof stories)[number];
   onOpenModal: () => void;
 }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    const mobileQuery = window.matchMedia("(max-width: 767px)");
-
-    if (!video || !mobileQuery.matches) {
-      return;
-    }
-
-    video.muted = true;
-    void video.play();
-
-    return () => {
-      video.pause();
-    };
-  }, []);
-
-  const playVideo = () => {
-    void videoRef.current?.play();
-  };
-
-  const resetVideo = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.pause();
-    video.currentTime = 0;
-    video.muted = true;
-  };
-
-  const openStoryModal = () => {
-    resetVideo();
-    onOpenModal();
-  };
-
   return (
     <div className={styles.mediaGroup}>
-      <figure className={styles.imageFrame}>
-        <img src={story.image} alt={story.imageAlt} />
-      </figure>
       <button
         type="button"
         className={styles.videoFrame}
-        onMouseEnter={playVideo}
-        onMouseLeave={resetVideo}
-        onFocus={playVideo}
-        onBlur={resetVideo}
-        onClick={openStoryModal}
+        onClick={onOpenModal}
         aria-label={`Abrir história: ${story.label}`}
       >
-        <video ref={videoRef} src={story.video} muted loop playsInline preload="metadata" poster={story.image} />
-        <span className={`${styles.videoHint} ${styles.compactHint}`}>
-          <Icon name="play" size={24} />
-          <span className={styles.desktopVideoHint}>Passe o mouse</span>
-          <span className={styles.mobileVideoHint}>Clique para assistir o vídeo</span>
-        </span>
+        <video
+          src={story.video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={story.image}
+        />
       </button>
     </div>
   );

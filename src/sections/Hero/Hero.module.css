@@ -49,6 +49,13 @@
   filter: saturate(0.82) brightness(0.72);
 }
 
+.heroControls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin: 0 0 var(--hero-player-gap);
+}
+
 .playerButton {
   position: relative;
   z-index: 3;
@@ -56,7 +63,7 @@
   place-items: center;
   width: var(--hero-player-size);
   height: var(--hero-player-size);
-  margin: 0 0 var(--hero-player-gap);
+  margin: 0;
   padding: 0;
   border: 0.761px solid rgba(255, 255, 255, 0.05);
   border-radius: 999px;
@@ -105,6 +112,32 @@
 .playerInner svg {
   position: relative;
   z-index: 1;
+}
+
+.liveButton {
+  min-width: 126px;
+  text-transform: uppercase;
+}
+
+.liveIndicator {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #e02020;
+  box-shadow: 0 0 0 0 rgba(224, 32, 32, 0.65);
+  animation: livePulse 1.6s ease-out infinite;
+}
+
+@keyframes livePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(224, 32, 32, 0.65);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 9px rgba(224, 32, 32, 0);
+  }
 }
 
 .content {
@@ -187,8 +220,9 @@
       linear-gradient(180deg, rgba(13, 13, 13, 0.18) 0%, rgba(13, 13, 13, 0.08) 38%, rgba(13, 13, 13, 0.72) 100%);
   }
 
-  .playerButton {
-    display: none;
+  .heroControls {
+    display: flex;
+    margin-bottom: 24px;
   }
 
   .content {
@@ -353,5 +387,11 @@
 
     min-height: 780px;
     height: min(935px, 100svh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liveIndicator {
+    animation: none;
   }
 }

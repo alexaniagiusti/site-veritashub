@@ -26,6 +26,10 @@ export function Hero() {
     setIsPlaying(true);
   };
 
+  // Mantém a lógica pronta enquanto somente o botão permanece comentado.
+  void isPlaying;
+  void toggleVideoPlayback;
+
   return (
     <section id="home" className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.media} aria-hidden="true">
@@ -46,17 +50,31 @@ export function Hero() {
       </div>
 
       <div className={styles.content}>
-        <button
-          id="botao-player"
-          aria-label={isPlaying ? "Pausar video" : "Reproduzir video"}
-          className={styles.playerButton}
-          onClick={toggleVideoPlayback}
-          type="button"
-        >
-          <span className={styles.playerInner}>
-            <Icon name={isPlaying ? "pause" : "play"} size={22} />
-          </span>
-        </button>
+        <div className={styles.heroControls}>
+          {/* Controle de play temporariamente desativado.
+          <button
+            id="botao-player"
+            aria-label={isPlaying ? "Pausar video" : "Reproduzir video"}
+            className={styles.playerButton}
+            onClick={toggleVideoPlayback}
+            type="button"
+          >
+            <span className={styles.playerInner}>
+              <Icon name={isPlaying ? "pause" : "play"} size={22} />
+            </span>
+          </button>
+          */}
+
+          <Button
+            aria-label="Acessar câmeras ao vivo"
+            className={styles.liveButton}
+            iconLeft={<span className={styles.liveIndicator} aria-hidden="true" />}
+            size="md"
+            variant="secondary"
+          >
+            Ao vivo
+          </Button>
+        </div>
 
         <h1 id="hero-title">
           Seus direitos com

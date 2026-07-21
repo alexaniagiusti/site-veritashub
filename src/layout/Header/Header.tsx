@@ -9,6 +9,7 @@ type HeaderVariant = "light" | "dark";
 type HeaderProps = {
   activeHref?: string;
   onActiveHrefChange?: (href: string) => void;
+  trackActiveSection?: boolean;
   variant?: HeaderVariant;
 };
 
@@ -23,6 +24,7 @@ const navItems = [
 export function Header({
   activeHref: controlledActiveHref,
   onActiveHrefChange,
+  trackActiveSection = true,
   variant = "light",
 }: HeaderProps) {
   const [localActiveHref, setLocalActiveHref] = useState("#home");
@@ -61,6 +63,10 @@ export function Header({
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
+    if (!trackActiveSection) {
+      return;
+    }
+
     let frameId = 0;
 
     const updateActiveSection = () => {
@@ -106,7 +112,7 @@ export function Header({
       window.removeEventListener("scroll", updateActiveSection);
       window.removeEventListener("resize", updateActiveSection);
     };
-  }, [activeHref, onActiveHrefChange]);
+  }, [activeHref, onActiveHrefChange, trackActiveSection]);
 
   const scrollToSection = (href: string) => {
     const target = document.querySelector<HTMLElement>(href);

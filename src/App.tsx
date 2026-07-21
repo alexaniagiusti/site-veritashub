@@ -55,6 +55,7 @@ function App() {
         <Header
           activeHref={isBlogPage ? "#blog" : activeHash}
           onActiveHrefChange={setActiveHash}
+          trackActiveSection={!isBlogPage}
           variant={isBlogPage ? "light" : "dark"}
         />
       ) : null}

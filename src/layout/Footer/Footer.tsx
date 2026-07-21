@@ -3,7 +3,7 @@ import { Button } from "../../design-system/components/button";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import styles from "./Footer.module.css";
 
-const footerLinks = ["Home", "Quem Somos", "Time", "FAQ", "Blog"];
+const footerLinks = ["Home", "Quem Somos", "Time", "Contatos", "Blog"];
 const legalLinks = ["Termos de Uso", "Política de privacidade"];
 
 export function Footer() {

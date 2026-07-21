@@ -1,8 +1,8 @@
 ﻿import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import imgAuxilioAcidente from "../../assets/img-auxilioacidente.jpeg";
+import imgAuxilioAcidente from "../../assets/capa1.png";
 import imgHackeados from "../../assets/img-hackeados.jpeg";
-import videoAuxilioAcidente from "../../assets/video-auxilioacidente.webm";
+import videoAuxilioAcidente from "../../assets/depoimento-auxilioacidente.webm";
 import videoHackeados from "../../assets/videohackeados.webm";
 import { Button, Icon } from "../../design-system";
 import styles from "./StorySwitcher.module.css";
@@ -14,7 +14,7 @@ const stories = [
     video: videoAuxilioAcidente,
     imageAlt: "Homem com o braço imobilizado representando auxílio acidente",
     quote: '"Eu não sabia que tinha direito ao auxílio acidente. A Veritas Hub analisou meu caso, explicou o processo e cuidou de tudo. Hoje recebo um benefício que fez muita diferença para minha família."',
-    description: "João Ferreira, beneficiário do Auxílio Acidente, conta como a Veritas Hub ajudou a garantir seu direito.",
+    description: "Fábio D'Angelo, beneficiário do auxílio acidente, conta como a Veritas Hub ajudou a garantir seu direito.",
     letterTitle: "Auxílio-Acidente",
     letterQuote: "Eu achava que voltar a trabalhar significava que eu não tinha mais nenhum direito.",
     letterParagraphs: [
@@ -30,7 +30,7 @@ const stories = [
     image: imgHackeados,
     video: videoHackeados,
     imageAlt: "Pessoa utilizando computador representando caso de conta hackeada",
-    quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos. Hoje me sinto muito mais seguro."',
+    quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos. Hoje me sinto muito mais segura."',
     description: "Letícia Souza, cliente da Veritas Hub, compartilha como recuperou o controle de suas contas após um ataque hacker.",
     letterTitle: "Conta hackeada",
     letterQuote: "Achei que tinha perdido anos de trabalho",
@@ -171,15 +171,14 @@ export function StorySwitcher() {
               </p>
             </div>
 
-            <div
-              className={styles.videoPlaceholder}
-              aria-label="Espaço reservado para o vídeo sobre Auxílio Acidente"
-              role="img"
-            >
-              <span className={styles.placeholderPlay} aria-hidden="true">
-                <Icon name="play" size={34} />
-              </span>
-              <span>Vídeo em breve</span>
+            <div className={styles.videoEmbed}>
+              <iframe
+                src="https://www.youtube.com/embed/BD4xKBF0PYk?si=_0D5YXk-JLYRUJh9"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
             </div>
           </article>
         ) : (

@@ -310,11 +310,7 @@
   font: 400 clamp(14px, 1.5vw, 16px)/1.55 Inter, sans-serif;
 }
 
-.videoPlaceholder {
-  display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 14px;
+.videoEmbed {
   width: 100%;
   max-width: 660px;
   justify-self: center;
@@ -322,23 +318,14 @@
   overflow: hidden;
   border: 1px solid #dddde3;
   border-radius: 18px;
-  color: #fcfcfc;
-  font: 600 15px/1.4 Inter, sans-serif;
-  background:
-    linear-gradient(rgba(13, 13, 13, 0.18), rgba(13, 13, 13, 0.48)),
-    linear-gradient(135deg, #d8dbd9, #a8adaa);
+  background: #0d0d0d;
 }
 
-.placeholderPlay {
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
-  padding-left: 4px;
-  border-radius: 50%;
-  color: #161e12;
-  background: #2bff00;
-  box-shadow: 0 10px 30px rgba(43, 255, 0, 0.22);
+.videoEmbed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .envelope {
@@ -688,13 +675,8 @@
     line-height: 1.45;
   }
 
-  .videoPlaceholder {
+  .videoEmbed {
     border-radius: 16px;
-  }
-
-  .placeholderPlay {
-    width: 58px;
-    height: 58px;
   }
 
   .letterClose {

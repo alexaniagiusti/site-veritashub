@@ -60,6 +60,54 @@ export function Header({
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    let frameId = 0;
+
+    const updateActiveSection = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const availableSections = navItems
+          .map((item) => ({ item, element: document.querySelector<HTMLElement>(item.href) }))
+          .filter(
+            (entry): entry is { item: (typeof navItems)[number]; element: HTMLElement } =>
+              entry.element !== null,
+          );
+
+        if (availableSections.length === 0) {
+          return;
+        }
+
+        const triggerPosition = window.innerHeight * 0.35;
+        let currentItem: (typeof navItems)[number] | null = null;
+
+        for (const entry of availableSections) {
+          if (entry.element.getBoundingClientRect().top <= triggerPosition) {
+            currentItem = entry.item;
+          }
+        }
+
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+          currentItem = availableSections[availableSections.length - 1].item;
+        }
+
+        if (currentItem && currentItem.href !== activeHref) {
+          setLocalActiveHref(currentItem.href);
+          onActiveHrefChange?.(currentItem.href);
+        }
+      });
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
+  }, [activeHref, onActiveHrefChange]);
+
   const scrollToSection = (href: string) => {
     const target = document.querySelector<HTMLElement>(href);
 

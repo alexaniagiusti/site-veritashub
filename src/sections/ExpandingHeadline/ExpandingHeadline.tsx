@@ -1,7 +1,7 @@
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import styles from "./ExpandingHeadline.module.css";
 
-const headlineLines = ["A vida continua.", "Só que melhor!"];
+const headlineLines = ["A vida muda, a", "Veritas acompanha!"];
 const headline = headlineLines.join("\n");
 
 const clamp = (value: number) => Math.min(Math.max(value, 0), 1);

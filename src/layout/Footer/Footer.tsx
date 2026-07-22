@@ -25,28 +25,26 @@ export function Footer() {
         <div className={styles.socialBlock}>
           <span>Acompanhe nas redes</span>
           <div className={styles.socialLinks} aria-label="Redes sociais">
-            <button
+            <a
               aria-label="Instagram"
               className={styles.socialButton}
-              onClick={() => {
-                window.location.hash = "instagram";
-              }}
-              type="button"
+              href="https://www.instagram.com/somosveritashub?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <Icon name="instagram" size={24} />
               <span className={styles.srOnly}>Instagram</span>
-            </button>
-            <button
+            </a>
+            <a
               aria-label="YouTube"
               className={styles.socialButton}
-              onClick={() => {
-                window.location.hash = "youtube";
-              }}
-              type="button"
+              href="https://www.youtube.com/@veritashub.pro1"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <Icon name="youtube" size={24} />
               <span className={styles.srOnly}>YouTube</span>
-            </button>
+            </a>
             <button
               aria-label="Facebook"
               className={styles.socialButton}

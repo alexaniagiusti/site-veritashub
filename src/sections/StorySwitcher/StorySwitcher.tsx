@@ -1,9 +1,8 @@
 ﻿import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import imgAuxilioAcidente from "../../assets/capa1.png";
-import imgHackeados from "../../assets/img-hackeados.jpeg";
+import imgAlertaSegurancaIphone from "../../assets/ALERTA-DE-SEG.-IPHONE.webp";
 import videoAuxilioAcidente from "../../assets/depoimento-auxilioacidente.webm";
-import videoHackeados from "../../assets/videohackeados.webm";
 import { Button, Icon } from "../../design-system";
 import styles from "./StorySwitcher.module.css";
 
@@ -25,9 +24,9 @@ const stories = [
   },
   {
     label: "Direito Digital",
-    image: imgHackeados,
-    video: videoHackeados,
-    imageAlt: "Pessoa utilizando computador representando caso de conta hackeada",
+    image: imgAlertaSegurancaIphone,
+    video: null,
+    imageAlt: "Alerta de segurança em um iPhone representando proteção digital",
     quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos."',
     description: "Letícia Souza, cliente da Veritas Hub, compartilha como recuperou o controle de suas contas após um ataque hacker.",
     letterTitle: "Conta hackeada",
@@ -318,15 +317,19 @@ function StoryMedia({
         onClick={onOpenModal}
         aria-label={`Abrir história: ${story.label}`}
       >
-        <video
-          src={story.video}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={story.image}
-        />
+        {story.video ? (
+          <video
+            src={story.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={story.image}
+          />
+        ) : (
+          <img src={story.image} alt={story.imageAlt} />
+        )}
       </button>
     </div>
   );

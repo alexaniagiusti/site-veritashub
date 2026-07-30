@@ -78,7 +78,9 @@
   outline-offset: -2px;
 }
 
-.videoFrame video {
+.videoFrame video,
+.videoFrame img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;

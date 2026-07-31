@@ -7,7 +7,7 @@ import styles from "./Footer.module.css";
 
 const legalLinks = [
   { label: "Termos de Uso", href: "#termos-de-uso" },
-  { label: "Política de privacidade", href: "#rodape" },
+  { label: "Política de privacidade", href: "#politica-de-privacidade" },
 ];
 
 export function Footer() {

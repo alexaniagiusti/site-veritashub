@@ -4,10 +4,12 @@ import heroVideo from "../../assets/VIDEOTESTE 001.webm";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import styles from "./Hero.module.css";
+import { CameraModal } from "../../design-system/components/camera-modal/CameraModal";
 
 export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
 
   const toggleVideoPlayback = () => {
     const video = videoRef.current;
@@ -71,6 +73,7 @@ export function Hero() {
             iconLeft={<span className={styles.liveIndicator} aria-hidden="true" />}
             size="md"
             variant="secondary"
+            onClick={() => setIsCameraModalOpen(true)}
           >
             Ao vivo
           </Button>
@@ -102,6 +105,9 @@ export function Hero() {
           </Button>
         </div>
       </div>
+      {isCameraModalOpen ? (
+        <CameraModal onClose={() => setIsCameraModalOpen(false)} />
+      ) : null}
     </section>
   );
 }

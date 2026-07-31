@@ -274,7 +274,8 @@
   letter-spacing: 0.1px;
 }
 
-.modalField input {
+.modalField input,
+.modalField select {
   box-sizing: border-box;
   width: 100%;
   min-height: 40px;
@@ -294,7 +295,8 @@
   opacity: 1;
 }
 
-.modalField input:focus {
+.modalField input:focus,
+.modalField select:focus {
   outline: 0;
   border-color: var(--green-700);
   box-shadow:

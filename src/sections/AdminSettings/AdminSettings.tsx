@@ -4,6 +4,8 @@ import { Button } from "../../design-system/components/button";
 import { Input } from "../../design-system/components/input";
 import { AdminSidebar } from "../../design-system";
 import { AdminFooter } from "../AdminBlog/AdminBlog";
+import { useAuthContext } from "../../context/AuthContext";
+import { useUpdateProfile, useChangePassword } from "../../hooks/useProfile";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminSettings.module.css";
 
@@ -12,6 +14,7 @@ type SettingsTab = (typeof settingsTabs)[number];
 
 export function AdminSettings() {
   const [activeTab, setActiveTab] = useState<SettingsTab>("Meu perfil");
+  const { user } = useAuthContext();
 
   return (
     <section className={adminStyles.adminPage} aria-labelledby="settings-admin-title">
@@ -43,7 +46,7 @@ export function AdminSettings() {
               </nav>
 
               {activeTab === "Senha" ? <PasswordSettings /> : null}
-              {activeTab === "Meu perfil" ? <ProfileSettings /> : null}
+              {activeTab === "Meu perfil" ? <ProfileSettings user={user} /> : null}
               {activeTab === "Blog" ? <BlogSettings /> : null}
             </div>
           </section>
@@ -55,23 +58,55 @@ export function AdminSettings() {
   );
 }
 
-function ProfileSettings() {
+function ProfileSettings({ user }: { user: any }) {
+  const [nome, setNome] = useState(user?.nome || "");
+  const [cargo, setCargo] = useState(user?.cargo || "");
+  const { updateUser } = useAuthContext();
+  const { mutate: updateProfile, isPending } = useUpdateProfile(updateUser);
+
+  const isChanged = nome !== (user?.nome || "") || cargo !== (user?.cargo || "");
+
+  const handleSave = () => {
+    if (!nome.trim()) {
+      alert("Nome é obrigatório");
+      return;
+    }
+    updateProfile({ nome, cargo });
+  };
+
   return (
     <>
       <div className={styles.profileGrid}>
         <section className={styles.panel} aria-labelledby="profile-data-title">
           <h3 id="profile-data-title">Dados do Perfil</h3>
 
-          <ProfileField label="Nome" value="Ana Beatriz Santos" />
-          <ProfileField helper="Exibido sob seu nome nos artigos" label="Cargo" value="Advogada - Direito Trabalhista" />
-          <ProfileField disabled helper="Usado para login, não pode ser alterado" label="E-mail" value="ana@veritashub.com" />
+          <Input
+            className={styles.settingsInput}
+            label="Nome"
+            onChange={(e) => setNome(e.target.value)}
+            value={nome}
+          />
+          <Input
+            className={styles.settingsInput}
+            helper="Exibido sob seu nome nos artigos"
+            label="Cargo"
+            onChange={(e) => setCargo(e.target.value)}
+            value={cargo}
+          />
+          <Input
+            className={styles.settingsInput}
+            disabled
+            helper="Usado para login, não pode ser alterado"
+            label="E-mail"
+            value={user?.email || "sem-email@example.com"}
+          />
         </section>
 
         <section className={`${styles.panel} ${styles.avatarPanel}`} aria-labelledby="avatar-title">
           <h3 id="avatar-title">Foto do Avatar</h3>
           <div className={styles.avatarContent}>
             <div className={styles.avatarPreview} aria-hidden="true">
-              AB
+              {nome?.split(' ').slice(0, 2).map((word: string) => word[0]).join('').toUpperCase() || 'AB'}
             </div>
             <button className={styles.uploadButton} type="button">
               <Icon name="upload" size={24} />
@@ -86,8 +121,14 @@ function ProfileSettings() {
       </div>
 
       <div className={styles.saveRow}>
-        <Button className={styles.saveButton} disabled iconLeft={<Icon name="check" size={24} />} size="md">
-          Salvar Perfil
+        <Button
+          className={styles.saveButton}
+          disabled={!isChanged || isPending}
+          iconLeft={<Icon name="check" size={24} />}
+          onClick={handleSave}
+          size="md"
+        >
+          {isPending ? "Salvando..." : "Salvar Perfil"}
         </Button>
       </div>
     </>
@@ -95,19 +136,55 @@ function ProfileSettings() {
 }
 
 function PasswordSettings() {
+  const [senhaAtual, setSenhaAtual] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const { mutate: changePassword, isPending } = useChangePassword();
+
+  const isValid = novaSenha.trim() && confirmarSenha.trim() && novaSenha === confirmarSenha && novaSenha.length >= 8;
+
+  const handleSave = () => {
+    if (!isValid) {
+      alert("Preencha todos os campos corretamente");
+      return;
+    }
+    changePassword({ novaSenha });
+  };
+
   return (
     <>
       <section className={`${styles.panel} ${styles.passwordPanel}`} aria-labelledby="password-title">
         <h3 id="password-title">Alterar senha</h3>
 
-        <PasswordField label="Senha atual" value="********" />
-        <PasswordField label="Nova senha" placeholder="Mínimo 8 caracteres" />
-        <PasswordField label="Confirmar nova senha" placeholder="Repetir a nova senha" subtle />
+        {/* <PasswordField
+          label="Senha atual"
+          onChange={(e) => setSenhaAtual(e.target.value)}
+          value={senhaAtual}
+        /> */}
+        <PasswordField
+          label="Nova senha"
+          onChange={(e) => setNovaSenha(e.target.value)}
+          placeholder="Mínimo 8 caracteres"
+          value={novaSenha}
+        />
+        <PasswordField
+          label="Confirmar nova senha"
+          onChange={(e) => setConfirmarSenha(e.target.value)}
+          placeholder="Repetir a nova senha"
+          subtle
+          value={confirmarSenha}
+        />
       </section>
 
       <div className={styles.passwordSaveRow}>
-        <Button className={styles.passwordSaveButton} disabled iconLeft={<Icon name="lock" size={24} />} size="md">
-          Atualizar senha
+        <Button
+          className={styles.passwordSaveButton}
+          disabled={!isValid || isPending}
+          iconLeft={<Icon name="lock" size={24} />}
+          onClick={handleSave}
+          size="md"
+        >
+          {isPending ? "Atualizando..." : "Atualizar senha"}
         </Button>
       </div>
     </>
@@ -160,11 +237,13 @@ function BlogSettings() {
 
 function PasswordField({
   label,
+  onChange,
   placeholder,
   subtle = false,
   value,
 }: {
   label: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   subtle?: boolean;
   value?: string;
@@ -172,10 +251,11 @@ function PasswordField({
   return (
     <Input
       className={`${styles.settingsInput} ${subtle ? styles.subtleInputField : ""}`}
-      defaultValue={value}
       label={label}
+      onChange={onChange}
       placeholder={placeholder}
       type="password"
+      value={value}
     />
   );
 }

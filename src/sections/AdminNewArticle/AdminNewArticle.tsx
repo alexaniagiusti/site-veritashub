@@ -10,6 +10,8 @@ import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import { AdminSidebar } from "../../design-system";
 import { AdminFooter } from "../AdminBlog/AdminBlog";
+import { useCreatePost } from "../../hooks/usePosts";
+import { useCategorias } from "../../hooks/useCategorias";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminNewArticle.module.css";
 
@@ -62,8 +64,13 @@ export function AdminNewArticle() {
   const coverImageInputRef = useRef<HTMLInputElement>(null);
   const [wordCount, setWordCount] = useState(() => countWords(stripHtml(initialContent)));
   const [description, setDescription] = useState("");
+  const [titulo, setTitulo] = useState("");
+  const [categoriaId, setCategoriaId] = useState<string>("");
   const [publicationMode, setPublicationMode] = useState<"publish" | "draft">("publish");
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  
+  const { mutate: createPost, isPending } = useCreatePost();
+  const { data: categoriasData } = useCategorias(1, 100);
 
   const editor = useEditor({
     extensions: [
@@ -93,6 +100,22 @@ export function AdminNewArticle() {
 
   const descriptionCount = description.length;
   const primaryActionLabel = publicationMode === "publish" ? "Publicar" : "Salvar Rascunho";
+
+  const handlePublish = () => {
+    if (!titulo.trim() || !editor?.getText().trim() || !categoriaId) {
+      alert("Preencha título, conteúdo e categoria");
+      return;
+    }
+
+    createPost({
+      titulo,
+      conteudo: editor.getHTML(),
+      categoriaId: parseInt(categoriaId, 10),
+      resumo:description,
+      status: publicationMode === "publish" ? "PUBLISHED" : "DRAFT",
+      capaUrl: coverPreview || undefined,
+    });
+  };
 
   const insertEditorImage = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -147,8 +170,14 @@ export function AdminNewArticle() {
             >
               Cancelar
             </Button>
-            <Button className={styles.publishButton} iconLeft={<Icon name="check" size={24} />} size="sm">
-              {primaryActionLabel}
+            <Button
+              className={styles.publishButton}
+              iconLeft={<Icon name="check" size={24} />}
+              size="sm"
+              onClick={handlePublish}
+              disabled={isPending}
+            >
+              {isPending ? "Salvando..." : primaryActionLabel}
             </Button>
           </div>
         </header>
@@ -161,7 +190,12 @@ export function AdminNewArticle() {
                   <span>
                     Título do Artigo <strong>*</strong>
                   </span>
-                  <input placeholder="Insira aqui o título do seu artigo" type="text" />
+                  <input
+                    placeholder="Insira aqui o título do seu artigo"
+                    type="text"
+                    value={titulo}
+                    onChange={(e) => setTitulo(e.target.value)}
+                  />
                 </label>
 
                 <label className={styles.field}>
@@ -256,10 +290,16 @@ export function AdminNewArticle() {
                 <section className={styles.panelCard}>
                   <h2>Categoria:</h2>
                   <div className={styles.categoryControls}>
-                    <select defaultValue="Auxílio Acidente">
-                      <option>Auxílio Acidente</option>
-                      <option>Hackeados</option>
-                      <option>Orientação Jurídica</option>
+                    <select
+                      value={categoriaId}
+                      onChange={(e) => setCategoriaId(e.target.value)}
+                    >
+                      <option value="">Selecione uma categoria</option>
+                      {categoriasData?.data.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.nome}
+                        </option>
+                      ))}
                     </select>
                     <button aria-label="Adicionar categoria" type="button">
                       <Icon name="add" size={24} />

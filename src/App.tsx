@@ -22,10 +22,17 @@ const AdminNewArticle = lazy(() =>
   import("./sections/AdminNewArticle").then((module) => ({ default: module.AdminNewArticle })),
 );
 
+const AdminEditArticle = lazy(() =>
+  import("./sections/AdminEditArticle").then((module) => ({ default: module.AdminEditArticle })),
+);
+
 const getCurrentHash = () => window.location.hash || "#home";
+const getHashWithoutParams = (hash: string) => hash.split("/")[0];
 
 function App() {
   const [activeHash, setActiveHash] = useState(getCurrentHash);
+  const hashWithoutParams = getHashWithoutParams(activeHash);
+  
   const isBlogPage = activeHash === "#blog";
   const isTermsPage = activeHash.startsWith("#termos-de-uso");
   const isPrivacyPage = activeHash === "#politica-de-privacidade";
@@ -35,8 +42,12 @@ function App() {
   const isAdminCategoriesPage = activeHash === "#admin-categories";
   const isAdminSettingsPage = activeHash === "#admin-settings";
   const isAdminNewArticlePage = activeHash === "#admin-new-article";
+  const isAdminEditArticlePage = hashWithoutParams === "#admin-edit-article";
+  const isAdminEditAuthorPage = hashWithoutParams === "#admin-edit-author";
+  const isAdminEditCategoryPage = hashWithoutParams === "#admin-edit-category";
+  
   const isStandalonePage =
-    isLoginPage || isAdminBlogPage || isAdminAuthorsPage || isAdminCategoriesPage || isAdminSettingsPage || isAdminNewArticlePage;
+    isLoginPage || isAdminBlogPage || isAdminAuthorsPage || isAdminCategoriesPage || isAdminSettingsPage || isAdminNewArticlePage || isAdminEditArticlePage || isAdminEditAuthorPage || isAdminEditCategoryPage;
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -64,14 +75,22 @@ function App() {
         />
       ) : null}
       <main>
-        {isAdminNewArticlePage ? (
+        {isAdminEditArticlePage ? (
+          <Suspense fallback={null}>
+            <AdminEditArticle />
+          </Suspense>
+        ) : isAdminNewArticlePage ? (
           <Suspense fallback={null}>
             <AdminNewArticle />
           </Suspense>
         ) : isAdminBlogPage ? (
           <AdminBlog />
+        ) : isAdminEditAuthorPage ? (
+          <AdminAuthors />
         ) : isAdminAuthorsPage ? (
           <AdminAuthors />
+        ) : isAdminEditCategoryPage ? (
+          <AdminCategories />
         ) : isAdminCategoriesPage ? (
           <AdminCategories />
         ) : isAdminSettingsPage ? (

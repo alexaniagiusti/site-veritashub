@@ -1,120 +1,70 @@
+import { useState } from "react";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import { AdminSidebar } from "../../design-system/components/admin-sidebar";
+import { usePosts, useDeletePost } from "../../hooks/usePosts";
+import type { Post } from "../../types";
 import styles from "./AdminBlog.module.css";
-
-type ArticleStatus = "Publicado" | "Rascunho";
-type ArticleCategory = "Auxílio Acidente" | "Hackeados";
-
-type Article = {
-  title: string;
-  category: ArticleCategory;
-  status: ArticleStatus;
-  author: string;
-};
-
-const articles: Article[] = [
-  {
-    title: "Você sofreu um acidente? Descubra se tem direito ao Auxílio-Acidente",
-    category: "Auxílio Acidente",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "Auxílio-Acidente: os 7 erros que fazem o INSS negar seu benefício",
-    category: "Auxílio Acidente",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "Diferença entre Auxílio-Doença e Auxílio-Acidente",
-    category: "Auxílio Acidente",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "Como solicitar o Auxílio-Acidente passo a passo",
-    category: "Auxílio Acidente",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "Minha conta do Instagram foi hackeada. O que devo fazer?",
-    category: "Hackeados",
-    status: "Rascunho",
-    author: "Design Lead",
-  },
-  {
-    title: "Conta do WhatsApp clonada: quem responde pelos prejuízos?",
-    category: "Hackeados",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "O que fazer nas primeiras 24 horas após um ataque hacker",
-    category: "Hackeados",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "LGPD e vazamento de dados: quais são seus direitos?",
-    category: "Hackeados",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-  {
-    title: "Meu benefício foi negado. O que fazer agora?",
-    category: "Auxílio Acidente",
-    status: "Rascunho",
-    author: "Design Lead",
-  },
-  {
-    title: "Quais documentos aumentam as chances de aprovação?",
-    category: "Auxílio Acidente",
-    status: "Publicado",
-    author: "Design Lead",
-  },
-];
+import { useAuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
+import { ProtectedRoute } from "../../components/ProtectedRoute";
 
 export function AdminBlog() {
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading, error } = usePosts(page, 10);
+  const { mutate: deletePost } = useDeletePost();
+  const { logout } = useAuth();
+
+  const handleDelete = (id: string) => {
+    if (confirm("Tem certeza que deseja deletar este artigo?")) {
+      deletePost(id);
+    }
+  };
+
   return (
-    <section className={styles.adminPage} aria-labelledby="admin-title">
-      <AdminSidebar />
+    <ProtectedRoute>
+      <section className={styles.adminPage} aria-labelledby="admin-title">
 
-      <div className={styles.workspace}>
-        <header className={styles.topbar}>
-          <h1 id="admin-title">Artigos</h1>
-          <Button
-            className={styles.newArticleButton}
-            iconLeft={<Icon name="add" size={24} />}
-            onClick={() => {
-              window.location.hash = "#admin-new-article";
-            }}
-            size="sm"
-          >
-            Novo Artigo
-          </Button>
-        </header>
+        <AdminSidebar onLogout={logout} />
 
-        <main className={styles.content}>
-          <section className={styles.tableCard} aria-labelledby="articles-title">
-            <div className={styles.tableToolbar}>
-              <h2 id="articles-title">Todos os artigos</h2>
-              <label className={styles.searchField}>
-                <Icon name="search" size={24} />
-                <span className={styles.srOnly}>Buscar artigos</span>
-                <input placeholder="Buscar Artigos..." type="search" />
-              </label>
-            </div>
+        <div className={styles.workspace}>
+          <header className={styles.topbar}>
+            <h1 id="admin-title">Artigos</h1>
+            <Button
+              className={styles.newArticleButton}
+              iconLeft={<Icon name="add" size={24} />}
+              onClick={() => {
+                window.location.hash = "#admin-new-article";
+              }}
+              size="sm"
+            >
+              Novo Artigo
+            </Button>
+          </header>
 
-            <ArticlesTable articles={articles} />
-            <AdminPagination />
-          </section>
-        </main>
+          <main className={styles.content}>
+            <section className={styles.tableCard} aria-labelledby="articles-title">
+              <div className={styles.tableToolbar}>
+                <h2 id="articles-title">Todos os artigos</h2>
+                <label className={styles.searchField}>
+                  <Icon name="search" size={24} />
+                  <span className={styles.srOnly}>Buscar artigos</span>
+                  <input placeholder="Buscar Artigos..." type="search" />
+                </label>
+              </div>
 
-        <AdminFooter />
-      </div>
-    </section>
+              {isLoading && <p>Carregando artigos...</p>}
+              {error && <p style={{ color: "red" }}>Erro ao carregar artigos</p>}
+              {data && <ArticlesTable posts={data.data} onDelete={handleDelete} />}
+              {data && <AdminPagination page={page} total={data.total} onPageChange={setPage} />}
+            </section>
+          </main>
+
+          <AdminFooter />
+        </div>
+      </section>
+    </ProtectedRoute>
   );
 }
 
@@ -127,7 +77,7 @@ export function AdminFooter() {
   );
 }
 
-function ArticlesTable({ articles }: { articles: Article[] }) {
+function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: string) => void }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.articlesTable}>
@@ -146,31 +96,41 @@ function ArticlesTable({ articles }: { articles: Article[] }) {
           </tr>
         </thead>
         <tbody>
-          {articles.map((article) => (
-            <tr key={article.title}>
+          {posts.map((post) => (
+            <tr key={post.id}>
               <td>
                 <div className={styles.titleCell}>
                   <span className={styles.checkbox} aria-hidden="true" />
                   <span className={styles.thumbnail} aria-hidden="true" />
-                  <span className={styles.articleTitle}>{article.title}</span>
+                  <span className={styles.articleTitle}>{post.titulo}</span>
                 </div>
               </td>
               <td>
-                <CategoryBadge category={article.category} />
+                <CategoryBadge category={post.categoria?.nome || "Sem categoria"} />
               </td>
               <td>
-                <StatusBadge status={article.status} />
+                <StatusBadge status={post.status === "PUBLISHED" ? "Publicado" : "Rascunho"} />
               </td>
-              <td>{article.author}</td>
+              <td>{new Date(post.createdAt).toLocaleDateString("pt-BR")}</td>
               <td>
                 <div className={styles.rowActions}>
-                  <button aria-label={`Editar: ${article.title}`} type="button">
+                  <button
+                    aria-label={`Editar: ${post.titulo}`}
+                    type="button"
+                    onClick={() => {
+                      window.location.hash = `#admin-edit-article/${post.id}`;
+                    }}
+                  >
                     <Icon name="edit" size={24} />
                   </button>
-                  <button aria-label={`Excluir: ${article.title}`} type="button">
+                  <button
+                    aria-label={`Excluir: ${post.titulo}`}
+                    type="button"
+                    onClick={() => onDelete(post.id)}
+                  >
                     <Icon name="delete-bin" size={24} />
                   </button>
-                  <button aria-label={`Mais ações: ${article.title}`} type="button">
+                  <button aria-label={`Mais ações: ${post.titulo}`} type="button">
                     <Icon name="more" size={24} />
                   </button>
                 </div>
@@ -183,13 +143,13 @@ function ArticlesTable({ articles }: { articles: Article[] }) {
   );
 }
 
-function CategoryBadge({ category }: { category: ArticleCategory }) {
-  const isAccident = category === "Auxílio Acidente";
+function CategoryBadge({ category }: { category: string }) {
+  const isAccident = category.includes("Acidente");
 
   return <span className={`${styles.categoryBadge} ${isAccident ? styles.accidentBadge : styles.hackedBadge}`}>{category}</span>;
 }
 
-function StatusBadge({ status }: { status: ArticleStatus }) {
+function StatusBadge({ status }: { status: "Publicado" | "Rascunho" }) {
   return (
     <span className={`${styles.statusBadge} ${status === "Publicado" ? styles.publishedStatus : styles.draftStatus}`}>
       <span aria-hidden="true" />
@@ -198,20 +158,38 @@ function StatusBadge({ status }: { status: ArticleStatus }) {
   );
 }
 
-function AdminPagination() {
+function AdminPagination({ page, total, onPageChange }: { page: number; total: number; onPageChange: (page: number) => void }) {
+  const totalPages = Math.ceil(total / 10);
+
   return (
     <nav className={styles.pagination} aria-label="Paginação de artigos">
-      <button aria-label="Página anterior" type="button">
+      <button
+        aria-label="Página anterior"
+        type="button"
+        onClick={() => onPageChange(Math.max(1, page - 1))}
+        disabled={page === 1}
+      >
         <Icon name="arrow-left" size={24} />
       </button>
-      {[1, 2, 3].map((page) => (
-        <button aria-current={page === 1 ? "page" : undefined} key={page} type="button">
-          {page}
+      {Array.from({ length: Math.min(3, totalPages) }).map((_, i) => (
+        <button
+          aria-current={page === i + 1 ? "page" : undefined}
+          key={i + 1}
+          type="button"
+          onClick={() => onPageChange(i + 1)}
+        >
+          {i + 1}
         </button>
       ))}
-      <button aria-label="Próxima página" type="button">
+      <button
+        aria-label="Próxima página"
+        type="button"
+        onClick={() => onPageChange(Math.min(totalPages, page + 1))}
+        disabled={page === totalPages}
+      >
         <Icon name="arrow-right" size={24} />
       </button>
     </nav>
   );
 }
+

@@ -1,26 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import { Input } from "../../design-system/components/input";
 import { AdminSidebar } from "../../design-system";
 import { AdminFooter } from "../AdminBlog/AdminBlog";
+import { useCategorias, useCreateCategoria, useDeleteCategoria, useUpdateCategoria, useCategoria } from "../../hooks/useCategorias";
+import type { Categoria } from "../../types";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminCategories.module.css";
 
-type Category = {
-  color: string;
-  name: string;
-};
-
-const categories: Category[] = [
-  { name: "Auxílio Acidente", color: "#23E600" },
-  { name: "Hackeados", color: "#FFD500" },
-  { name: "Direito Trabalhista", color: "#1C98FF" },
-  { name: "Previdenciário", color: "#DD4249" },
-];
-
 export function AdminCategories() {
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const hash = window.location.hash;
+  const isEditMode = hash.startsWith("#admin-edit-category/");
+  const editId = isEditMode ? hash.split("/")[1] : null;
+  
+  const { data, isLoading, error } = useCategorias(page, 10);
+  const { mutate: deleteCategoria } = useDeleteCategoria();
+
+  const handleDelete = (id: string) => {
+    if (confirm("Tem certeza que deseja deletar esta categoria?")) {
+      deleteCategoria(id);
+    }
+  };
 
   return (
     <section className={adminStyles.adminPage} aria-labelledby="categories-admin-title">
@@ -45,7 +48,9 @@ export function AdminCategories() {
               <h2 id="categories-title">Listagem de categorias</h2>
             </div>
 
-            <CategoriesTable categories={categories} />
+            {isLoading && <p>Carregando categorias...</p>}
+            {error && <p style={{ color: "red" }}>Erro ao carregar categorias</p>}
+            {data && <CategoriesTable categorias={data.data} onDelete={handleDelete} />}
           </section>
         </main>
 
@@ -53,29 +58,54 @@ export function AdminCategories() {
       </div>
 
       {isCategoryModalOpen ? <AddCategoryModal onClose={() => setIsCategoryModalOpen(false)} /> : null}
+      
+      {isEditMode && editId ? (
+        <EditCategoryModal 
+          categoryId={editId}
+          onClose={() => {
+            window.location.hash = "#admin-categories";
+          }} 
+        />
+      ) : null}
     </section>
   );
 }
 
-function CategoriesTable({ categories }: { categories: Category[] }) {
+function CategoriesTable({ categorias, onDelete }: { categorias: Categoria[]; onDelete: (id: string) => void }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.categoriesTable}>
         <thead>
           <tr>
             <th>Categoria</th>
-            <th>Cor</th>
+            <th>Descrição</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((category) => (
-            <tr key={category.name}>
-              <td>{category.name}</td>
+          {categorias.map((categoria) => (
+            <tr key={categoria.id}>
+              <td>{categoria.nome}</td>
+              <td>{categoria.descricao}</td>
               <td>
-                <span className={styles.colorPreview}>
-                  <span aria-hidden="true" style={{ backgroundColor: category.color }} />
-                  {category.color}
-                </span>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button 
+                    aria-label={`Editar: ${categoria.nome}`} 
+                    type="button"
+                    onClick={() => {
+                      window.location.hash = `#admin-edit-category/${categoria.id}`;
+                    }}
+                  >
+                    <Icon name="edit" size={24} />
+                  </button>
+                  <button
+                    aria-label={`Excluir: ${categoria.nome}`}
+                    type="button"
+                    onClick={() => onDelete(categoria.id)}
+                  >
+                    <Icon name="delete-bin" size={24} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -86,7 +116,23 @@ function CategoriesTable({ categories }: { categories: Category[] }) {
 }
 
 function AddCategoryModal({ onClose }: { onClose: () => void }) {
-  const [selectedColor, setSelectedColor] = useState("#23E600");
+  const [nome, setNome] = useState("");
+  const { mutate: createCategoria, isPending } = useCreateCategoria();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (nome.trim()) {
+      createCategoria(
+        { nome },
+        {
+          onSuccess: () => {
+            setNome("");
+            onClose();
+          },
+        }
+      );
+    }
+  };
 
   return (
     <div className={styles.modalOverlay} role="presentation">
@@ -98,33 +144,100 @@ function AddCategoryModal({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        <form className={styles.categoryForm}>
-          <Input label="Nome da categoria" placeholder="Ex.: Direito Trabalhista" />
-
-          <label className={styles.colorField}>
-            <span>Cor da categoria</span>
-            <span className={styles.colorPicker}>
-              <span aria-hidden="true" style={{ backgroundColor: selectedColor }} />
-              <input
-                aria-label="Escolher cor da categoria"
-                onChange={(event) => setSelectedColor(event.target.value)}
-                type="color"
-                value={selectedColor}
-              />
-              <strong>{selectedColor}</strong>
-            </span>
-          </label>
+        <form className={styles.categoryForm} onSubmit={handleSubmit}>
+          <Input
+            label="Nome da categoria"
+            placeholder="Ex.: Direito Trabalhista"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
 
           <div className={styles.modalActions}>
-            <Button className={styles.cancelButton} onClick={onClose} size="md" variant="secondary">
+            <Button className={styles.cancelButton} onClick={onClose} size="md" variant="secondary" type="button">
               Cancelar
             </Button>
-            <Button className={styles.saveButton} onClick={onClose} size="md">
-              Criar categoria
+            <Button className={styles.saveButton} size="md" type="submit" disabled={isPending}>
+              {isPending ? "Criando..." : "Criar categoria"}
             </Button>
           </div>
         </form>
       </section>
+    </div>
+  );
+}
+
+function EditCategoryModal({ categoryId, onClose }: { categoryId: string; onClose: () => void }) {
+  const { data: categoria } = useCategoria(categoryId);
+  const { mutate: updateCategoria, isPending } = useUpdateCategoria();
+  const [nome, setNome] = useState("");
+
+  useEffect(() => {
+    if (categoria) {
+      setNome(categoria.nome || "");
+    }
+  }, [categoria]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateCategoria({
+      id: categoryId,
+      data: { nome },
+    });
+  };
+
+  if (!categoria) return null;
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div 
+        className={styles.categoryModal}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={styles.modalHeader}>
+          <h2>Editar Categoria</h2>
+          <button 
+            aria-label="Fechar modal"
+            className={styles.closeButton} 
+            onClick={onClose} 
+            type="button"
+          >
+            <Icon name="close" size={24} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className={styles.modalForm}>
+          <label className={styles.modalField}>
+            <span>Nome</span>
+            <input 
+              type="text"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </label>
+
+          <div className={styles.modalActions}>
+            <Button 
+              onClick={onClose} 
+              size="md" 
+              variant="secondary" 
+              type="button"
+              className={styles.cancelModalButton}
+            >
+              Cancelar
+            </Button>
+            <Button 
+              size="md" 
+              type="submit" 
+              disabled={isPending}
+              className={styles.saveCategoryButton}
+            >
+              {isPending ? "Salvando..." : "Salvar"}
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

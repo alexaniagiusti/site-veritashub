@@ -1,0 +1,99 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(9, 18, 31, 0.22);
+}
+
+.cameraModal {
+  box-sizing: border-box;
+  width: min(420px, 100%);
+  padding: 28px;
+  border-radius: 8px;
+  color: var(--gray-950);
+  font-family: Inter, sans-serif;
+  background: var(--white);
+  box-shadow: 0 24px 64px rgba(9, 18, 31, 0.16);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: var(--gray-950);
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.closeButton {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  color: #09121f;
+  cursor: pointer;
+  background: transparent;
+}
+
+.modalDescription {
+  margin: 16px 0 0;
+  color: var(--gray-700, #555);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cameraForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.errorMessage {
+  margin: 0;
+  color: #dc2626;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.cancelButton {
+  min-width: 109px;
+}
+
+.confirmButton {
+  min-width: 144px;
+}
+
+@media (max-width: 860px) {
+  .cameraModal {
+    width: 100%;
+  }
+
+  .modalActions {
+    flex-direction: column-reverse;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    width: 100%;
+  }
+}

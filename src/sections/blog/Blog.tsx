@@ -1,110 +1,126 @@
+import { useState } from "react";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { ArticleCard } from "../../design-system/components/article-card";
-import imgAcidente from "../../assets/img-acidente.png";
+import { usePosts } from "../../hooks/usePosts";
+import { useCategorias } from "../../hooks/useCategorias";
 import imgDestaqueBlog from "../../assets/img-destaque-blog.png";
-import imgHackeados from "../../assets/img-hackeados.png";
 import styles from "./Blog.module.css";
 
-const categories = ["Todos os Artigos", "Auxílio Acidente", "Hackeados", "Orientação Jurídica"];
-
-const authors = {
-  ana: {
-    name: "Ana Beatriz Santos",
-    role: "Advogada - Direito Trabalhista",
-    initials: "AB",
-  },
-  ricardo: {
-    name: "Ricardo Dias",
-    role: "Advogado - Especialista em Direito Digital",
-    initials: "RD",
-  },
-};
-
-const posts = [
-  {
-    category: "HACKEADOS",
-    title: "Conta hackeada: os primeiros passos para recuperar o acesso e proteger seus dados",
-    image: imgAcidente,
-    imageAlt: "Profissional analisando exame de raio-x",
-    author: authors.ana,
-  },
-  {
-    category: "HACKEADOS",
-    title: "Seus dados vazaram? Saiba o que a LGPD garante e como ser indenizado",
-    image: imgHackeados,
-    imageAlt: "Pessoa preocupada diante de um computador com alerta de segurança",
-    author: authors.ricardo,
-  },
-  {
-    category: "HACKEADOS",
-    title: "Conta hackeada: os primeiros passos para recuperar o acesso e proteger seus dados",
-    image: imgAcidente,
-    imageAlt: "Profissional analisando exame de raio-x",
-    author: authors.ana,
-  },
-  {
-    category: "HACKEADOS",
-    title: "Seus dados vazaram? Saiba o que a LGPD garante e como ser indenizado",
-    image: imgHackeados,
-    imageAlt: "Pessoa preocupada diante de um computador com alerta de segurança",
-    author: authors.ricardo,
-  },
-];
-
 export function Blog() {
+  const [page, setPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("Todos os Artigos");
+  
+  const { data: postsData, isLoading: postsLoading } = usePosts(page, 8);
+  const { data: categoriasData } = useCategorias(1, 100);
+
+  const publishedPosts = postsData?.data.filter(post => post.status === "PUBLISHED") || [];
+  const featuredPost = publishedPosts[0];
+
+  const filteredPosts = selectedCategory === "Todos os Artigos" 
+    ? publishedPosts 
+    : publishedPosts.filter(post => post.categoria?.nome === selectedCategory);
+
+  const categories = [
+    "Todos os Artigos",
+    ...(categoriasData?.data.map(cat => cat.nome) || [])
+  ];
+
+  const totalPages = Math.ceil((postsData?.total || 0) / 8);
+
   return (
     <section className={styles.blogPage} aria-labelledby="blog-title">
       <div className={styles.container}>
         <h1 id="blog-title">BLOG VERITAS HUB</h1>
 
-        <ArticleCard
-          author={authors.ana}
-          category="AUXÍLIO ACIDENTE"
-          date="27 de junho de 2026"
-          excerpt="Um acidente pode deixar qualquer pessoa desorientada. Mas conhecer seus direitos e agir rápido faz toda a diferença na hora de garantir o que é seu - da perícia ao seguro obrigatório."
-          href="#artigo-destaque"
-          imageAlt="Homem em atendimento médico recebendo orientação"
-          imageSrc={imgDestaqueBlog}
-          readingTime="5min de Leitura"
-          title="Sofreu um acidente de trabalho? Saiba o que fazer nas primeiras 24 horas"
-          variant="featured"
-        />
+        {featuredPost && (
+          <ArticleCard
+            author={{
+              initials: featuredPost.autor?.nome?.split(' ').slice(0, 2).map((word: string) => word[0]).join('').toUpperCase() || 'AB',
+              name: featuredPost.autor?.nome || "Autor",
+              role: featuredPost.autor?.cargo || "Colaborador",
+            }}
+            category={featuredPost.categoria?.nome?.toUpperCase() || "SEM CATEGORIA"}
+            date={new Date(featuredPost.createdAt || new Date()).toLocaleDateString("pt-BR", { year: 'numeric', month: 'long', day: 'numeric' })}
+            excerpt={featuredPost.resumo || featuredPost.conteudo.substring(0, 150)}
+            href={`#artigo-${featuredPost.id}`}
+            imageAlt={featuredPost.titulo}
+            imageSrc={featuredPost.capaUrl ||imgDestaqueBlog}
+            readingTime="5min de Leitura"
+            title={featuredPost.titulo}
+            variant="featured"
+          />
+        )}
 
         <nav className={styles.categoryNav} aria-label="Categorias do blog">
-          {categories.map((category, index) => (
-            <button className={index === 0 ? styles.activeCategory : undefined} key={category} type="button">
+          {categories.map((category) => (
+            <button 
+              className={selectedCategory === category ? styles.activeCategory : undefined} 
+              key={category} 
+              onClick={() => {
+                setSelectedCategory(category);
+                setPage(1);
+              }}
+              type="button"
+            >
               {category}
             </button>
           ))}
         </nav>
 
-        <div className={styles.postsGrid}>
-          {posts.map((post, index) => (
-            <article className={styles.postCard} key={`${post.title}-${index}`}>
-              <img src={post.image} alt={post.imageAlt} />
-              <div className={styles.postBody}>
-                <p className={styles.postCategory}>{post.category}</p>
-                <h2>{post.title}</h2>
-                <span className={styles.divider} />
-                <Author author={post.author} />
-              </div>
-            </article>
-          ))}
-        </div>
+        {postsLoading ? (
+          <p style={{ textAlign: 'center', padding: '40px' }}>Carregando artigos...</p>
+        ) : filteredPosts.length === 0 ? (
+          <p style={{ textAlign: 'center', padding: '40px' }}>Nenhum artigo encontrado nesta categoria.</p>
+        ) : (
+          <>
+            <div className={styles.postsGrid}>
+              {filteredPosts.map((post) => (
+                <article className={styles.postCard} key={post.id}>
+                  <img src={post.capaUrl || imgDestaqueBlog} alt={post.titulo} />
+                  <div className={styles.postBody}>
+                    <p className={styles.postCategory}>{post.categoria?.nome?.toUpperCase() || "SEM CATEGORIA"}</p>
+                    <h2>{post.titulo}</h2>
+                    <span className={styles.divider} />
+                    <Author author={{
+                      initials: post.autor?.nome?.split(' ').slice(0, 2).map((word: string) => word[0]).join('').toUpperCase() || 'AB',
+                      name: post.autor?.nome || "Autor",
+                      role: post.autor?.cargo || "Colaborador",
+                    }} />
+                  </div>
+                </article>
+              ))}
+            </div>
 
-        <nav className={styles.pagination} aria-label="Paginação do blog">
-          <button aria-label="Página anterior" type="button">
-            <Icon name="arrow-left" size={24} />
-          </button>
-          {[1, 2, 3].map((page) => (
-            <button aria-current={page === 1 ? "page" : undefined} key={page} type="button">
-              {page}
-            </button>
-          ))}
-          <button aria-label="Próxima página" type="button">
-            <Icon name="arrow-right" size={24} />
-          </button>
-        </nav>
+            <nav className={styles.pagination} aria-label="Paginação do blog">
+              <button 
+                aria-label="Página anterior" 
+                disabled={page === 1}
+                onClick={() => setPage(Math.max(1, page - 1))}
+                type="button"
+              >
+                <Icon name="arrow-left" size={24} />
+              </button>
+              {Array.from({ length: Math.min(3, totalPages) }).map((_, i) => (
+                <button 
+                  aria-current={page === i + 1 ? "page" : undefined} 
+                  key={i + 1} 
+                  onClick={() => setPage(i + 1)}
+                  type="button"
+                >
+                  {i + 1}
+                </button>
+              ))}
+              <button 
+                aria-label="Próxima página" 
+                disabled={page === totalPages}
+                onClick={() => setPage(Math.min(totalPages, page + 1))}
+                type="button"
+              >
+                <Icon name="arrow-right" size={24} />
+              </button>
+            </nav>
+          </>
+        )}
       </div>
     </section>
   );

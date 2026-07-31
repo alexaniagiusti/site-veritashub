@@ -10,4 +10,5 @@ export type AdminSidebarProps = HTMLAttributes<HTMLElement> & {
   groups?: readonly AdminSidebarGroup[];
   user?: AdminSidebarUser;
   embedded?: boolean;
+  onLogout?: () => void
 };

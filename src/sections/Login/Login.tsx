@@ -3,14 +3,37 @@ import logoVeritas from "../../assets/logo-verde-veritas.svg";
 import loginVideo from "../../assets/video-logo-v-atualizada.webm";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
+import { useAuthContext } from "../../context/AuthContext";
 import styles from "./Login.module.css";
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const { login, loading, isAuthenticated } = useAuthContext();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  if (isAuthenticated) {
     window.location.hash = "#admin-blog";
+    return null;
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage("");
+
+    if (!email || !senha) {
+      setErrorMessage("Email e senha são obrigzatórios");
+      return;
+    }
+
+    try {
+      await login({ email, senha });
+      window.location.hash = "#admin-blog";
+    } catch (error: any) {
+      const message = error?.message || "Erro ao fazer login";
+      setErrorMessage(message);
+    }
   };
 
   const handleBack = () => {
@@ -37,11 +60,25 @@ export function Login() {
             Insira suas credenciais para acessar sua conta
           </p>
 
+          {errorMessage && (
+            <div style={{ color: "red", marginBottom: "10px", fontSize: "14px" }}>
+              {errorMessage}
+            </div>
+          )}
+
           <label className={styles.field}>
             <span>E-mail</span>
             <span className={styles.inputShell}>
               <Icon className={styles.inputIcon} name="mail-open" size={24} />
-              <input autoComplete="email" name="email" placeholder="Insira seu e-mail" type="email" />
+              <input
+                autoComplete="email"
+                name="email"
+                placeholder="Insira seu e-mail"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </span>
           </label>
 
@@ -54,6 +91,9 @@ export function Login() {
                 name="password"
                 placeholder="******"
                 type={showPassword ? "text" : "password"}
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                required
               />
               <button
                 aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
@@ -71,8 +111,15 @@ export function Login() {
             <span>Lembrar senha</span>
           </label>
 
-          <Button className={styles.submitButton} fullWidth size="md" type="submit" variant="primary">
-            Login
+          <Button
+            className={styles.submitButton}
+            fullWidth
+            size="md"
+            type="submit"
+            variant="primary"
+            disabled={loading}
+          >
+            {loading ? "Entrando..." : "Login"}
           </Button>
 
           <a className={styles.forgotLink} href="#login">

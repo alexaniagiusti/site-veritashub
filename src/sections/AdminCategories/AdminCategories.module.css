@@ -114,11 +114,50 @@
   background: transparent;
 }
 
-.categoryForm {
+.categoryForm,
+.modalForm {
   display: flex;
   flex-direction: column;
   gap: 18px;
   margin-top: 28px;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modalField span {
+  color: var(--gray-950);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.modalField input,
+.modalField select {
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--gray-400);
+  border-radius: 6px;
+  color: var(--gray-950);
+  font-family: Inter, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  background: var(--white);
+  box-shadow: 0 1px 2px rgba(13, 13, 13, 0.04);
+  transition: border-color 0.2s;
+}
+
+.modalField input:focus,
+.modalField select:focus {
+  outline: 0;
+  border-color: var(--green-700);
+  box-shadow:
+    0 1px 2px rgba(13, 13, 13, 0.04),
+    0 0 0 3px rgba(35, 230, 0, 0.12);
 }
 
 .colorField {
@@ -175,11 +214,13 @@
   margin-top: 6px;
 }
 
-.cancelButton {
+.cancelButton,
+.cancelModalButton {
   min-width: 109px;
 }
 
-.saveButton {
+.saveButton,
+.saveCategoryButton {
   min-width: 144px;
 }
 

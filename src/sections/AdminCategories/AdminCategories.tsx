@@ -19,9 +19,9 @@ export function AdminCategories() {
   const { data, isLoading, error } = useCategorias(page, 10);
   const { mutate: deleteCategoria } = useDeleteCategoria();
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string | number) => {
     if (confirm("Tem certeza que deseja deletar esta categoria?")) {
-      deleteCategoria(id);
+      deleteCategoria(String(id));
     }
   };
 
@@ -51,6 +51,7 @@ export function AdminCategories() {
             {isLoading && <p>Carregando categorias...</p>}
             {error && <p style={{ color: "red" }}>Erro ao carregar categorias</p>}
             {data && <CategoriesTable categorias={data.data} onDelete={handleDelete} />}
+            {data && <CategoriesPagination page={page} total={data.total} onPageChange={setPage} />}
           </section>
         </main>
 
@@ -71,7 +72,7 @@ export function AdminCategories() {
   );
 }
 
-function CategoriesTable({ categorias, onDelete }: { categorias: Categoria[]; onDelete: (id: string) => void }) {
+function CategoriesTable({ categorias, onDelete }: { categorias: Categoria[]; onDelete: (id: string | number) => void }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.categoriesTable}>
@@ -112,6 +113,41 @@ function CategoriesTable({ categorias, onDelete }: { categorias: Categoria[]; on
         </tbody>
       </table>
     </div>
+  );
+}
+
+function CategoriesPagination({ page, total, onPageChange }: { page: number; total: number; onPageChange: (page: number) => void }) {
+  const totalPages = Math.ceil(total / 10);
+
+  return (
+    <nav className={styles.pagination} aria-label="Paginação de categorias">
+      <button
+        aria-label="Página anterior"
+        type="button"
+        onClick={() => onPageChange(Math.max(1, page - 1))}
+        disabled={page === 1}
+      >
+        <Icon name="arrow-left" size={24} />
+      </button>
+      {Array.from({ length: Math.min(3, totalPages) }).map((_, i) => (
+        <button
+          aria-current={page === i + 1 ? "page" : undefined}
+          key={i + 1}
+          type="button"
+          onClick={() => onPageChange(i + 1)}
+        >
+          {i + 1}
+        </button>
+      ))}
+      <button
+        aria-label="Próxima página"
+        type="button"
+        onClick={() => onPageChange(Math.min(totalPages, page + 1))}
+        disabled={page === totalPages || totalPages === 0}
+      >
+        <Icon name="arrow-right" size={24} />
+      </button>
+    </nav>
   );
 }
 

@@ -10,7 +10,7 @@ import styles from "./AdminAuthors.module.css";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
 
 type AuthorRole = "Administrador" | "Editor" | "Autor";
-type AccountStatus = "Ativo" | "Inativo";
+type AccountStatus = "Ativo" | "Inativo" | "Convidado" | "Suspenso";
 
 export function AdminAuthors() {
   const [isAuthorModalOpen, setIsAuthorModalOpen] = useState(false);
@@ -22,9 +22,9 @@ export function AdminAuthors() {
   const { data, isLoading, error } = useUsers(page, 10);
   const { mutate: deleteUser } = useDeleteUser();
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string | number) => {
     if (confirm("Tem certeza que deseja deletar este usuário?")) {
-      deleteUser(id);
+      deleteUser(String(id));
     }
   };
 
@@ -127,46 +127,46 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
 
   return (
     <ProtectedRoute>
-    <div className={styles.modalOverlay} role="presentation">
-      <section aria-labelledby="add-author-title" aria-modal="true" className={styles.authorModal} role="dialog">
-        <div className={styles.modalHeader}>
-          <h2 id="add-author-title">Adicionar Autor</h2>
-          <button aria-label="Fechar modal" className={styles.closeButton} onClick={onClose} type="button">
-            <Icon name="close" size={24} />
-          </button>
-        </div>
-
-        <form className={styles.modalForm} onSubmit={handleSubmit}>
-          <TextField label="Nome" placeholder="Nome do Autor" value={nome} onChange={(e) => setNome(e.target.value)} />
-          <TextField helper="Exibido nos artigos" label="Cargo" placeholder="Ex: Editor" value={cargo} onChange={(e) => setCargo(e.target.value)} />
-          <TextField helper="usado para login - não editável após criar" label="E-mail" placeholder="nome@veritashub.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <TextField label="Senha" placeholder="Mínimo 8 caracteres" type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
-
-          <SegmentedControl
-            label="Papel de Acesso"
-            onChange={setRole}
-            options={["Administrador", "Editor", "Autor"]}
-            value={role}
-          />
-
-          <SegmentedControl
-            label="Status da Conta"
-            onChange={setStatus}
-            options={["Ativo", "Convidado", "Suspenso"]}
-            value={status}
-          />
-
-          <div className={styles.modalActions}>
-            <Button className={styles.cancelModalButton} onClick={onClose} size="md" variant="secondary" type="button">
-              Cancelar
-            </Button>
-            <Button className={styles.saveAuthorButton} size="md" type="submit" disabled={isPending}>
-              {isPending ? "Salvando..." : "Salvar Autor"}
-            </Button>
+      <div className={styles.modalOverlay} role="presentation">
+        <section aria-labelledby="add-author-title" aria-modal="true" className={styles.authorModal} role="dialog">
+          <div className={styles.modalHeader}>
+            <h2 id="add-author-title">Adicionar Autor</h2>
+            <button aria-label="Fechar modal" className={styles.closeButton} onClick={onClose} type="button">
+              <Icon name="close" size={24} />
+            </button>
           </div>
-        </form>
-      </section>
-    </div>
+
+          <form className={styles.modalForm} onSubmit={handleSubmit}>
+            <TextField label="Nome" placeholder="Nome do Autor" value={nome} onChange={(e) => setNome(e.target.value)} />
+            <TextField helper="Exibido nos artigos" label="Cargo" placeholder="Ex: Editor" value={cargo} onChange={(e) => setCargo(e.target.value)} />
+            <TextField helper="usado para login - não editável após criar" label="E-mail" placeholder="nome@veritashub.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <TextField label="Senha" placeholder="Mínimo 8 caracteres" type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
+
+            <SegmentedControl
+              label="Papel de Acesso"
+              onChange={(val) => setRole(val as AuthorRole)}
+              options={["Administrador", "Editor", "Autor"] as const}
+              value={role}
+            />
+
+            <SegmentedControl
+              label="Status da Conta"
+              onChange={(val) => setStatus(val as AccountStatus)}
+              options={["Ativo", "Convidado", "Suspenso"] as const}
+              value={status}
+            />
+
+            <div className={styles.modalActions}>
+              <Button className={styles.cancelModalButton} onClick={onClose} size="md" variant="secondary" type="button">
+                Cancelar
+              </Button>
+              <Button className={styles.saveAuthorButton} size="md" type="submit" disabled={isPending}>
+                {isPending ? "Salvando..." : "Salvar Autor"}
+              </Button>
+            </div>
+          </form>
+        </section>
+      </div>
     </ProtectedRoute>
   );
 }
@@ -227,7 +227,7 @@ function SegmentedControl<TValue extends string>({
   );
 }
 
-function AuthorsTable({ users, onDelete }: { users: User[]; onDelete: (id: string) => void }) {
+function AuthorsTable({ users, onDelete }: { users: User[]; onDelete: (id: string | number) => void }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.authorsTable}>
@@ -345,7 +345,6 @@ function EditAuthorModal({ userId, onClose }: { userId: string; onClose: () => v
   const [role, setRole] = useState<AuthorRole>("Autor");
   const [status, setStatus] = useState<AccountStatus>("Ativo");
 
-  // Sincronizar estado quando user for carregado
   useEffect(() => {
     if (user) {
       setNome(user.nome || "");

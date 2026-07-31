@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import client from '../api/client';
-import type { User, PaginatedResponse, UpdateUserRequest, CreateUserRequest } from '../types';
+import type { User, PaginatedResponse, CreateUserRequest } from '../types';
 
 export const useUsers = (page = 1, limit = 10) => {
   return useQuery<PaginatedResponse<User>>({

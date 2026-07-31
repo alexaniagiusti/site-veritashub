@@ -136,7 +136,6 @@ function ProfileSettings({ user }: { user: any }) {
 }
 
 function PasswordSettings() {
-  const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const { mutate: changePassword, isPending } = useChangePassword();

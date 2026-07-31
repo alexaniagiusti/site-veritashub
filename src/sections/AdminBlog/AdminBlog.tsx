@@ -5,7 +5,6 @@ import { AdminSidebar } from "../../design-system/components/admin-sidebar";
 import { usePosts, useDeletePost } from "../../hooks/usePosts";
 import type { Post } from "../../types";
 import styles from "./AdminBlog.module.css";
-import { useAuthContext } from "../../context/AuthContext";
 import { useAuth } from "../../hooks/useAuth";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
 
@@ -16,9 +15,9 @@ export function AdminBlog() {
   const { mutate: deletePost } = useDeletePost();
   const { logout } = useAuth();
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string | number) => {
     if (confirm("Tem certeza que deseja deletar este artigo?")) {
-      deletePost(id);
+      deletePost(String(id));
     }
   };
 
@@ -77,7 +76,7 @@ export function AdminFooter() {
   );
 }
 
-function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: string) => void }) {
+function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: string | number) => void }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.articlesTable}>
@@ -111,7 +110,11 @@ function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: stri
               <td>
                 <StatusBadge status={post.status === "PUBLISHED" ? "Publicado" : "Rascunho"} />
               </td>
-              <td>{new Date(post.createdAt).toLocaleDateString("pt-BR")}</td>
+              <td>
+                {post.createdAt 
+                  ? new Date(post.createdAt).toLocaleDateString("pt-BR") 
+                  : "-"}
+              </td>
               <td>
                 <div className={styles.rowActions}>
                   <button
@@ -192,4 +195,3 @@ function AdminPagination({ page, total, onPageChange }: { page: number; total: n
     </nav>
   );
 }
-

@@ -125,10 +125,8 @@
 
 .carouselColumn img {
   width: 100%;
-  aspect-ratio: 196 / 104;
+  height: auto;
   border-radius: 14px;
-  object-fit: cover;
-  filter: saturate(0.9) brightness(0.88);
 }
 
 @keyframes carouselUp {

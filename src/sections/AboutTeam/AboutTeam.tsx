@@ -1,14 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./AboutTeam.module.css";
 
-const photos = [
-  new URL("../../assets/img-1.JPG", import.meta.url).href,
-  new URL("../../assets/img-2.JPG", import.meta.url).href,
-  new URL("../../assets/img-3.JPG", import.meta.url).href,
-  new URL("../../assets/img-4.JPG", import.meta.url).href,
-  new URL("../../assets/img-5.JPG", import.meta.url).href,
+const firstCarouselPhotos = [
+  new URL("../../assets/01.webp", import.meta.url).href,
+  new URL("../../assets/02.webp", import.meta.url).href,
+  new URL("../../assets/03.webp", import.meta.url).href,
+  new URL("../../assets/04.webp", import.meta.url).href,
+  new URL("../../assets/05.webp", import.meta.url).href,
+  new URL("../../assets/11.webp", import.meta.url).href,
+  new URL("../../assets/12.webp", import.meta.url).href,
 ];
-const carouselPhotos = [...photos, ...photos];
+
+const secondCarouselPhotos = [
+  new URL("../../assets/06.webp", import.meta.url).href,
+  new URL("../../assets/07.webp", import.meta.url).href,
+  new URL("../../assets/08.webp", import.meta.url).href,
+  new URL("../../assets/09.webp", import.meta.url).href,
+  new URL("../../assets/10.webp", import.meta.url).href,
+  new URL("../../assets/13.webp", import.meta.url).href,
+  new URL("../../assets/14.webp", import.meta.url).href,
+];
+
+const firstCarouselLoop = [...firstCarouselPhotos, ...firstCarouselPhotos];
+const secondCarouselLoop = [...secondCarouselPhotos, ...secondCarouselPhotos];
 const clientCount = 20000;
 
 export function AboutTeam() {
@@ -117,13 +131,13 @@ export function AboutTeam() {
 
         <div className={styles.gallery} aria-label="Equipe Veritas Hub">
           <div className={`${styles.carouselColumn} ${styles.carouselUp}`}>
-            {carouselPhotos.map((photo, index) => (
+            {firstCarouselLoop.map((photo, index) => (
               <img key={`up-${photo}-${index}`} src={photo} alt="" />
             ))}
           </div>
 
           <div className={`${styles.carouselColumn} ${styles.carouselDown}`}>
-            {carouselPhotos.map((photo, index) => (
+            {secondCarouselLoop.map((photo, index) => (
               <img key={`down-${photo}-${index}`} src={photo} alt="" />
             ))}
           </div>

@@ -1,12 +1,36 @@
+import { type MouseEvent } from "react";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
+import { mainNavItems } from "../navigation";
 import styles from "./Footer.module.css";
 
-const footerLinks = ["Home", "Quem Somos", "Time", "Contatos", "Blog"];
-const legalLinks = ["Termos de Uso", "Política de privacidade"];
+const legalLinks = [
+  { label: "Termos de Uso", href: "#termos-de-uso" },
+  { label: "Política de privacidade", href: "#politica-de-privacidade" },
+];
 
 export function Footer() {
+  const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault();
+
+    const target = document.querySelector<HTMLElement>(href);
+
+    if (!target) {
+      window.location.assign(href);
+      return;
+    }
+
+    const headerOffset = document.querySelector("header")?.clientHeight ?? 0;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+    window.history.pushState(null, "", href);
+    window.scrollTo({
+      top: Math.max(targetTop, 0),
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer id="rodape" className={styles.footer}>
       <div className={styles.top}>
@@ -15,9 +39,13 @@ export function Footer() {
         </a>
 
         <nav className={styles.links} aria-label="Links do rodapé">
-          {footerLinks.map((link) => (
-            <a key={link} href={`#${link.toLowerCase().replace(" ", "-")}`}>
-              {link}
+          {mainNavItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={(event) => handleNavClick(event, item.href)}
+            >
+              {item.label}
             </a>
           ))}
         </nav>
@@ -45,17 +73,16 @@ export function Footer() {
               <Icon name="youtube" size={24} />
               <span className={styles.srOnly}>YouTube</span>
             </a>
-            <button
+            <a
               aria-label="Facebook"
               className={styles.socialButton}
-              onClick={() => {
-                window.location.hash = "facebook";
-              }}
-              type="button"
+              href="https://www.facebook.com/somosveritas"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               <Icon name="facebook" size={24} />
               <span className={styles.srOnly}>Facebook</span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -77,8 +104,8 @@ export function Footer() {
         <p>© 2026 VeritasHub - Todos os direitos reservados. CNPJ: 27.307.965/0001-88</p>
         <nav className={styles.legal} aria-label="Links legais">
           {legalLinks.map((link) => (
-            <a key={link} href="#rodape">
-              {link}
+            <a key={link.href} href={link.href}>
+              {link.label}
             </a>
           ))}
         </nav>

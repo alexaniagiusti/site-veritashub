@@ -15,6 +15,8 @@ import { Login } from "./sections/Login";
 import { StorySwitcher } from "./sections/StorySwitcher";
 import "./styles/variables.css";
 import { Sandbox } from "./sections/Sandbox";
+import { TermsOfUse } from "./pages/TermsOfUse";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 
 const AdminNewArticle = lazy(() =>
   import("./sections/AdminNewArticle").then((module) => ({ default: module.AdminNewArticle })),
@@ -32,6 +34,8 @@ function App() {
   const hashWithoutParams = getHashWithoutParams(activeHash);
   
   const isBlogPage = activeHash === "#blog";
+  const isTermsPage = activeHash.startsWith("#termos-de-uso");
+  const isPrivacyPage = activeHash === "#politica-de-privacidade";
   const isLoginPage = activeHash === "#login";
   const isAdminBlogPage = activeHash === "#admin-blog";
   const isAdminAuthorsPage = activeHash === "#admin-authors";
@@ -64,10 +68,10 @@ function App() {
     <div>
       {!isStandalonePage ? (
         <Header
-          activeHref={isBlogPage ? "#blog" : activeHash}
+          activeHref={isBlogPage ? "#blog" : isTermsPage || isPrivacyPage ? undefined : activeHash}
           onActiveHrefChange={setActiveHash}
-          trackActiveSection={!isBlogPage}
-          variant={isBlogPage ? "light" : "dark"}
+          trackActiveSection={!isBlogPage && !isTermsPage && !isPrivacyPage}
+          variant={isBlogPage || isTermsPage || isPrivacyPage ? "light" : "dark"}
         />
       ) : null}
       <main>
@@ -93,6 +97,10 @@ function App() {
           <AdminSettings />
         ) : isLoginPage ? (
           <Login />
+        ) : isPrivacyPage ? (
+          <PrivacyPolicy />
+        ) : isTermsPage ? (
+          <TermsOfUse />
         ) : isBlogPage ? (
           <Blog />
         ) : (

@@ -2,6 +2,7 @@ import { type MouseEvent, useEffect, useState } from "react";
 import { Button, Icon, Menu } from "../../design-system";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import logoVeritasGreen from "../../assets/logo-verde-veritas.svg";
+import { mainNavItems } from "../navigation";
 import styles from "./Header.module.css";
 
 type HeaderVariant = "light" | "dark";
@@ -12,14 +13,6 @@ type HeaderProps = {
   trackActiveSection?: boolean;
   variant?: HeaderVariant;
 };
-
-const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "Produtos", href: "#produtos" },
-  { label: "Quem Somos", href: "#quem-somos" },
-  { label: "Contatos", href: "#rodape" },
-  { label: "Blog", href: "#blog" },
-];
 
 export function Header({
   activeHref: controlledActiveHref,
@@ -72,10 +65,10 @@ export function Header({
     const updateActiveSection = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
-        const availableSections = navItems
+        const availableSections = mainNavItems
           .map((item) => ({ item, element: document.querySelector<HTMLElement>(item.href) }))
           .filter(
-            (entry): entry is { item: (typeof navItems)[number]; element: HTMLElement } =>
+            (entry): entry is { item: (typeof mainNavItems)[number]; element: HTMLElement } =>
               entry.element !== null,
           );
 
@@ -84,7 +77,7 @@ export function Header({
         }
 
         const triggerPosition = window.innerHeight * 0.35;
-        let currentItem: (typeof navItems)[number] | null = null;
+        let currentItem: (typeof mainNavItems)[number] | null = null;
 
         for (const entry of availableSections) {
           if (entry.element.getBoundingClientRect().top <= triggerPosition) {
@@ -164,7 +157,7 @@ export function Header({
         activeHref={activeHref}
         ariaLabel="Navegação principal"
         className={styles.nav}
-        items={navItems}
+        items={mainNavItems}
         onItemClick={(event, item) => handleNavClick(event, item.href)}
         tone={variant}
       />

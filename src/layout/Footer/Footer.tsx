@@ -5,7 +5,10 @@ import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import { mainNavItems } from "../navigation";
 import styles from "./Footer.module.css";
 
-const legalLinks = ["Termos de Uso", "Política de privacidade"];
+const legalLinks = [
+  { label: "Termos de Uso", href: "#termos-de-uso" },
+  { label: "Política de privacidade", href: "#rodape" },
+];
 
 export function Footer() {
   const handleNavClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -101,8 +104,8 @@ export function Footer() {
         <p>© 2026 VeritasHub - Todos os direitos reservados. CNPJ: 27.307.965/0001-88</p>
         <nav className={styles.legal} aria-label="Links legais">
           {legalLinks.map((link) => (
-            <a key={link} href="#rodape">
-              {link}
+            <a key={link.href} href={link.href}>
+              {link.label}
             </a>
           ))}
         </nav>

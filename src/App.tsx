@@ -15,6 +15,7 @@ import { Login } from "./sections/Login";
 import { StorySwitcher } from "./sections/StorySwitcher";
 import "./styles/variables.css";
 import { Sandbox } from "./sections/Sandbox";
+import { TermsOfUse } from "./pages/TermsOfUse";
 
 const AdminNewArticle = lazy(() =>
   import("./sections/AdminNewArticle").then((module) => ({ default: module.AdminNewArticle })),
@@ -25,6 +26,7 @@ const getCurrentHash = () => window.location.hash || "#home";
 function App() {
   const [activeHash, setActiveHash] = useState(getCurrentHash);
   const isBlogPage = activeHash === "#blog";
+  const isTermsPage = activeHash.startsWith("#termos-de-uso");
   const isLoginPage = activeHash === "#login";
   const isAdminBlogPage = activeHash === "#admin-blog";
   const isAdminAuthorsPage = activeHash === "#admin-authors";
@@ -53,10 +55,10 @@ function App() {
     <div>
       {!isStandalonePage ? (
         <Header
-          activeHref={isBlogPage ? "#blog" : activeHash}
+          activeHref={isBlogPage ? "#blog" : isTermsPage ? undefined : activeHash}
           onActiveHrefChange={setActiveHash}
-          trackActiveSection={!isBlogPage}
-          variant={isBlogPage ? "light" : "dark"}
+          trackActiveSection={!isBlogPage && !isTermsPage}
+          variant={isBlogPage || isTermsPage ? "light" : "dark"}
         />
       ) : null}
       <main>
@@ -74,6 +76,8 @@ function App() {
           <AdminSettings />
         ) : isLoginPage ? (
           <Login />
+        ) : isTermsPage ? (
+          <TermsOfUse />
         ) : isBlogPage ? (
           <Blog />
         ) : (

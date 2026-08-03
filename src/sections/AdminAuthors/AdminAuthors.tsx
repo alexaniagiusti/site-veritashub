@@ -109,7 +109,7 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
         email,
         senha,
         role: roleMap[role],
-        status: status === "Ativo"
+        ativo: status === "Ativo"
       },
       {
         onSuccess: () => {

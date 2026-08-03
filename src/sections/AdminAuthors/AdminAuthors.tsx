@@ -380,7 +380,7 @@ function EditAuthorModal({ userId, onClose }: { userId: string; onClose: () => v
         nome,
         cargo,
         role: roleMap[role],
-        status: status === "Ativo",
+        ativo: status === "Ativo",
       },
     });
   };

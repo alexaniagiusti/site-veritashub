@@ -8,6 +8,7 @@ import type { User } from "../../types";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminAuthors.module.css";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
+import { AxiosError } from "axios";
 
 type AuthorRole = "Administrador" | "Editor" | "Autor";
 type AccountStatus = "Ativo" | "Inativo" | "Convidado" | "Suspenso";
@@ -87,12 +88,14 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
   const [senha, setSenha] = useState("");
   const [role, setRole] = useState<AuthorRole>("Administrador");
   const [status, setStatus] = useState<AccountStatus>("Ativo");
+  const [erros, setErros] = useState<string[]>([]);
   const { mutate: createUser, isPending } = useCreateUser();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErros([]);
     if (!nome.trim() || !cargo.trim() || !email.trim() || !senha.trim()) {
-      alert("Preencha todos os campos");
+      setErros(["Preencha todos os campos"]);
       return;
     }
 
@@ -109,7 +112,7 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
         email,
         senha,
         role: roleMap[role],
-        status: status === "Ativo"
+        ativo: status === "Ativo"
       },
       {
         onSuccess: () => {
@@ -120,6 +123,10 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
           setRole("Administrador");
           setStatus("Ativo");
           onClose();
+        },
+        onError: (err) => {
+          const message = err instanceof AxiosError ? err.response?.data?.message : null;
+          setErros(message ? [message].flat() : ["Erro ao criar usuário"]);
         }
       }
     );
@@ -137,6 +144,11 @@ function AddAuthorModal({ onClose }: { onClose: () => void }) {
           </div>
 
           <form className={styles.modalForm} onSubmit={handleSubmit}>
+            {erros.length > 0 && (
+              <ul role="alert" style={{ color: "red", margin: 0, paddingLeft: "1.25rem" }}>
+                {erros.map((erro) => <li key={erro}>{erro}</li>)}
+              </ul>
+            )}
             <TextField label="Nome" placeholder="Nome do Autor" value={nome} onChange={(e) => setNome(e.target.value)} />
             <TextField helper="Exibido nos artigos" label="Cargo" placeholder="Ex: Editor" value={cargo} onChange={(e) => setCargo(e.target.value)} />
             <TextField helper="usado para login - não editável após criar" label="E-mail" placeholder="nome@veritashub.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />

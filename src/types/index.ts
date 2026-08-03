@@ -72,7 +72,7 @@ export interface CreateUserRequest {
   senha: string;
   cargo: string;
   role: 'ADMIN' | 'EDITOR' | 'AUTOR';
-  status?: boolean;
+  ativo?: boolean;
 }
 
 export interface UpdateProfileRequest {

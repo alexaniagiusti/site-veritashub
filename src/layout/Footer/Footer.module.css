@@ -79,7 +79,7 @@
   height: 50.4px;
   min-height: 50.4px;
   padding: 0;
-  border: 1.575px solid #23e600;
+  border: 1.575px solid var(--green-400);
   border-radius: 33.6px;
   color: #ffffff;
   line-height: 0;
@@ -91,7 +91,7 @@
 .socialButton:hover:not(:disabled),
 .socialButton:active:not(:disabled),
 .socialButton:focus-visible {
-  border-color: #23e600;
+  border-color: var(--green-400);
   color: #ffffff;
   background: #19191c;
   box-shadow: 0 0 0 3px rgba(35, 230, 0, 0.18);
@@ -109,7 +109,7 @@
   height: 66px;
   min-height: 66px;
   padding: 0;
-  border: 2px solid #23e600;
+  border: 2px solid var(--green-400);
   border-radius: 999px;
   color: #f6f6f9;
   background: transparent;
@@ -119,7 +119,7 @@
 .backTop:hover:not(:disabled),
 .backTop:active:not(:disabled),
 .backTop:focus-visible {
-  border-color: #23e600;
+  border-color: var(--green-400);
   color: #f6f6f9;
   background: rgba(35, 230, 0, 0.08);
   box-shadow: 0 0 0 3px rgba(35, 230, 0, 0.14);

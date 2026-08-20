@@ -3,7 +3,7 @@
   z-index: 0;
   isolation: isolate;
   margin-top: -100svh;
-  background: #108b00;
+  background: var(--green-700);
 }
 
 .section {
@@ -17,7 +17,7 @@
   padding: 48px 24px;
   overflow: hidden;
   color: #f6f6f9;
-  background: #108b00;
+  background: var(--green-700);
 }
 
 .cover {

@@ -1,28 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./AboutTeam.module.css";
 
-const firstCarouselPhotos = [
+const carouselPhotos = [
   new URL("../../assets/01.webp", import.meta.url).href,
   new URL("../../assets/02.webp", import.meta.url).href,
   new URL("../../assets/03.webp", import.meta.url).href,
   new URL("../../assets/04.webp", import.meta.url).href,
   new URL("../../assets/05.webp", import.meta.url).href,
-  new URL("../../assets/11.webp", import.meta.url).href,
-  new URL("../../assets/12.webp", import.meta.url).href,
-];
-
-const secondCarouselPhotos = [
   new URL("../../assets/06.webp", import.meta.url).href,
   new URL("../../assets/07.webp", import.meta.url).href,
   new URL("../../assets/08.webp", import.meta.url).href,
   new URL("../../assets/09.webp", import.meta.url).href,
   new URL("../../assets/10.webp", import.meta.url).href,
+  new URL("../../assets/11.webp", import.meta.url).href,
+  new URL("../../assets/12.webp", import.meta.url).href,
   new URL("../../assets/13.webp", import.meta.url).href,
   new URL("../../assets/14.webp", import.meta.url).href,
 ];
 
-const firstCarouselLoop = [...firstCarouselPhotos, ...firstCarouselPhotos];
-const secondCarouselLoop = [...secondCarouselPhotos, ...secondCarouselPhotos];
+const carouselLoop = [...carouselPhotos, ...carouselPhotos];
 const clientCount = 20000;
 
 export function AboutTeam() {
@@ -131,14 +127,8 @@ export function AboutTeam() {
 
         <div className={styles.gallery} aria-label="Equipe Veritas Hub">
           <div className={`${styles.carouselColumn} ${styles.carouselUp}`}>
-            {firstCarouselLoop.map((photo, index) => (
+            {carouselLoop.map((photo, index) => (
               <img key={`up-${photo}-${index}`} src={photo} alt="" />
-            ))}
-          </div>
-
-          <div className={`${styles.carouselColumn} ${styles.carouselDown}`}>
-            {secondCarouselLoop.map((photo, index) => (
-              <img key={`down-${photo}-${index}`} src={photo} alt="" />
             ))}
           </div>
         </div>

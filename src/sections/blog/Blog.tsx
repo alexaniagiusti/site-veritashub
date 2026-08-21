@@ -76,17 +76,19 @@ export function Blog() {
             <div className={styles.postsGrid}>
               {filteredPosts.map((post) => (
                 <article className={styles.postCard} key={post.id}>
-                  <img src={post.capaUrl || imgDestaqueBlog} alt={post.titulo} />
-                  <div className={styles.postBody}>
-                    <p className={styles.postCategory}>{post.categoria?.nome?.toUpperCase() || "SEM CATEGORIA"}</p>
-                    <h2>{post.titulo}</h2>
-                    <span className={styles.divider} />
-                    <Author author={{
-                      initials: post.autor?.nome?.split(' ').slice(0, 2).map((word: string) => word[0]).join('').toUpperCase() || 'AB',
-                      name: post.autor?.nome || "Autor",
-                      role: post.autor?.cargo || "Colaborador",
-                    }} />
-                  </div>
+                  <a className={styles.postLink} href={`#artigo-${post.id}`}>
+                    <img src={post.capaUrl || imgDestaqueBlog} alt={post.titulo} />
+                    <div className={styles.postBody}>
+                      <p className={styles.postCategory}>{post.categoria?.nome?.toUpperCase() || "SEM CATEGORIA"}</p>
+                      <h2>{post.titulo}</h2>
+                      <span className={styles.divider} />
+                      <Author author={{
+                        initials: post.autor?.nome?.split(' ').slice(0, 2).map((word: string) => word[0]).join('').toUpperCase() || 'AB',
+                        name: post.autor?.nome || "Autor",
+                        role: post.autor?.cargo || "Colaborador",
+                      }} />
+                    </div>
+                  </a>
                 </article>
               ))}
             </div>

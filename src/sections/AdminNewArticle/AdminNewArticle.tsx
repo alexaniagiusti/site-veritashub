@@ -15,15 +15,7 @@ import { useCategorias } from "../../hooks/useCategorias";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminNewArticle.module.css";
 
-const initialContent = `
-  <h3>WYSIWYG</h3>
-  <p>Rich Text Editor Component in Figma</p>
-  <ul>
-    <li>Research about the WYSIWYG editor's best practices</li>
-    <li>Organize training sessions for working with rich text editor</li>
-    <li>Strategize the rich text editor component structure</li>
-  </ul>
-`;
+const initialContent = "";
 
 const toolbarGroups = [
   [

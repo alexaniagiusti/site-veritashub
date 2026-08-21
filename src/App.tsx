@@ -17,6 +17,7 @@ import "./styles/variables.css";
 import { Sandbox } from "./sections/Sandbox";
 import { TermsOfUse } from "./pages/TermsOfUse";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { ArticleDetail } from "./pages/ArticleDetail";
 
 const AdminNewArticle = lazy(() =>
   import("./sections/AdminNewArticle").then((module) => ({ default: module.AdminNewArticle })),
@@ -34,6 +35,8 @@ function App() {
   const hashWithoutParams = getHashWithoutParams(activeHash);
   
   const isBlogPage = activeHash === "#blog";
+  const isArticlePage = activeHash.startsWith("#artigo-");
+  const articleId = isArticlePage ? activeHash.replace("#artigo-", "") : "";
   const isTermsPage = activeHash.startsWith("#termos-de-uso");
   const isPrivacyPage = activeHash === "#politica-de-privacidade";
   const isLoginPage = activeHash === "#login";
@@ -68,10 +71,10 @@ function App() {
     <div>
       {!isStandalonePage ? (
         <Header
-          activeHref={isBlogPage ? "#blog" : isTermsPage || isPrivacyPage ? undefined : activeHash}
+          activeHref={isBlogPage || isArticlePage ? "#blog" : isTermsPage || isPrivacyPage ? undefined : activeHash}
           onActiveHrefChange={setActiveHash}
-          trackActiveSection={!isBlogPage && !isTermsPage && !isPrivacyPage}
-          variant={isBlogPage || isTermsPage || isPrivacyPage ? "light" : "dark"}
+          trackActiveSection={!isBlogPage && !isArticlePage && !isTermsPage && !isPrivacyPage}
+          variant={isBlogPage || isArticlePage || isTermsPage || isPrivacyPage ? "light" : "dark"}
         />
       ) : null}
       <main>
@@ -101,6 +104,8 @@ function App() {
           <PrivacyPolicy />
         ) : isTermsPage ? (
           <TermsOfUse />
+        ) : isArticlePage ? (
+          <ArticleDetail articleId={articleId} />
         ) : isBlogPage ? (
           <Blog />
         ) : (

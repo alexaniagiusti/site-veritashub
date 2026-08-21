@@ -30,6 +30,8 @@ import {
   RiArrowGoForwardLine,
   RiBold,
   RiCheckFill,
+  RiCalendarLine,
+  RiTimeLine,
   RiUserLine,
   RiH1,
   RiH2,
@@ -63,6 +65,8 @@ export type IconName =
   | "logout"
   | "add"
   | "check"
+  | "calendar"
+  | "clock"
   | "search"
   | "edit"
   | "delete-bin"
@@ -124,6 +128,8 @@ const icons: Record<IconName, ComponentType<RemixIconProps>> = {
   logout: RiLogoutBoxLine,
   add: RiAddFill,
   check: RiCheckFill,
+  calendar: RiCalendarLine,
+  clock: RiTimeLine,
   search: RiSearchLine,
   edit: RiEditLine,
   "delete-bin": RiDeleteBin2Line,

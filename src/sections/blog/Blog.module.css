@@ -157,7 +157,13 @@
     0 4px 6px -2px rgba(13, 13, 13, 0.04);
 }
 
-.postCard > img {
+.postLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.postLink > img {
   display: block;
   width: 100%;
   height: 174px;

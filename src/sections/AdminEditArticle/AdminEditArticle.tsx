@@ -99,7 +99,9 @@ export function AdminEditArticle() {
       setDescription(post.resumo || "");
       setCategoriaId(post.categoriaId.toString());
       setPublicationMode(post.status === "PUBLISHED" ? "publish" : "draft");
-      editor.commands.setContent(post.conteudo);
+      if (!!editor) {
+        editor.commands.setContent(post.conteudo);
+      }
       setWordCount(countWords(stripHtml(post.conteudo)));
     }
   }, [post, editor]);

@@ -1,15 +1,24 @@
+import imgDestaqueBlog from "../../assets/img-destaque-blog.png";
 import { Button } from "../../design-system/components/button";
+import { usePosts } from "../../hooks/usePosts";
+import type { Post } from "../../types";
 import styles from "./BlogHighlights.module.css";
 
-const highlights = [
-  "Aqui fica o título do artigo em destaque",
-  "Aqui fica o título do artigo em destaque",
-  "Aqui fica o título do artigo em destaque",
-];
+const getPublicationTime = (post: Post) => {
+  const timestamp = Date.parse(post.publicadoEm || post.createdAt || "");
+
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+};
 
 export function BlogHighlights() {
+  const { data, isLoading } = usePosts(1, 100);
+  const latestPosts = [...(data?.data ?? [])]
+    .filter((post) => post.status === "PUBLISHED")
+    .sort((first, second) => getPublicationTime(second) - getPublicationTime(first))
+    .slice(0, 3);
+
   const openBlog = () => {
-    window.location.hash = "blog";
+    window.location.hash = "#blog";
   };
 
   return (
@@ -23,18 +32,24 @@ export function BlogHighlights() {
           </Button>
         </div>
 
-        <div className={styles.cards}>
-          {highlights.map((title, index) => (
-            <a className={styles.card} href="#blog" key={index}>
-              <div className={styles.imagePlaceholder} aria-hidden="true">
-                <svg viewBox="0 0 48 48" role="img">
-                  <path d="M8 10h32v28H8zM8 31l9-9 7 7 5-5 11 11M31 18h.01" />
-                </svg>
-                <span>Imagem do artigo</span>
-              </div>
-              <h3>{title}</h3>
-            </a>
-          ))}
+        <div className={styles.cards} aria-busy={isLoading || undefined}>
+          {isLoading
+            ? Array.from({ length: 3 }, (_, index) => (
+                <div className={`${styles.card} ${styles.skeleton}`} key={index} aria-hidden="true">
+                  <span className={styles.skeletonImage} />
+                  <span className={styles.skeletonTitle} />
+                </div>
+              ))
+            : latestPosts.map((post) => (
+                <a className={styles.card} href={`#artigo-${post.id}`} key={post.id}>
+                  <img
+                    className={styles.articleImage}
+                    src={post.capaUrl || imgDestaqueBlog}
+                    alt={`Imagem de destaque do artigo ${post.titulo}`}
+                  />
+                  <h3>{post.titulo}</h3>
+                </a>
+              ))}
         </div>
       </div>
     </section>

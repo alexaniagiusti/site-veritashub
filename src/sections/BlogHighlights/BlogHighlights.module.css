@@ -60,31 +60,34 @@
   outline-offset: 4px;
 }
 
-.imagePlaceholder {
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 10px;
+.articleImage {
+  display: block;
+  width: 100%;
   aspect-ratio: 1.29 / 1;
-  color: var(--gray-800);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.74), transparent),
-    repeating-linear-gradient(-45deg, var(--gray-100) 0 12px, var(--gray-200) 12px 24px);
+  object-fit: cover;
 }
 
-.imagePlaceholder svg {
-  width: 42px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.5;
+.skeleton {
+  pointer-events: none;
 }
 
-.imagePlaceholder span {
-  font-family: Inter, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
+.skeletonImage,
+.skeletonTitle {
+  display: block;
+  background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.4s ease-in-out infinite;
+}
+
+.skeletonImage {
+  aspect-ratio: 1.29 / 1;
+}
+
+.skeletonTitle {
+  width: calc(100% - 36px);
+  height: 22px;
+  margin: 18px;
+  border-radius: 6px;
 }
 
 .card h3 {
@@ -151,5 +154,20 @@
 @media (prefers-reduced-motion: reduce) {
   .card {
     transition: none;
+  }
+
+  .skeletonImage,
+  .skeletonTitle {
+    animation: none;
+  }
+}
+
+@keyframes loading {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
   }
 }

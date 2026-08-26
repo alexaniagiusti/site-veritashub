@@ -100,7 +100,16 @@ function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: stri
               <td>
                 <div className={styles.titleCell}>
                   <span className={styles.checkbox} aria-hidden="true" />
-                  <span className={styles.thumbnail} aria-hidden="true" />
+                  {post.capaUrl ? (
+                    <img
+                      className={styles.thumbnail}
+                      src={post.capaUrl}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <span className={styles.thumbnailFallback} aria-hidden="true" />
+                  )}
                   <span className={styles.articleTitle}>{post.titulo}</span>
                 </div>
               </td>
@@ -132,9 +141,6 @@ function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: stri
                     onClick={() => onDelete(post.id)}
                   >
                     <Icon name="delete-bin" size={24} />
-                  </button>
-                  <button aria-label={`Mais ações: ${post.titulo}`} type="button">
-                    <Icon name="more" size={24} />
                   </button>
                 </div>
               </td>

@@ -144,6 +144,14 @@ export function AdminNewArticle() {
     reader.readAsDataURL(file);
   };
 
+  const removeCoverImage = () => {
+    setCoverPreview(null);
+
+    if (coverImageInputRef.current) {
+      coverImageInputRef.current.value = "";
+    }
+  };
+
   return (
     <section className={adminStyles.adminPage} aria-labelledby="new-article-title">
       <AdminSidebar />
@@ -293,25 +301,31 @@ export function AdminNewArticle() {
                         </option>
                       ))}
                     </select>
-                    <button aria-label="Adicionar categoria" type="button">
-                      <Icon name="add" size={24} />
-                    </button>
                   </div>
                 </section>
 
-                <section className={styles.panelCard}>
+                <section className={`${styles.panelCard} ${styles.coverCard}`}>
                   <h2>Imagem de capa:</h2>
-                  <label className={styles.uploadBox}>
+                  <p className={styles.uploadHint}>Tamanho máximo permitido: 50 MB.</p>
+                  <div className={styles.uploadControl}>
+                    <label className={styles.uploadBox}>
+                      {coverPreview ? (
+                        <img alt="Prévia da imagem de capa" src={coverPreview} />
+                      ) : (
+                        <>
+                          <Icon name="image-add" size={24} />
+                          <span>Clique para enviar ou arraste uma imagem aqui</span>
+                        </>
+                      )}
+                      <input accept="image/*" onChange={handleCoverImage} ref={coverImageInputRef} type="file" />
+                    </label>
                     {coverPreview ? (
-                      <img alt="Prévia da imagem de capa" src={coverPreview} />
-                    ) : (
-                      <>
-                        <Icon name="image-add" size={24} />
-                        <span>Clique para enviar ou arraste uma imagem aqui</span>
-                      </>
-                    )}
-                    <input accept="image/*" onChange={handleCoverImage} ref={coverImageInputRef} type="file" />
-                  </label>
+                      <button className={styles.removeCoverButton} onClick={removeCoverImage} type="button">
+                        <Icon name="delete-bin" size={18} />
+                        Remover imagem
+                      </button>
+                    ) : null}
+                  </div>
                 </section>
               </aside>
             </div>

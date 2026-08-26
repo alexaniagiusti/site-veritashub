@@ -63,6 +63,7 @@ export function AdminEditArticle() {
   const [categoriaId, setCategoriaId] = useState<string>("");
   const [publicationMode, setPublicationMode] = useState<"publish" | "draft">("publish");
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const [coverRemoved, setCoverRemoved] = useState(false);
 
   const { mutate: updatePost, isPending } = useUpdatePost();
   const { data: categoriasData } = useCategorias(1, 100);
@@ -123,7 +124,7 @@ export function AdminEditArticle() {
         categoriaId: parseInt(categoriaId, 10),
         resumo: description,
         status: publicationMode === "publish" ? "PUBLISHED" : "DRAFT",
-        capaUrl: coverPreview || undefined,
+        capaUrl: coverRemoved ? "" : coverPreview || post?.capaUrl || undefined,
       },
     });
   };
@@ -157,10 +158,20 @@ export function AdminEditArticle() {
 
     reader.onload = () => {
       setCoverPreview(String(reader.result));
+      setCoverRemoved(false);
       event.target.value = "";
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const removeCoverImage = () => {
+    setCoverPreview(null);
+    setCoverRemoved(true);
+
+    if (coverImageInputRef.current) {
+      coverImageInputRef.current.value = "";
+    }
   };
 
   if (isLoading) {
@@ -341,25 +352,34 @@ export function AdminEditArticle() {
                           </option>
                         ))}
                       </select>
-                      <button aria-label="Adicionar categoria" type="button">
-                        <Icon name="add" size={24} />
-                      </button>
                     </div>
                   </section>
 
-                  <section className={styles.panelCard}>
+                  <section className={`${styles.panelCard} ${styles.coverCard}`}>
                     <h2>Imagem de capa:</h2>
-                    <label className={styles.uploadBox}>
-                      {coverPreview ? (
-                        <img alt="Prévia da imagem de capa" src={coverPreview} />
-                      ) : (
-                        <>
-                          <Icon name="image-add" size={24} />
-                          <span>Clique para enviar ou arraste uma imagem aqui</span>
-                        </>
-                      )}
-                      <input accept="image/*" onChange={handleCoverImage} ref={coverImageInputRef} type="file" />
-                    </label>
+                    <p className={styles.uploadHint}>Tamanho máximo permitido: 50 MB.</p>
+                    <div className={styles.uploadControl}>
+                      <label className={styles.uploadBox}>
+                        {coverPreview || (!coverRemoved && post.capaUrl) ? (
+                          <img
+                            alt="Prévia da imagem de capa"
+                            src={coverPreview || post.capaUrl}
+                          />
+                        ) : (
+                          <>
+                            <Icon name="image-add" size={24} />
+                            <span>Clique para enviar ou arraste uma imagem aqui</span>
+                          </>
+                        )}
+                        <input accept="image/*" onChange={handleCoverImage} ref={coverImageInputRef} type="file" />
+                      </label>
+                      {coverPreview || (!coverRemoved && post.capaUrl) ? (
+                        <button className={styles.removeCoverButton} onClick={removeCoverImage} type="button">
+                          <Icon name="delete-bin" size={18} />
+                          Remover imagem
+                        </button>
+                      ) : null}
+                    </div>
                   </section>
                 </aside>
               </div>

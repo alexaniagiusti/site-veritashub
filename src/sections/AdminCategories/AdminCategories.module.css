@@ -41,7 +41,16 @@
 
 .categoriesTable th:first-child,
 .categoriesTable td:first-child {
-  width: 62%;
+  width: calc(100% - 132px);
+}
+
+.categoriesTable th:last-child,
+.categoriesTable td:last-child {
+  width: 132px;
+}
+
+.categoriesTable th:last-child {
+  text-align: right;
 }
 
 .categoriesTable td:first-child {

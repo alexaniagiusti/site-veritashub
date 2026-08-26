@@ -123,7 +123,7 @@ export function AdminEditArticle() {
         categoriaId: parseInt(categoriaId, 10),
         resumo: description,
         status: publicationMode === "publish" ? "PUBLISHED" : "DRAFT",
-        capaUrl: coverPreview || undefined,
+        capaUrl: coverPreview || post?.capaUrl || undefined,
       },
     });
   };
@@ -341,17 +341,17 @@ export function AdminEditArticle() {
                           </option>
                         ))}
                       </select>
-                      <button aria-label="Adicionar categoria" type="button">
-                        <Icon name="add" size={24} />
-                      </button>
                     </div>
                   </section>
 
                   <section className={styles.panelCard}>
                     <h2>Imagem de capa:</h2>
                     <label className={styles.uploadBox}>
-                      {coverPreview ? (
-                        <img alt="Prévia da imagem de capa" src={coverPreview} />
+                      {coverPreview || post.capaUrl ? (
+                        <img
+                          alt="Prévia da imagem de capa"
+                          src={coverPreview || post.capaUrl}
+                        />
                       ) : (
                         <>
                           <Icon name="image-add" size={24} />

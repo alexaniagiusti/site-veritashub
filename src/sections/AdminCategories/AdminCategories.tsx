@@ -79,7 +79,6 @@ function CategoriesTable({ categorias, onDelete }: { categorias: Categoria[]; on
         <thead>
           <tr>
             <th>Categoria</th>
-            <th>Descrição</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -87,9 +86,8 @@ function CategoriesTable({ categorias, onDelete }: { categorias: Categoria[]; on
           {categorias.map((categoria) => (
             <tr key={categoria.id}>
               <td>{categoria.nome}</td>
-              <td>{categoria.descricao}</td>
               <td>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div className={adminStyles.rowActions}>
                   <button 
                     aria-label={`Editar: ${categoria.nome}`} 
                     type="button"
@@ -120,7 +118,7 @@ function CategoriesPagination({ page, total, onPageChange }: { page: number; tot
   const totalPages = Math.ceil(total / 10);
 
   return (
-    <nav className={styles.pagination} aria-label="Paginação de categorias">
+    <nav className={adminStyles.pagination} aria-label="Paginação de categorias">
       <button
         aria-label="Página anterior"
         type="button"

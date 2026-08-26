@@ -62,7 +62,13 @@
 
 .authorsTable th:nth-child(5),
 .authorsTable td:nth-child(5) {
-  width: 9.9%;
+  width: 132px;
+  padding-right: 28px;
+  padding-left: 28px;
+}
+
+.authorsTable th:nth-child(5) {
+  text-align: right;
 }
 
 .authorCell {

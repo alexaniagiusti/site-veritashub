@@ -142,9 +142,6 @@ function ArticlesTable({ posts, onDelete }: { posts: Post[]; onDelete: (id: stri
                   >
                     <Icon name="delete-bin" size={24} />
                   </button>
-                  <button aria-label={`Mais ações: ${post.titulo}`} type="button">
-                    <Icon name="more" size={24} />
-                  </button>
                 </div>
               </td>
             </tr>

@@ -288,9 +288,6 @@ function AuthorsTable({ users, onDelete }: { users: User[]; onDelete: (id: strin
                   >
                     <Icon name="delete-bin" size={24} />
                   </button>
-                  <button aria-label={`Mais ações: ${user.nome}`} type="button">
-                    <Icon name="more" size={24} />
-                  </button>
                 </div>
               </td>
             </tr>

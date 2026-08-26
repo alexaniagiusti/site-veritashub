@@ -279,6 +279,12 @@
 .articlesTable th:nth-child(5),
 .articlesTable td:nth-child(5) {
   width: 132px;
+  padding-right: 28px;
+  padding-left: 28px;
+}
+
+.articlesTable th:nth-child(5) {
+  text-align: right;
 }
 
 .titleCell {

@@ -293,9 +293,6 @@ export function AdminNewArticle() {
                         </option>
                       ))}
                     </select>
-                    <button aria-label="Adicionar categoria" type="button">
-                      <Icon name="add" size={24} />
-                    </button>
                   </div>
                 </section>
 

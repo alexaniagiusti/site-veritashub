@@ -296,8 +296,9 @@ export function AdminNewArticle() {
                   </div>
                 </section>
 
-                <section className={styles.panelCard}>
+                <section className={`${styles.panelCard} ${styles.coverCard}`}>
                   <h2>Imagem de capa:</h2>
+                  <p className={styles.uploadHint}>Tamanho máximo permitido: 50 MB.</p>
                   <label className={styles.uploadBox}>
                     {coverPreview ? (
                       <img alt="Prévia da imagem de capa" src={coverPreview} />

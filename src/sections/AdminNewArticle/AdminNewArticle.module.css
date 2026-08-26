@@ -382,6 +382,18 @@
   pointer-events: none;
 }
 
+.uploadHint {
+  margin: 0 0 16px;
+  color: var(--yellow-900);
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.coverCard h2 {
+  margin-bottom: 4px;
+}
+
 .hiddenFileInput {
   position: absolute;
   width: 1px;

@@ -1,0 +1,144 @@
+.postContent {
+  line-height: 1.6;
+  color: #333;
+  font-size: 16px;
+}
+
+.postContent p {
+  margin: 1rem 0;
+  text-align: justify;
+}
+
+.postContent h1,
+.postContent h2,
+.postContent h3,
+.postContent h4,
+.postContent h5,
+.postContent h6 {
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.postContent h1 {
+  font-size: 2rem;
+}
+
+.postContent h2 {
+  font-size: 1.75rem;
+}
+
+.postContent h3 {
+  font-size: 1.5rem;
+}
+
+.postContent h4 {
+  font-size: 1.25rem;
+}
+
+.postContent h5 {
+  font-size: 1.1rem;
+}
+
+.postContent h6 {
+  font-size: 1rem;
+}
+
+.postContent strong {
+  font-weight: 600;
+}
+
+.postContent em {
+  font-style: italic;
+}
+
+.postContent u {
+  text-decoration: underline;
+}
+
+.postContent s {
+  text-decoration: line-through;
+}
+
+.postContent ul,
+.postContent ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.postContent li {
+  margin: 0.5rem 0;
+}
+
+.postContent img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+  object-fit: contain;
+}
+
+.postContent a {
+  color: #0066cc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.postContent a:hover {
+  color: #0052a3;
+  text-decoration: underline;
+}
+
+.postContent blockquote {
+  border-left: 4px solid #0066cc;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #666;
+  font-style: italic;
+}
+
+.postContent code {
+  background-color: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+}
+
+.postContent pre {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.postContent pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .postContent {
+    font-size: 14px;
+  }
+
+  .postContent h1 {
+    font-size: 1.5rem;
+  }
+
+  .postContent h2 {
+    font-size: 1.25rem;
+  }
+
+  .postContent h3 {
+    font-size: 1.1rem;
+  }
+
+  .postContent img {
+    margin: 1rem 0;
+  }
+}

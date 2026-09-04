@@ -155,25 +155,25 @@
   font: 400 18px/1.8 Inter, sans-serif;
 }
 
-.articleBody :global(p) {
+.articleBody p {
   margin: 0 0 28px;
 }
 
-.articleBody :global(h2),
-.articleBody :global(h3) {
+.articleBody h2,
+.articleBody h3 {
   margin: 52px 0 18px;
   color: var(--green-900);
   font-family: Poppins, sans-serif;
   line-height: 1.25;
 }
 
-.articleBody :global(h2) { font-size: 30px; }
-.articleBody :global(h3) { font-size: 23px; }
-.articleBody :global(a) { color: var(--green-700); }
-.articleBody :global(img) { max-width: 100%; height: auto; border-radius: 12px; }
-.articleBody :global(blockquote) { margin: 36px 0; padding-left: 24px; border-left: 4px solid var(--green-400); color: var(--gray-800); }
-.articleBody :global(ul),
-.articleBody :global(ol) { margin: 0 0 28px; padding-left: 28px; }
+.articleBody h2 { font-size: 30px; }
+.articleBody h3 { font-size: 23px; }
+.articleBody a { color: var(--green-700); }
+.articleBody img { max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 1.5rem 0; }
+.articleBody blockquote { margin: 36px 0; padding-left: 24px; border-left: 4px solid var(--green-400); color: var(--gray-800); }
+.articleBody ul,
+.articleBody ol { margin: 0 0 28px; padding-left: 28px; }
 
 .articleFooter {
   display: flex;

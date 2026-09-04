@@ -15,7 +15,8 @@ import { useCategorias } from "../../hooks/useCategorias";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "../AdminNewArticle/AdminNewArticle.module.css";
 import { ProtectedRoute } from "../../components/ProtectedRoute";
-
+import { PostContent } from "../../components/PostContent/PostContent";
+ 
 const toolbarGroups = [
   [
     { label: "Desfazer", icon: "undo", action: "undo" },
@@ -47,13 +48,13 @@ const toolbarGroups = [
     { label: "Inserir imagem", icon: "image-add", action: "image" },
   ],
 ] as const;
-
+ 
 type ToolbarAction = (typeof toolbarGroups)[number][number]["action"];
-
+ 
 export function AdminEditArticle() {
   const hash = window.location.hash;
   const postId = hash.split("/")[1];
-
+ 
   const { data: post, isLoading } = usePost(postId || "");
   const editorImageInputRef = useRef<HTMLInputElement>(null);
   const coverImageInputRef = useRef<HTMLInputElement>(null);
@@ -61,13 +62,13 @@ export function AdminEditArticle() {
   const [description, setDescription] = useState("");
   const [titulo, setTitulo] = useState("");
   const [categoriaId, setCategoriaId] = useState<string>("");
-  const [publicationMode, setPublicationMode] = useState<"publish" | "draft">("publish");
+  const [publicationMode, setPublicationMode] = useState<"publish" | "draft">("draft");
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [coverRemoved, setCoverRemoved] = useState(false);
-
+ 
   const { mutate: updatePost, isPending } = useUpdatePost();
   const { data: categoriasData } = useCategorias(1, 100);
-
+ 
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -75,7 +76,9 @@ export function AdminEditArticle() {
       Link.configure({
         openOnClick: false,
       }),
-      Image,
+      Image.configure({
+        allowBase64: true,
+      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
@@ -93,7 +96,7 @@ export function AdminEditArticle() {
       setWordCount(countWords(currentEditor.getText()));
     },
   });
-
+ 
   useEffect(() => {
     if (post && editor) {
       setTitulo(post.titulo);
@@ -101,21 +104,26 @@ export function AdminEditArticle() {
       setCategoriaId(post.categoriaId.toString());
       setPublicationMode(post.status === "PUBLISHED" ? "publish" : "draft");
       if (!!editor) {
-        editor.commands.setContent(post.conteudo);
+        // Usar setContent com parseOptions para processar HTML corretamente
+        editor.commands.setContent(post.conteudo, {
+          parseOptions: {
+            preserveWhitespace: "full",
+          },
+        });
       }
       setWordCount(countWords(stripHtml(post.conteudo)));
     }
   }, [post, editor]);
-
+ 
   const descriptionCount = description.length;
   const primaryActionLabel = publicationMode === "publish" ? "Atualizar" : "Salvar Rascunho";
-
+ 
   const handlePublish = () => {
     if (!titulo.trim() || !editor?.getText().trim() || !categoriaId) {
       alert("Preencha título, conteúdo e categoria");
       return;
     }
-
+ 
     updatePost({
       id: postId,
       data: {
@@ -146,34 +154,34 @@ export function AdminEditArticle() {
 
     reader.readAsDataURL(file);
   };
-
+ 
   const handleCoverImage = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
+ 
     if (!file) {
       return;
     }
-
+ 
     const reader = new FileReader();
-
+ 
     reader.onload = () => {
       setCoverPreview(String(reader.result));
       setCoverRemoved(false);
       event.target.value = "";
     };
-
+ 
     reader.readAsDataURL(file);
   };
-
+ 
   const removeCoverImage = () => {
     setCoverPreview(null);
     setCoverRemoved(true);
-
+ 
     if (coverImageInputRef.current) {
       coverImageInputRef.current.value = "";
     }
   };
-
+ 
   if (isLoading) {
     return (
       <section className={adminStyles.adminPage} aria-labelledby="edit-article-title">
@@ -186,7 +194,7 @@ export function AdminEditArticle() {
       </section>
     );
   }
-
+ 
   if (!post) {
     return (
       <ProtectedRoute>
@@ -201,12 +209,12 @@ export function AdminEditArticle() {
       </ProtectedRoute>
     );
   }
-
+ 
   return (
     <ProtectedRoute>
       <section className={adminStyles.adminPage} aria-labelledby="edit-article-title">
         <AdminSidebar />
-
+ 
         <div className={adminStyles.workspace}>
           <header className={`${adminStyles.topbar} ${styles.newArticleTopbar}`}>
             <h1 id="edit-article-title">Editar Artigo</h1>
@@ -232,7 +240,7 @@ export function AdminEditArticle() {
               </Button>
             </div>
           </header>
-
+ 
           <main className={`${adminStyles.content} ${styles.newArticleContent}`}>
             <section className={styles.formCard}>
               <div className={styles.formGrid}>
@@ -248,7 +256,7 @@ export function AdminEditArticle() {
                       onChange={(e) => setTitulo(e.target.value)}
                     />
                   </label>
-
+ 
                   <label className={styles.field}>
                     <span>
                       Descrição <strong>*</strong>
@@ -264,7 +272,7 @@ export function AdminEditArticle() {
                       <em>{descriptionCount}/120</em>
                     </span>
                   </label>
-
+ 
                   <div className={styles.editorBlock}>
                     <p>Conteúdo</p>
                     <div className={styles.editorShell}>
@@ -273,7 +281,7 @@ export function AdminEditArticle() {
                           <div className={styles.toolbarGroup} key={group.map((item) => item.action).join("-")}>
                             {group.map((item) => {
                               const disabled = !editor || !canRunToolbarAction(item.action, editor);
-
+ 
                               return (
                                 <button
                                   aria-label={item.label}
@@ -286,7 +294,7 @@ export function AdminEditArticle() {
                                       editorImageInputRef.current?.click();
                                       return;
                                     }
-
+ 
                                     runToolbarAction(item.action, editor);
                                   }}
                                   title={item.label}
@@ -312,9 +320,13 @@ export function AdminEditArticle() {
                         <span aria-hidden="true" className={styles.resizeHandle} />
                       </div>
                     </div>
+                    <div className={styles.previewSection}>
+                      <p className={styles.previewLabel}>Prévia do conteúdo:</p>
+                      {editor && <PostContent html={editor.getHTML()} className={styles.previewContent} />}
+                    </div>
                   </div>
                 </div>
-
+ 
                 <aside className={styles.sidePanel} aria-label="Configurações do artigo">
                   <section className={styles.panelCard}>
                     <h2>Publicação:</h2>
@@ -337,7 +349,7 @@ export function AdminEditArticle() {
                       <span>Salvar Rascunho</span>
                     </label>
                   </section>
-
+ 
                   <section className={styles.panelCard}>
                     <h2>Categoria:</h2>
                     <div className={styles.categoryControls}>
@@ -354,7 +366,7 @@ export function AdminEditArticle() {
                       </select>
                     </div>
                   </section>
-
+ 
                   <section className={`${styles.panelCard} ${styles.coverCard}`}>
                     <h2>Imagem de capa:</h2>
                     <p className={styles.uploadHint}>Tamanho máximo permitido: 50 MB.</p>
@@ -385,29 +397,29 @@ export function AdminEditArticle() {
               </div>
             </section>
           </main>
-
+ 
           <AdminFooter />
         </div>
       </section>
     </ProtectedRoute>
   );
 }
-
+ 
 function countWords(text: string) {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
-
+ 
 function stripHtml(html: string) {
   return html.replace(/<[^>]*>/g, " ");
 }
-
+ 
 function runToolbarAction(action: ToolbarAction, editor: ReturnType<typeof useEditor>) {
   if (!editor || !canRunToolbarAction(action, editor)) {
     return;
   }
-
+ 
   const chain = editor.chain().focus();
-
+ 
   switch (action) {
     case "undo":
       chain.undo().run();
@@ -457,16 +469,16 @@ function runToolbarAction(action: ToolbarAction, editor: ReturnType<typeof useEd
     case "link": {
       const previousUrl = editor.getAttributes("link").href as string | undefined;
       const url = window.prompt("Informe a URL do link", previousUrl ?? "https://");
-
+ 
       if (url === null) {
         return;
       }
-
+ 
       if (url.trim() === "") {
         chain.unsetLink().run();
         return;
       }
-
+ 
       chain.setLink({ href: url }).run();
       break;
     }
@@ -474,28 +486,28 @@ function runToolbarAction(action: ToolbarAction, editor: ReturnType<typeof useEd
       break;
   }
 }
-
+ 
 function canRunToolbarAction(action: ToolbarAction, editor: ReturnType<typeof useEditor>) {
   if (!editor) {
     return false;
   }
-
+ 
   if (action === "undo") {
     return editor.can().undo();
   }
-
+ 
   if (action === "redo") {
     return editor.can().redo();
   }
-
+ 
   return true;
 }
-
+ 
 function isToolbarActionActive(action: ToolbarAction, editor: ReturnType<typeof useEditor>) {
   if (!editor) {
     return false;
   }
-
+ 
   switch (action) {
     case "bold":
       return editor.isActive("bold");

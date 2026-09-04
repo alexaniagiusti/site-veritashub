@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { usePost } from "../../hooks/usePosts";
+import { PostContent } from "../../components/PostContent/PostContent";
 import styles from "./ArticleDetail.module.css";
 
 type ArticleDetailProps = {
@@ -85,7 +86,7 @@ export function ArticleDetail({ articleId }: ArticleDetailProps) {
         </div>
       )}
 
-      <div className={styles.articleBody} dangerouslySetInnerHTML={{ __html: post.conteudo }} />
+      <PostContent html={post.conteudo} className={styles.articleBody} />
 
       <footer className={styles.articleFooter}>
         <span aria-hidden="true" className={styles.avatar}>{getInitials(authorName)}</span>

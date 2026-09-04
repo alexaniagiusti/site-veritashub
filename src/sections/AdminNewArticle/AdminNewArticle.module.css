@@ -435,6 +435,58 @@
   pointer-events: none;
 }
 
+.previewSection {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #e1e1e2;
+  border-radius: 12px;
+  background: var(--gray-50);
+  box-shadow:
+    0 1px 0 rgba(26, 26, 26, 0.08),
+    0 2px 4px -1px rgba(26, 26, 26, 0.08);
+}
+
+.previewLabel {
+  margin: 0 0 16px;
+  color: #1a1b1d;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.previewContent {
+  color: #1a1b1d;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.previewContent p {
+  margin: 1rem 0;
+}
+
+.previewContent img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+  object-fit: contain;
+}
+
+.previewContent h1,
+.previewContent h2,
+.previewContent h3 {
+  margin: 1.5rem 0 1rem 0;
+  color: #1a1b1d;
+  font-weight: 600;
+}
+
 @media (max-width: 1240px) {
   .formGrid {
     grid-template-columns: 1fr;

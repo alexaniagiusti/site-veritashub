@@ -71,7 +71,9 @@ export function AdminNewArticle() {
       Link.configure({
         openOnClick: false,
       }),
-      Image,
+      Image.configure({
+        allowBase64: true,
+      }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),

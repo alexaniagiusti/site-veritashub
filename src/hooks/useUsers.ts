@@ -49,7 +49,33 @@ export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number | string) => client.delete(`/users/${id}`),
-    onSuccess: () => {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['users'] });
+
+      const previousQueries = queryClient.getQueriesData<PaginatedResponse<User>>({
+        queryKey: ['users'],
+      });
+
+      queryClient.setQueriesData<PaginatedResponse<User>>(
+        { queryKey: ['users'] },
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: old.data.filter((user) => String(user.id) !== String(id)),
+            total: old.total - 1,
+          };
+        }
+      );
+
+      return { previousQueries };
+    },
+    onError: (_error, _id, context) => {
+      context?.previousQueries?.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });

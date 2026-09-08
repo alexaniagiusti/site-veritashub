@@ -50,7 +50,33 @@ export const useDeletePost = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id: number | string) => client.delete(`/posts/${id}`),
-    onSuccess: () => {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['posts'] });
+
+      const previousQueries = queryClient.getQueriesData<PaginatedResponse<Post>>({
+        queryKey: ['posts'],
+      });
+
+      queryClient.setQueriesData<PaginatedResponse<Post>>(
+        { queryKey: ['posts'] },
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: old.data.filter((post) => String(post.id) !== String(id)),
+            total: old.total - 1,
+          };
+        }
+      );
+
+      return { previousQueries };
+    },
+    onError: (_error, _id, context) => {
+      context?.previousQueries?.forEach(([queryKey, data]) => {
+        queryClient.setQueryData(queryKey, data);
+      });
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });

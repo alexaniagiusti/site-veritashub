@@ -17,7 +17,12 @@ export function AdminBlog() {
 
   const handleDelete = (id: string | number) => {
     if (confirm("Tem certeza que deseja deletar este artigo?")) {
-      deletePost(String(id));
+      deletePost(String(id), {
+        onError: (error) => {
+          console.error("Erro ao deletar post:", error);
+          alert("Erro ao deletar o artigo. Tente novamente.");
+        },
+      });
     }
   };
 

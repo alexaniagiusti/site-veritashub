@@ -1,5 +1,5 @@
-import React from 'react';
-import { useAuthContext } from '../context/AuthContext';
+import React, { useEffect } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -7,9 +7,10 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated } = useAuthContext();
-  console.log(isAuthenticated)
+  useEffect(() => {
+    if (!isAuthenticated) window.location.hash = '#login';
+  }, [isAuthenticated]);
   if (!isAuthenticated) {
-    window.location.hash = '#login';
     return null;
   }
 

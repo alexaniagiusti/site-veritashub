@@ -1,9 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import logoVeritas from "../../assets/logo-verde-veritas.svg";
 import loginVideo from "../../assets/video-logo-v-atualizada.webm";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import styles from "./Login.module.css";
 
 export function Login() {
@@ -13,8 +13,11 @@ export function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const { login, loading, isAuthenticated } = useAuthContext();
 
+  useEffect(() => {
+    if (isAuthenticated) window.location.hash = "#admin-blog";
+  }, [isAuthenticated]);
+
   if (isAuthenticated) {
-    window.location.hash = "#admin-blog";
     return null;
   }
 
@@ -30,8 +33,8 @@ export function Login() {
     try {
       await login({ email, senha });
       window.location.hash = "#admin-blog";
-    } catch (error: any) {
-      const message = error?.message || "Erro ao fazer login";
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Erro ao fazer login";
       setErrorMessage(message);
     }
   };

@@ -99,11 +99,13 @@ export function AdminEditArticle() {
  
   useEffect(() => {
     if (post && editor) {
+      // Remote article data initializes the edit form when it arrives.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTitulo(post.titulo);
       setDescription(post.resumo || "");
       setCategoriaId(post.categoriaId.toString());
       setPublicationMode(post.status === "PUBLISHED" ? "publish" : "draft");
-      if (!!editor) {
+      if (editor) {
         // Usar setContent com parseOptions para processar HTML corretamente
         editor.commands.setContent(post.conteudo, {
           parseOptions: {

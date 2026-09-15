@@ -4,8 +4,9 @@ import { Button } from "../../design-system/components/button";
 import { Input } from "../../design-system/components/input";
 import { AdminSidebar } from "../../design-system";
 import { AdminFooter } from "../AdminBlog/AdminBlog";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { useUpdateProfile, useChangePassword } from "../../hooks/useProfile";
+import type { User } from "../../types";
 import adminStyles from "../AdminBlog/AdminBlog.module.css";
 import styles from "./AdminSettings.module.css";
 
@@ -58,7 +59,7 @@ export function AdminSettings() {
   );
 }
 
-function ProfileSettings({ user }: { user: any }) {
+function ProfileSettings({ user }: { user: User | null }) {
   const [nome, setNome] = useState(user?.nome || "");
   const [cargo, setCargo] = useState(user?.cargo || "");
   const { updateUser } = useAuthContext();

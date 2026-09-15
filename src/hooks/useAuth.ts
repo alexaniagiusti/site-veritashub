@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { isAxiosError } from 'axios';
 import client from '../api/client';
 import type { LoginRequest, LoginResponse, User } from '../types';
 
@@ -19,10 +20,11 @@ export const useAuth = () => {
       localStorage.setItem('user', JSON.stringify(data.user));
       setUser(data.user);
       return data;
-    } catch (err: any) {
-      const message = err?.response?.data?.message || err?.message || 'Erro ao fazer login';
+    } catch (err: unknown) {
+      const responseMessage = isAxiosError<{ message?: string }>(err) ? err.response?.data?.message : undefined;
+      const message = responseMessage || (err instanceof Error ? err.message : 'Erro ao fazer login');
       setError(message);
-      throw new Error(message);
+      throw new Error(message, { cause: err });
     } finally {
       setLoading(false);
     }
@@ -37,8 +39,8 @@ export const useAuth = () => {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       setUser(response.data.user);
       return response.data;
-    } catch (err: any) {
-      const message = err.response?.data?.message || 'Erro ao registrar';
+    } catch (err: unknown) {
+      const message = (isAxiosError<{ message?: string }>(err) ? err.response?.data?.message : undefined) || 'Erro ao registrar';
       setError(message);
       throw err;
     } finally {

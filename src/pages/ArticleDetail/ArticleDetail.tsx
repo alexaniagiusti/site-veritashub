@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { usePost } from "../../hooks/usePosts";
 import { PostContent } from "../../components/PostContent/PostContent";

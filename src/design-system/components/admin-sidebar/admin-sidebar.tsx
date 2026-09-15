@@ -41,7 +41,7 @@ export function AdminSidebar({ activeItems = ["Artigos"], groups = defaultGroups
     if (label === "Logout") {
       e.preventDefault();
       onLogout?.();
-        window.location.href = "/"
+      window.location.assign("/");
     }
   };
 

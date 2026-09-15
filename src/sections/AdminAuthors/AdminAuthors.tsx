@@ -356,6 +356,8 @@ function EditAuthorModal({ userId, onClose }: { userId: string; onClose: () => v
 
   useEffect(() => {
     if (user) {
+      // Remote user data initializes the editable fields when it arrives.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setNome(user.nome || "");
       setCargo(user.cargo || "");
       setRole((user.role as AuthorRole) || "Autor");

@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import client from '../api/client';
-import type { UpdateProfileRequest, ChangePasswordRequest } from '../types';
+import type { UpdateProfileRequest, ChangePasswordRequest, User } from '../types';
 
-export const useUpdateProfile = (onSuccessCallback?: (user: any) => void) => {
+export const useUpdateProfile = (onSuccessCallback?: (user: User) => void) => {
   return useMutation({
     mutationFn: (data: UpdateProfileRequest) =>
-      client.patch('/users/profile/me', data),
+      client.patch<User>('/users/profile/me', data),
     onSuccess: (response) => {
       onSuccessCallback?.(response.data);
       alert('Perfil atualizado com sucesso!');

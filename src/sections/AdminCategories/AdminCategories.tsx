@@ -208,6 +208,8 @@ function EditCategoryModal({ categoryId, onClose }: { categoryId: string; onClos
 
   useEffect(() => {
     if (categoria) {
+      // Remote category data initializes the editable field when it arrives.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setNome(categoria.nome || "");
     }
   }, [categoria]);

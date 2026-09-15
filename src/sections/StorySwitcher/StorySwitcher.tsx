@@ -1,44 +1,31 @@
 ﻿import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import imgAuxilioAcidente from "../../assets/capa1.png";
-import imgAlertaSegurancaIphone from "../../assets/ALERTA-DE-SEG.-IPHONE.webp";
 import videoAuxilioAcidente from "../../assets/depoimento-auxilioacidente.webm";
+import videoDireitoDigital from "../../assets/depoimento2-previa.webm";
 import { Button, Icon } from "../../design-system";
 import styles from "./StorySwitcher.module.css";
 
 const stories = [
   {
     label: "Auxílio Acidente",
-    image: imgAuxilioAcidente,
+    poster: imgAuxilioAcidente,
     video: videoAuxilioAcidente,
-    imageAlt: "Homem com o braço imobilizado representando auxílio acidente",
     quote: '"Eu não sabia que tinha direito ao auxílio acidente. A Veritas Hub analisou meu caso, explicou o processo e cuidou de tudo."',
     description: "Fábio D'Angelo, beneficiário do auxílio acidente, conta como a Veritas Hub ajudou a garantir seu direito.",
-    letterTitle: "Auxílio-Acidente",
-    letterQuote: "Eu achava que voltar a trabalhar significava que eu não tinha mais nenhum direito.",
-    letterParagraphs: [
-      "Meu nome é Fábio D'Angelo, depois de um acidente no trabalho, fiquei afastado pelo INSS e, quando voltei, já não tinha a mesma força na mão direita. Passei a sentir dores e dificuldade para fazer tarefas que antes eram simples.",
-      "Como eu tinha voltado a trabalhar, achei que o assunto estava encerrado.",
-      "Foi através da Veritas Hub que descobri que poderia ter direito ao Auxílio-Acidente. Eu nem sabia que esse benefício existia.",
-    ],
+    modalTitle: "Auxílio Acidente: uma história de direito e recomeço",
+    modalDescription: "Conheça a história de quem encontrou orientação para entender seus direitos e buscar o benefício que fez diferença em sua rotina e na de sua família.",
+    youtubeEmbed: "https://www.youtube.com/embed/BD4xKBF0PYk?si=_0D5YXk-JLYRUJh9",
   },
   {
     label: "Direito Digital",
-    image: imgAlertaSegurancaIphone,
-    video: null,
-    imageAlt: "Alerta de segurança em um iPhone representando proteção digital",
-    quote: '"Quando percebi que minhas contas tinham sido invadidas, entrei em desespero. A Veritas Hub assumiu o caso rapidamente e conseguiu recuperar meus acessos."',
-    description: "Letícia Souza, cliente da Veritas Hub, compartilha como recuperou o controle de suas contas após um ataque hacker.",
-    letterTitle: "Conta hackeada",
-    letterQuote: "Achei que tinha perdido anos de trabalho",
-    letterParagraphs: [
-      "Meu nome é Letícia e uso o Instagram para divulgar meu trabalho.",
-      "Em uma manhã, tentei acessar minha conta e descobri que ela tinha sido hackeada. Mudaram meu e-mail, minha senha e perdi totalmente o acesso ao perfil.",
-      "O desespero veio na hora. Não era apenas uma rede social, eram anos de conteúdo, clientes e oportunidades.",
-      "Depois de várias tentativas sem sucesso, conheci a Veritas Hub. A equipe me orientou durante todo o processo e me ajudou a buscar a recuperação da conta.",
-      "Hoje estou novamente com meu perfil e aprendi que, quando isso acontece, procurar ajuda especializada faz toda a diferença.",
-    ],
-    letterSignature: "Letícia, cliente Veritas Hub.",
+    video: videoDireitoDigital,
+    poster: "",
+    quote: '"Percebi que minha conta tinha sido hackeada quando perdi o acesso às informações dos meus clientes. Conheci a Veritas Hub e a recuperação foi rápida e simples."',
+    description: "Jociel Soares, cliente da Veritas Hub, compartilha como recuperou o controle de suas contas após um ataque hacker.",
+    modalTitle: "Direito Digital: Jociel recuperou suas contas com a ajuda da Veritas Hub",
+    modalDescription: "Conheça a história de Jociel Soares, que buscou orientação para recuperar suas contas após uma invasão e retomar o controle de sua presença digital.",
+    youtubeEmbed: "https://www.youtube.com/embed/KWoYi5uKXf0",
   },
 ];
 
@@ -132,8 +119,7 @@ export function StorySwitcher() {
     });
   };
 
-  const isVideoModal = openLetterIndex === 0;
-  const modalTitleId = isVideoModal ? "story-video-title" : "story-letter-title";
+  const modalTitleId = "story-video-title";
 
   const storyModal = openLetter ? (
     <div
@@ -142,7 +128,7 @@ export function StorySwitcher() {
       onClick={() => setOpenLetterIndex(null)}
     >
       <div
-        className={`${styles.letterDialog} ${isVideoModal ? styles.videoDialog : ""}`}
+        className={`${styles.letterDialog} ${styles.videoDialog}`}
         aria-labelledby={modalTitleId}
         aria-modal="true"
         role="dialog"
@@ -152,53 +138,28 @@ export function StorySwitcher() {
           className={styles.letterClose}
           onClick={() => setOpenLetterIndex(null)}
           type="button"
-          aria-label={isVideoModal ? "Fechar vídeo" : "Fechar depoimento"}
+          aria-label="Fechar vídeo"
         >
           &times;
         </button>
 
-        {isVideoModal ? (
           <article className={styles.videoModalContent}>
             <div className={styles.videoModalCopy}>
               <p className={styles.videoEyebrow}>História Veritas Hub</p>
-              <h3 id="story-video-title">Auxílio Acidente: uma história de direito e recomeço</h3>
-              <p>
-                Conheça a história de quem encontrou orientação para entender seus direitos e
-                buscar o benefício que fez diferença em sua rotina e na de sua família.
-              </p>
+              <h3 id={modalTitleId}>{openLetter.modalTitle}</h3>
+              <p>{openLetter.modalDescription}</p>
             </div>
 
             <div className={styles.videoEmbed}>
               <iframe
-                src="https://www.youtube.com/embed/BD4xKBF0PYk?si=_0D5YXk-JLYRUJh9"
-                title="YouTube video player"
+                src={openLetter.youtubeEmbed}
+                title={`Depoimento de ${openLetter.label}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
             </div>
           </article>
-        ) : (
-          <>
-        <div className={styles.envelope} aria-hidden="true">
-          <span className={styles.envelopeBack} />
-          <span className={styles.envelopeFlap} />
-          <span className={styles.envelopeFront} />
-        </div>
-
-        <article className={styles.letterPaper}>
-          <p className={styles.letterEyebrow}>Hist&oacute;ria Veritas Hub</p>
-          <h3 id="story-letter-title">{openLetter.letterTitle}</h3>
-          <strong>"{openLetter.letterQuote}"</strong>
-          {openLetter.letterParagraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-          {openLetter.letterSignature && (
-            <p className={styles.letterSignature}>{openLetter.letterSignature}</p>
-          )}
-        </article>
-          </>
-        )}
       </div>
     </div>
   ) : null;
@@ -245,7 +206,7 @@ export function StorySwitcher() {
                     size="md"
                     variant="tertiary"
                   >
-                    {storyIndex === 0 ? "Assista ao vídeo" : "Leia o depoimento"}
+                    Assista ao vídeo
                   </Button>
                 </div>
 
@@ -317,7 +278,6 @@ function StoryMedia({
         onClick={onOpenModal}
         aria-label={`Abrir história: ${story.label}`}
       >
-        {story.video ? (
           <video
             src={story.video}
             autoPlay
@@ -325,11 +285,11 @@ function StoryMedia({
             loop
             playsInline
             preload="metadata"
-            poster={story.image}
+            poster={story.poster || undefined}
           />
-        ) : (
-          <img src={story.image} alt={story.imageAlt} />
-        )}
+          <span className={styles.videoHint} aria-hidden="true">
+            Clique para assistir ao vídeo completo
+          </span>
       </button>
     </div>
   );

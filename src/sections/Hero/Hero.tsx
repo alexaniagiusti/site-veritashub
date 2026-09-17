@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 // import heroImage from "../../assets/hero.png";
-import heroVideo from "../../assets/VIDEOTESTE 001.webm";
+import heroVideo from "../../assets/VIDEO- HERO FINAL 1.1.webm";
 import { Icon } from "../../design-system/components/Icon/Icon";
 import { Button } from "../../design-system/components/button";
 import styles from "./Hero.module.css";

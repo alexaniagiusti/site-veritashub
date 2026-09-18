@@ -16,6 +16,12 @@ const carouselPhotos = [
   new URL("../../assets/12.webp", import.meta.url).href,
   new URL("../../assets/13.webp", import.meta.url).href,
   new URL("../../assets/14.webp", import.meta.url).href,
+  new URL("../../assets/15.webp", import.meta.url).href,
+  new URL("../../assets/16.webp", import.meta.url).href,
+  new URL("../../assets/17.webp", import.meta.url).href,
+  new URL("../../assets/18.webp", import.meta.url).href,
+  new URL("../../assets/19.webp", import.meta.url).href,
+  new URL("../../assets/20.webp", import.meta.url).href,
 ];
 
 const carouselLoop = [...carouselPhotos, ...carouselPhotos];

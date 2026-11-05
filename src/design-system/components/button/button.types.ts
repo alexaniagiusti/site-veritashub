@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, MouseEventHandler, ReactNode } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "tertiary" | "ghost" | "danger";
+export type ButtonVariant = "primary" | "secondary" | "accent" | "tertiary" | "ghost" | "danger";
 
 export type ButtonSize = "xs" | "sm" | "md" | "lg";
 

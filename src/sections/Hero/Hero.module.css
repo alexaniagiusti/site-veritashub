@@ -1,7 +1,5 @@
 .hero {
   --hero-content-bottom: 96px;
-  --hero-player-gap: 32px;
-  --hero-player-size: 85px;
 
   position: relative;
   isolation: isolate;
@@ -22,16 +20,16 @@
 }
 
 .media {
+  z-index: 0;
   pointer-events: none;
 }
 
 .media::after {
   position: absolute;
   inset: 0;
+  z-index: 2;
   content: "";
-  background:
-    linear-gradient(90deg, rgba(13, 13, 13, 0.76) 0%, rgba(13, 13, 13, 0.48) 46%, rgba(13, 13, 13, 0.18) 100%),
-    linear-gradient(180deg, rgba(13, 13, 13, 0.22) 0%, rgba(13, 13, 13, 0.62) 100%);
+  background: rgba(0, 0, 0, 0.18);
 }
 
 .video,
@@ -47,97 +45,6 @@
 .poster {
   z-index: 0;
   filter: saturate(0.82) brightness(0.72);
-}
-
-.heroControls {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin: 0 0 var(--hero-player-gap);
-}
-
-.playerButton {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  width: var(--hero-player-size);
-  height: var(--hero-player-size);
-  margin: 0;
-  padding: 0;
-  border: 0.761px solid rgba(255, 255, 255, 0.05);
-  border-radius: 999px;
-  color: #ffffff;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.02);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.03),
-    inset 0 -18px 34px rgba(0, 0, 0, 0.22),
-    0 8px 22px rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(4.569px);
-}
-
-.playerButton:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.72);
-  outline-offset: 4px;
-}
-
-.playerInner {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 61px;
-  height: 61px;
-  overflow: hidden;
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0) 17.71%, rgba(255, 255, 255, 0.12) 100%),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.01) 100%);
-  box-shadow:
-    inset 0 1px 16px rgba(255, 255, 255, 0.03),
-    inset 0 -18px 26px rgba(0, 0, 0, 0.2);
-}
-
-.playerInner::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  border-radius: inherit;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 100%),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.05) 100%);
-  opacity: 0.72;
-}
-
-.playerInner svg {
-  position: relative;
-  z-index: 1;
-}
-
-.liveButton {
-  min-width: 126px;
-  text-transform: uppercase;
-}
-
-.liveIndicator {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: #e02020;
-  box-shadow: 0 0 0 0 rgba(224, 32, 32, 0.65);
-  animation: livePulse 1.6s ease-out infinite;
-}
-
-@keyframes livePulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(224, 32, 32, 0.65);
-  }
-
-  70%,
-  100% {
-    box-shadow: 0 0 0 9px rgba(224, 32, 32, 0);
-  }
 }
 
 .content {
@@ -157,6 +64,10 @@
   font-size: 48px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.highlight {
+  color: var(--yellow-500);
 }
 
 .content p {
@@ -211,40 +122,39 @@
 /* Mobile */
 @media (max-width: 767px) {
   .hero {
-    min-height: 982px;
-    height: max(982px, 100svh);
-  }
-
-  .media::after {
-    background:
-      linear-gradient(180deg, rgba(13, 13, 13, 0.18) 0%, rgba(13, 13, 13, 0.08) 38%, rgba(13, 13, 13, 0.72) 100%);
-  }
-
-  .heroControls {
+    box-sizing: border-box;
     display: flex;
-    margin-bottom: 24px;
+    align-items: flex-end;
+    min-height: 100svh;
+    height: auto;
+    padding: calc(var(--mobile-header-height) + 32px) var(--mobile-gutter) calc(40px + env(safe-area-inset-bottom, 0px));
   }
+
 
   .content {
-    position: absolute;
-    left: 20px;
-    bottom: 67px;
-    width: calc(100% - 40px);
+    position: relative;
+    left: auto;
+    bottom: auto;
+    width: 100%;
     max-width: none;
     padding: 0;
   }
 
   .content h1 {
     max-width: 404px;
-    font-size: 32px;
+    font-size: clamp(30px, 8vw, 36px);
     line-height: 1.2;
   }
 
   .content p {
     max-width: 399px;
-    margin-top: 24px;
+    margin-top: 20px;
     font-size: 16px;
     line-height: 1.5;
+  }
+
+  .content p br {
+    display: none;
   }
 
   .actions {
@@ -253,16 +163,18 @@
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    height: 120px;
+    min-height: 112px;
+    height: auto;
     margin-top: 24px;
-    padding: 18px 10px 10px;
+    padding: 16px 12px;
     border-radius: 24px;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
   }
 
   .primaryAction {
-    width: auto;
+    box-sizing: border-box;
+    width: 100%;
     min-width: 0;
     min-height: 44px;
   }
@@ -277,16 +189,11 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero {
     --hero-content-bottom: 64px;
-    --hero-player-size: 76px;
 
     min-height: 760px;
     height: min(820px, 100svh);
   }
 
-  .playerInner {
-    width: 54px;
-    height: 54px;
-  }
 
   .content {
     left: 52px;
@@ -319,16 +226,11 @@
 @media (min-width: 1024px) and (max-width: 1279px) {
   .hero {
     --hero-content-bottom: 72px;
-    --hero-player-size: 80px;
 
     min-height: 760px;
     height: min(860px, 100svh);
   }
 
-  .playerInner {
-    width: 56px;
-    height: 56px;
-  }
 
   .content {
     left: 68px;
@@ -387,11 +289,5 @@
 
     min-height: 780px;
     height: min(935px, 100svh);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .liveIndicator {
-    animation: none;
   }
 }

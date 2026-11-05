@@ -8,11 +8,13 @@ import { AdminSettings } from "./sections/AdminSettings";
 import { AdminCategories } from "./sections/AdminCategories";
 import { Blog } from "./sections/blog";
 import { BlogHighlights } from "./sections/BlogHighlights";
+import { FAQ } from "./sections/FAQ";
 import { ExpandingHeadline } from "./sections/ExpandingHeadline";
 import { Hero } from "./sections/Hero";
 import { GreenClosing } from "./sections/GreenClosing";
 import { Login } from "./sections/Login";
 import { StorySwitcher } from "./sections/StorySwitcher";
+import { ServiceChannels } from "./sections/ServiceChannels";
 import "./styles/variables.css";
 import { Sandbox } from "./sections/Sandbox";
 import { TermsOfUse } from "./pages/TermsOfUse";
@@ -116,7 +118,9 @@ function App() {
             <GreenClosing>
               <AboutTeam />
             </GreenClosing>
+            <ServiceChannels />
             <BlogHighlights />
+            <FAQ />
           </>
         )}
       </main>

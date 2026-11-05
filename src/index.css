@@ -70,6 +70,17 @@ body {
   overscroll-behavior-x: none;
 }
 
+@media (max-width: 768px) {
+  :root {
+    --mobile-gutter: clamp(20px, 5vw, 24px);
+    --mobile-header-height: calc(56px + env(safe-area-inset-top, 0px));
+  }
+
+  html {
+    scroll-padding-top: var(--mobile-header-height);
+  }
+}
+
 #root {
   max-width: 100%;
   overflow-x: clip;

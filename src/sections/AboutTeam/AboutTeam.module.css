@@ -19,41 +19,20 @@
 }
 
 .eyebrow {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  overflow: hidden;
+  box-sizing: border-box;
+  display: inline-block;
+  max-width: 100%;
   margin-bottom: 42px;
-  padding: 10px 16px;
-  border: 1px solid rgba(252, 252, 252, 0.72);
-  border-radius: 14px;
-  color: var(--gray-800);
+  padding: 14px 18px;
+  border-left: 3px solid var(--yellow-500);
+  border-radius: 12px;
+  background: var(--green-100);
+  color: var(--green-800);
   font-family: Inter, sans-serif;
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.5;
-  isolation: isolate;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.22)),
-    rgba(246, 246, 249, 0.42);
-  box-shadow:
-    0 10px 26px rgba(13, 13, 13, 0.055),
-    inset 0 1px 0 rgba(255, 255, 255, 0.86),
-    inset 0 -1px 0 rgba(13, 13, 13, 0.035);
-  backdrop-filter: blur(18px) saturate(1.25);
-}
-
-.eyebrow::before {
-  position: absolute;
-  z-index: -1;
-  inset: 1px;
-  border-radius: 15px;
-  content: "";
-  background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.72), transparent 34%),
-    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.9), transparent 26%);
-  opacity: 0.62;
-  pointer-events: none;
+  white-space: normal;
 }
 
 .copy h2 {
@@ -137,13 +116,13 @@
 /* Celulares (Mobile) */
 @media (max-width: 480px) {
   .section {
-    padding: 56px 0 76px;
+    padding: 48px 0 56px;
   }
 
   .inner {
     grid-template-columns: 1fr;
     gap: 36px;
-    width: calc(100% - 40px);
+    width: calc(100% - var(--mobile-gutter) * 2);
   }
 
   .copy {
@@ -152,17 +131,17 @@
 
   .eyebrow {
     margin-bottom: 28px;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .copy h2 {
     margin-bottom: 24px;
-    font-size: 25px;
+    font-size: 26px;
   }
 
   .copy p {
     margin-bottom: 18px;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .clientCounter {
@@ -182,7 +161,7 @@
 
   .gallery {
     gap: 14px;
-    max-height: 380px;
+    max-height: min(360px, 44svh);
   }
 
   .carouselColumn {

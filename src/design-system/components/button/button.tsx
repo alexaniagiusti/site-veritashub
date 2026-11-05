@@ -43,6 +43,7 @@ const tokenStyle: ButtonStyle = {
 const variantClassMap: Record<ButtonVariant, string> = {
   primary: styles.primary,
   secondary: styles.secondary,
+  accent: styles.accent,
   tertiary: styles.tertiary,
   ghost: styles.tertiary,
   danger: styles.danger,

@@ -2,7 +2,7 @@ import { type MouseEvent, useEffect, useState } from "react";
 import { Button, Icon, Menu } from "../../design-system";
 import logoVeritas from "../../assets/logo-veritas-branca.svg";
 import logoVeritasGreen from "../../assets/logo-verde-veritas.svg";
-import { mainNavItems } from "../navigation";
+import { headerNavItems } from "../navigation";
 import styles from "./Header.module.css";
 
 type HeaderVariant = "light" | "dark";
@@ -65,10 +65,10 @@ export function Header({
     const updateActiveSection = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
-        const availableSections = mainNavItems
+        const availableSections = headerNavItems
           .map((item) => ({ item, element: document.querySelector<HTMLElement>(item.href) }))
           .filter(
-            (entry): entry is { item: (typeof mainNavItems)[number]; element: HTMLElement } =>
+            (entry): entry is { item: (typeof headerNavItems)[number]; element: HTMLElement } =>
               entry.element !== null,
           );
 
@@ -77,7 +77,7 @@ export function Header({
         }
 
         const triggerPosition = window.innerHeight * 0.35;
-        let currentItem: (typeof mainNavItems)[number] | null = null;
+        let currentItem: (typeof headerNavItems)[number] | null = null;
 
         for (const entry of availableSections) {
           if (entry.element.getBoundingClientRect().top <= triggerPosition) {
@@ -138,7 +138,7 @@ export function Header({
       return;
     }
 
-    scrollToSection(href);
+    window.requestAnimationFrame(() => scrollToSection(href));
   };
 
   return (
@@ -157,7 +157,7 @@ export function Header({
         activeHref={activeHref}
         ariaLabel="Navegação principal"
         className={styles.nav}
-        items={mainNavItems}
+        items={headerNavItems}
         onItemClick={(event, item) => handleNavClick(event, item.href)}
         tone={variant}
       />

@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import {
   RiArrowLeftLine,
   RiArrowRightLine,
+  RiArrowDownSLine,
   RiCloseLine,
   RiCopyrightLine,
   RiDashboardLine,
@@ -93,6 +94,7 @@ export type IconName =
   | "close"
   | "arrow-right"
   | "arrow-left"
+  | "arrow-down-s"
   | "play"
   | "pause";
 
@@ -156,6 +158,7 @@ const icons: Record<IconName, ComponentType<RemixIconProps>> = {
   close: RiCloseLine,
   "arrow-right": RiArrowRightLine,
   "arrow-left": RiArrowLeftLine,
+  "arrow-down-s": RiArrowDownSLine,
   play: RiPlayFill,
   pause: RiPauseFill,
 };
